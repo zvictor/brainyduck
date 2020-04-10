@@ -2,6 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const debug = require('debug')('define-functions')
 const { Client, query: q } = require('faunadb')
 const logSymbols = require('log-symbols')
 const { patternMatch } = require('../utils')
@@ -21,12 +22,12 @@ const main = async (pattern = '**/*.fql') => {
     const body = fs.readFileSync(file).toString('utf8')
     const replacing = await client.query(q.IsFunction(q.Function(name)))
 
-    console.log(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
+    debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
 
     if (replacing) {
       await client
         .query(q.Delete(q.Function(name)))
-        .then(() => console.log(logSymbols.warning, 'old function deleted'))
+        .then(() => debug(logSymbols.warning, 'old function deleted'))
     }
 
     const ref = await client.query(
@@ -36,17 +37,22 @@ const main = async (pattern = '**/*.fql') => {
       })
     )
 
-    console.log(logSymbols.success, 'new function created:', ref, '\n')
+    debug(logSymbols.success, 'new function created:', ref, '\n')
+    return ref
   }
 }
 
 if (require.main === module) {
   const [pattern] = process.argv.slice(2)
 
-  main(pattern).catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
+  main(pattern)
+    .then(() => {
+      process.exit(0)
+    })
+    .catch((e) => {
+      console.error(e)
+      process.exit(1)
+    })
 }
 
 module.exports = main
