@@ -10,6 +10,10 @@ ava('upload all schema', async (t) => {
   try {
     const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'push-schema'])
     const mergedSchema = `The resulting merged schema:
+\ttype Query {
+\t  allUsers: [User!]
+\t  sayHello(name: String!): String! @resolver(name: "sayHello")
+\t}
 \ttype User {
 \t  username: String! @unique
 \t}`
