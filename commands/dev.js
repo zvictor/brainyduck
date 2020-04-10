@@ -18,6 +18,14 @@ const react = (operation) => (message) => (file) => {
 const gql = react((file) => generateTypes(file, file.replace(/(.gql|.graphql)$/, '.d.ts')))
 const fql = react((file) => defineFunctions(file))
 
+const scream = (e) => {
+  console.error(e.stack || e)
+  process.exit(1)
+}
+
+process.on('unhandledRejection', scream)
+process.on('uncaughtException', scream)
+
 chokidar
   .watch('**/*.(gql|graphql)', {
     ignored: [/(^|[\/\\])\../, 'node_modules'],
