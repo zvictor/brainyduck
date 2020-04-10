@@ -10,10 +10,13 @@ const generateTypes = require('./generate-types')
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ concurrency: 1 })
 
-const react = (operation) => (file) => {
-  debug(`File ${file} has been changed`)
+const react = (operation) => (message) => (file) => {
+  debug(message(file))
   queue.add(() => operation(file))
 }
+
+const gql = react((file) => generateTypes(file, file.replace(/(.gql|.graphql)$/, '.d.ts')))
+const fql = react((file) => defineFunctions(file))
 
 chokidar
   .watch('**/*.(gql|graphql)', {
@@ -23,10 +26,13 @@ chokidar
     cwd: path.resolve(directory),
   })
   .on('error', (error) => debug(`error: ${error}`))
-  .on('add', (file) => debug(`Watching ${file}`)) // TODO: act here as well?
+  .on(
+    'add',
+    gql((file) => `Watching ${file}`)
+  )
   .on(
     'change',
-    react((file) => generateTypes(file, file.replace(/(.gql|.graphql)$/, '.d.ts')))
+    gql((file) => `${file} has been changed`)
   )
 
 chokidar
@@ -37,5 +43,11 @@ chokidar
     cwd: path.resolve(directory),
   })
   .on('error', (error) => debug(`error: ${error}`))
-  .on('add', (file) => debug(`Watching ${file}`)) // TODO: act here as well?
-  .on('change', react(defineFunctions))
+  .on(
+    'add',
+    fql((file) => `Watching ${file}`)
+  )
+  .on(
+    'change',
+    fql((file) => `${file} has been changed`)
+  )
