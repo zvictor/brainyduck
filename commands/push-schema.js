@@ -84,7 +84,8 @@ if (require.main === module) {
   const [inputPath] = process.argv.slice(2)
 
   return main(inputPath)
-    .then((x) => {
+    .then((message) => {
+      console.log(message)
       process.exit(0)
     })
     .catch((e) => {
