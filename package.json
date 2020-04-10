@@ -1,0 +1,24 @@
+{
+  "name": "faugra",
+  "version": "0.0.1",
+  "bin": "./index.js",
+  "dependencies": {
+    "@graphql-codegen/core": "1.13.2",
+    "@graphql-codegen/typescript": "1.13.2",
+    "@graphql-toolkit/core": "0.10.3",
+    "@graphql-toolkit/graphql-file-loader": "0.10.3",
+    "@graphql-toolkit/schema-merging": "0.10.3",
+    "@graphql-toolkit/url-loader": "0.10.3",
+    "chokidar": "3.3.1",
+    "commander": "5.0.0",
+    "debug": "4.1.1",
+    "execa": "4.0.0",
+    "faunadb": "2.13.1",
+    "figures": "3.2.0",
+    "globby": "11.0.0",
+    "graphql": "15.0.0",
+    "log-symbols": "3.0.0",
+    "node-fetch": "2.6.0",
+    "p-queue": "6.3.0"
+  }
+}
