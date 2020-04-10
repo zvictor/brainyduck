@@ -2,6 +2,13 @@
   "name": "faugra",
   "version": "0.0.1",
   "bin": "./index.js",
+  "files": [
+    "commands",
+    "base.gql",
+    "index.js",
+    "README.md",
+    "utils.js"
+  ],
   "dependencies": {
     "@graphql-codegen/core": "1.13.2",
     "@graphql-codegen/typescript": "1.13.2",

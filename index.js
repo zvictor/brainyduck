@@ -27,7 +27,7 @@ program
     'dev [directory]',
     'watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]',
     {
-      executableFile: path.join(__dirname, './scripts/dev.js'),
+      executableFile: path.join(__dirname, './commands/dev.js'),
       isDefault: true,
     }
   )
@@ -36,7 +36,7 @@ program
     'define-functions [pattern]',
     'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.fql]',
     {
-      executableFile: path.join(__dirname, './scripts/define-functions.js'),
+      executableFile: path.join(__dirname, './commands/define-functions.js'),
     }
   )
 
@@ -44,7 +44,7 @@ program
     'pull-schema [output]',
     'load the schema hosted in faunadb. Defaults: [output: <stdout>]',
     {
-      executableFile: path.join(__dirname, './scripts/pull-schema.js'),
+      executableFile: path.join(__dirname, './commands/pull-schema.js'),
     }
   )
 
@@ -52,7 +52,7 @@ program
     'push-schema [pattern]',
     'push your schema to faunadb. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules]',
     {
-      executableFile: path.join(__dirname, './scripts/push-schema.js'),
+      executableFile: path.join(__dirname, './commands/push-schema.js'),
     }
   )
 
@@ -60,7 +60,7 @@ program
     'generate-types [pattern] [output]',
     'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules, output: <stdout>]',
     {
-      executableFile: path.join(__dirname, './scripts/generate-types.js'),
+      executableFile: path.join(__dirname, './commands/generate-types.js'),
     }
   )
 
