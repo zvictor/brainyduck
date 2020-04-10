@@ -1,6 +1,6 @@
-# import User from "./User.gql"
+# import Post from "./blog/Post.gql"
 
 type Query {
-  allUsers: [User!]
+  allPosts: [Post!]
   sayHello(name: String!): String! @resolver(name: "sayHello")
 }

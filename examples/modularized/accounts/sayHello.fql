@@ -1,0 +1,3 @@
+q.Query(q.Lambda(["name"],
+  q.Concat(["Hello ", q.Var("name")])
+)

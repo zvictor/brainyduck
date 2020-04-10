@@ -1,0 +1,4 @@
+type User {
+  username: String! @unique
+  sayHello(name: String!): String! @resolver(name: "sayHello")
+}
