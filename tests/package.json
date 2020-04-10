@@ -1,0 +1,22 @@
+{
+  "name": "faugra-tests",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "ava"
+  },
+  "dependencies": {
+    "ava": "3.6.0",
+    "esm": "3.2.25",
+    "execa": "4.0.0"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ],
+    "files": [
+      "specs/**/*"
+    ]
+  }
+}
