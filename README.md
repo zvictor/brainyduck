@@ -1,4 +1,4 @@
-<p align="center"><img src="./.design/logo.jpg" /><p>
+<p align="center"><img src="./.design/logo.jpg" alt="faugra's logo" /><p>
 <br>
 
 <p align="center">

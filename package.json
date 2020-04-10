@@ -1,9 +1,11 @@
 {
   "name": "faugra",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": "./index.js",
   "files": [
-    "commands",
+    "/.design/divider.png",
+    "/.design/logo.jpg",
+    "/commands",
     "base.gql",
     "index.js",
     "README.md",
