@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  [ <a href="#getting-started">Getting started 🤓</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://www.npmjs.com/package/faugra">Github 🕸</a> ]
+  [ <a href="#getting-started">Getting started 🤓</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
 </p>
 <br />
 
@@ -15,7 +15,7 @@
 
 It takes just 2 steps to get started:
 
-1. Create a `.gql` file
+1. Create a `.graphql` file defining your desired Graphql schema
 2. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
 ![divider](.design/divider.png)
