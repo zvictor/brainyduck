@@ -60,9 +60,11 @@ const filterBase = (schema) =>
 const main = async (inputPath = '**/*.gql,**/*.graphql,!node_modules') => {
   const schema = filterBase(await loadSchema(inputPath))
   debug(`The resulting merged schema:\n${schema.replace(/^/gm, '\t')}`)
-  debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in OVERRIDE mode!`)
+  // debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in OVERRIDE mode!`)
+  debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in NORMAL mode`)
 
   const t0 = performance.now()
+  // const response = await fetch(`${FAUGRA_DOMAIN}/import?mode=override`, {
   const response = await fetch(`${FAUGRA_DOMAIN}/import`, {
     method: 'POST',
     body: schema,
