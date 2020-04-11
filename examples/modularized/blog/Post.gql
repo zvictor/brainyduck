@@ -1,4 +1,4 @@
-# import User from "./accounts/User.gql"
+# import User from "../accounts/User.gql"
 
 type Post {
   title: String!
