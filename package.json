@@ -3,8 +3,6 @@
   "version": "0.0.2",
   "bin": "./index.js",
   "files": [
-    "/.design/divider.png",
-    "/.design/logo.jpg",
     "/commands",
     "base.gql",
     "index.js",
