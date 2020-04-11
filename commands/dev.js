@@ -16,9 +16,10 @@ const defineFunctions = require('./define-functions')
 const generateTypes = require('./generate-types')
 
 const [directory = '.'] = process.argv.slice(2)
-const queue = new PQueue({ concurrency: 1 })
+const queue = new PQueue({ autoStart: false, concurrency: 1 })
 
 const watch = (name, pattern, operation) =>
+  new Promise((resolve) => {
     chokidar
       .watch(pattern, {
         ignored: [/(^|[\/\\])\../, 'node_modules'],
@@ -28,15 +29,22 @@ const watch = (name, pattern, operation) =>
       })
       .on('error', (error) => debug(`error: ${error}`))
       .on('add', (file) => {
-        debug(`Found ${file} [${name}]. Watching for changes...`)
+        debug(`Watching ${file} [${name}]`)
         queue.add(() => operation(file))
       })
       .on('change', (file) => {
         debug(`${file} has been changed`)
         queue.add(() => operation(file))
       })
+      .on('ready', resolve)
+  })
 
 const gql = watch('Schema', '**/*.(gql|graphql)', (file) =>
   generateTypes(file, file.replace(/(.gql|.graphql)$/, '.d.ts'))
 )
 const fql = watch('UDF', '**/*.fql', defineFunctions)
+
+Promise.all([gql, fql]).then(() => {
+  debug('Initial scan complete')
+  queue.start()
+})
