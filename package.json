@@ -11,6 +11,9 @@
     "README.md",
     "utils.js"
   ],
+  "scripts": {
+    "test": "./tests/run-tests.sh"
+  },
   "dependencies": {
     "@graphql-codegen/core": "1.13.2",
     "@graphql-codegen/typescript": "1.13.2",

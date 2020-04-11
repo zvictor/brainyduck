@@ -1,8 +1,8 @@
-import { resolve } from 'path'
 import execa from 'execa'
-import ava from 'ava'
+import { resolve } from 'path'
+import { serial as test } from 'ava'
 
-ava('upload all schema', async (t) => {
+test('upload all schema', async (t) => {
   const basePath = resolve(`${__dirname}/../../examples/basic`)
   process.chdir(basePath)
   t.timeout(35000)

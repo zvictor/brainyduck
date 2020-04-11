@@ -1,8 +1,8 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import ava from 'ava'
+import { serial as test } from 'ava'
 
-ava('generate types for a schema without imports', async (t) => {
+test('generate types for a schema without imports', async (t) => {
   const basePath = resolve(`${__dirname}/../../examples/basic`)
   process.chdir(basePath)
   t.timeout(35000)

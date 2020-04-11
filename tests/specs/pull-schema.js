@@ -1,6 +1,6 @@
-import ava from 'ava'
 import execa from 'execa'
 import fetch from 'node-fetch'
+import { serial as test } from 'ava'
 
 const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
@@ -22,7 +22,7 @@ const prepopulate = async (schema) => {
   return message
 }
 
-ava('fetch schema from fauna', async (t) => {
+test('fetch schema from fauna', async (t) => {
   t.timeout(65000)
 
   const schema = `
@@ -32,10 +32,9 @@ ava('fetch schema from fauna', async (t) => {
 
   await prepopulate(schema)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'pull-schema'], {
+  const { stdout, exitCode } = await execa('node', ['../../index.js', 'pull-schema'], {
     cwd: __dirname,
   })
-  console.log({ stdout, stderr, exitCode })
 
   // const expectedSchema = `type User {
   //   username: String! @unique

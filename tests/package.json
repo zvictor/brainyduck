@@ -4,7 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "ava"
+    "start": "./run-tests.sh",
+    "test": "./run-tests.sh"
   },
   "dependencies": {
     "ava": "3.6.0",

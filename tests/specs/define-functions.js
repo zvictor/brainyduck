@@ -1,8 +1,8 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import ava from 'ava'
+import test from 'ava'
 
-ava('upload all UDF: sayHello', async (t) => {
+test('upload all UDF: sayHello', async (t) => {
   const basePath = resolve(`${__dirname}/../../examples/basic`)
   process.chdir(basePath)
   t.timeout(5000)
