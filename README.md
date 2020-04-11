@@ -11,6 +11,8 @@
 </p>
 <br />
 
+⚠️ This tool is currently in Preview mode, in a very early phase of development. Expect broken behaviour to be the norm for now! If you like the idea, though, [please help us tackle the issues we have found!](https://github.com/zvictor/faugra/issues)
+
 ## Getting started
 
 It takes just 2 steps to get started:
