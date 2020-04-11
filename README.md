@@ -20,6 +20,10 @@ It takes just 2 steps to get started:
 1. Create a `.graphql` file defining your desired Graphql schema
 2. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
+Alternatively, you can:
+1. Clone our repo https://github.com/zvictor/faugra
+2. In the `examples/basic` or `examples/modularized` folders, run `npx faugra --secret <MY_FAUNA_SECRET>`
+
 ![divider](.design/divider.png)
 
 ## Installation
