@@ -7,9 +7,8 @@ ava('upload all schema', async (t) => {
   process.chdir(basePath)
   t.timeout(35000)
 
-  try {
-    const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'push-schema'])
-    const mergedSchema = `The resulting merged schema:
+  const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'push-schema'])
+  const mergedSchema = `The resulting merged schema:
 \ttype Query {
 \t  allUsers: [User!]
 \t  sayHello(name: String!): String! @resolver(name: "sayHello")
@@ -18,12 +17,9 @@ ava('upload all schema', async (t) => {
 \t  username: String! @unique
 \t}`
 
-    t.true(stderr.includes(mergedSchema))
-    t.is(stdout.split('\n')[0], `Schema imported successfully.`)
+  t.true(stderr.includes(mergedSchema))
+  t.is(stdout.split('\n')[0], `Schema imported successfully.`)
 
-    t.false(stdout.includes('error'))
-    t.is(exitCode, 0)
-  } catch (error) {
-    t.fail(`build failed with ${error}`)
-  }
+  t.false(stdout.includes('error'))
+  t.is(exitCode, 0)
 })

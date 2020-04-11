@@ -7,14 +7,10 @@ ava('upload all UDF: sayHello', async (t) => {
   process.chdir(basePath)
   t.timeout(5000)
 
-  try {
-    const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'])
+  const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'])
 
-    t.is(stdout, `User-defined function(s) created or updated: [ 'sayHello' ]`)
+  t.is(stdout, `User-defined function(s) created or updated: [ 'sayHello' ]`)
 
-    t.false(stdout.includes('error'))
-    t.is(exitCode, 0)
-  } catch (error) {
-    t.fail(`build failed with ${error}`)
-  }
+  t.false(stdout.includes('error'))
+  t.is(exitCode, 0)
 })
