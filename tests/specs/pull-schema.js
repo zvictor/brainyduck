@@ -22,7 +22,7 @@ const prepopulate = async (schema) => {
   return message
 }
 
-ava('upload all schema', async (t) => {
+ava('fetch schema from fauna', async (t) => {
   t.timeout(65000)
 
   const schema = `
