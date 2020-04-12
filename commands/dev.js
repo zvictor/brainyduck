@@ -40,7 +40,7 @@ const watch = (name, pattern, operation) =>
   })
 
 const gql = watch('Schema', '**/*.(gql|graphql)', (file) =>
-  generateTypes(file, file.replace(/(.gql|.graphql)$/, '.d.ts'))
+  generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
 )
 const fql = watch('UDF', '**/*.fql', defineFunctions)
 
