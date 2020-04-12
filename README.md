@@ -15,15 +15,145 @@
 
 ## Getting started
 
-It takes just 2 steps to get started:
+It takes just **2 steps to get started**:
 
 1. Create a `.graphql` file defining your desired Graphql schema
 2. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
-Alternatively, you can:
+_Alternatively, you can:_
 
 1. Clone this repo: `git clone https://github.com/zvictor/faugra.git`
 2. In the `examples/basic` or `examples/modularized` folders, run `npx faugra --secret <MY_FAUNA_SECRET>`
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
+
+## What does it do?
+
+Given a schema looking anything like this:
+
+<details>
+  <summary>schema</summary>
+
+```graphql
+type User {
+  username: String! @unique
+}
+
+type Post {
+  content: String!
+  author: User!
+}
+```
+
+</details>
+
+Faugra will give you:
+
+1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction)
+2. Your original schema will be expanded to provide basic CRUD (no need to worry about their resolvers!). Expect it to look like this:
+
+   <details>
+      <summary>expanded schema</summary>
+
+   ```graphql
+   type Query {
+     findPostByID(id: ID!): Post
+     findUserByID(id: ID!): User
+     allPosts(_size: Int, _cursor: String): PostPage!
+   }
+
+   type Mutation {
+     updateUser(id: ID!, data: UserInput!): User
+     createUser(data: UserInput!): User!
+     updatePost(id: ID!, data: PostInput!): Post
+     deleteUser(id: ID!): User
+     deletePost(id: ID!): Post
+     createPost(data: PostInput!): Post!
+   }
+
+   type Post {
+     author: User!
+     _id: ID!
+     content: String!
+     title: String!
+   }
+
+   type User {
+     _id: ID!
+     username: String!
+   }
+
+   input PostInput {
+     title: String!
+     content: String!
+     author: PostAuthorRelation
+   }
+
+   input UserInput {
+     username: String!
+   }
+
+   # ... plus few other less important types defining relations and pagination
+   ```
+
+   </details>
+
+3. Do you like TypeScript? TS types are auto generated for you.
+
+   <details>
+      <summary>TS types</summary>
+
+   ```typescript
+   export type Query = {
+     __typename?: 'Query'
+     /** Find a document from the collection of 'Post' by its id. */
+     findPostByID?: Maybe<Post>
+     /** Find a document from the collection of 'User' by its id. */
+     findUserByID?: Maybe<User>
+   }
+
+   export type Mutation = {
+     __typename?: 'Mutation'
+     /** Update an existing document in the collection of 'User' */
+     updateUser?: Maybe<User>
+     /** Create a new document in the collection of 'User' */
+     createUser: User
+     /** Update an existing document in the collection of 'Post' */
+     updatePost?: Maybe<Post>
+     /** Delete an existing document in the collection of 'User' */
+     deleteUser?: Maybe<User>
+     /** Delete an existing document in the collection of 'Post' */
+     deletePost?: Maybe<Post>
+     /** Create a new document in the collection of 'Post' */
+     createPost: Post
+   }
+
+   export type Post = {
+     __typename?: 'Post'
+     author: User
+     /** The document's ID. */
+     _id: Scalars['ID']
+     content: Scalars['String']
+     title: Scalars['String']
+     /** The document's timestamp. */
+   }
+
+   export type User = {
+     __typename?: 'User'
+     /** The document's ID. */
+     _id: Scalars['ID']
+     /** The document's timestamp. */
+     username: Scalars['String']
+   }
+
+   // ... plus few other less important types defining relations and pagination
+   ```
+
+   </details>
+
+4. Isn't basic CRUD enough? What about custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+
+For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples)
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
 
