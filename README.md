@@ -148,7 +148,10 @@ Faugra will give you:
 
    </details>
 
-4. Isn't basic CRUD enough? What about custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+**What else?**
+
+1. Faugra supports [imports in the graph schemas](https://github.com/ardatan/graphql-import) so your codebase can embrace modularization.
+2. Isn't basic CRUD enough? What about custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples)
 

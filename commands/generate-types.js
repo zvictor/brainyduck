@@ -3,7 +3,6 @@
 const fs = require('fs')
 const debug = require('debug')('generate-types')
 const { codegen } = require('@graphql-codegen/core')
-const typescriptPlugin = require('@graphql-codegen/typescript')
 const { parse } = require('graphql')
 const { pipeData } = require('../utils')
 const push = require('./push-schema')
@@ -17,7 +16,7 @@ const config = {
     },
   ],
   pluginMap: {
-    typescript: typescriptPlugin,
+    typescript: require('@graphql-codegen/typescript'),
   },
 }
 
