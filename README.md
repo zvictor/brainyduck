@@ -49,7 +49,7 @@ type Post {
 
 Faugra will give you:
 
-1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction)
+1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction).
 2. Your original schema will be expanded to provide basic CRUD (no need to worry about their resolvers!). Expect it to look like this:
 
    <details>
@@ -59,7 +59,6 @@ Faugra will give you:
    type Query {
      findPostByID(id: ID!): Post
      findUserByID(id: ID!): User
-     allPosts(_size: Int, _cursor: String): PostPage!
    }
 
    type Mutation {
@@ -93,7 +92,7 @@ Faugra will give you:
      username: String!
    }
 
-   # ... plus few other less important types defining relations and pagination
+   # ... plus few other less important definitions such as relations and pagination
    ```
 
    </details>
@@ -135,18 +134,16 @@ Faugra will give you:
      _id: Scalars['ID']
      content: Scalars['String']
      title: Scalars['String']
-     /** The document's timestamp. */
    }
 
    export type User = {
      __typename?: 'User'
      /** The document's ID. */
      _id: Scalars['ID']
-     /** The document's timestamp. */
      username: Scalars['String']
    }
 
-   // ... plus few other less important types defining relations and pagination
+   // ... plus few other less important definitions such as relations and pagination
    ```
 
    </details>
