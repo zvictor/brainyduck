@@ -22,6 +22,14 @@ program
   .on('option:domain', function () {
     process.env.FAUGRA_DOMAIN = this.domain
   })
+  .option('--debug <port>', `run the command with debugging listening on <port>.`)
+  .on('option:debug', function () {
+    process.env.NODE_OPTIONS = `--inspect=${this.debug || 9229}`
+  })
+  .option('--debug-brk <port>', `run the command with debugging(-brk) listening on <port>.`)
+  .on('option:debug-brk', function () {
+    process.env.NODE_OPTIONS = `--inspect-brk=${this['debug-brk'] || 9229}`
+  })
 
   .command(
     'dev [directory]',
