@@ -72,4 +72,12 @@ program
     }
   )
 
+  .command(
+    'build-sdk [schema-pattern] [documents-pattern] [output]',
+    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/*.gql,**/*.graphql,!node_modules, documents-pattern: **/*.query.gql,**/*.query.graphql,!node_modules output: <stdout>]',
+    {
+      executableFile: path.join(__dirname, './commands/build-sdk.js'),
+    }
+  )
+
 program.parse(process.argv)

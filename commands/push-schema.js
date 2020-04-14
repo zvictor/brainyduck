@@ -25,7 +25,7 @@ const options = {
 }
 
 const loadSchema = async (pattern) => {
-  debug(`Looking for files matching '${pattern}'`)
+  debug(`Looking for schemas matching '${pattern}'`)
 
   const files = (
     await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))

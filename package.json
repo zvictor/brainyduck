@@ -15,6 +15,8 @@
   "dependencies": {
     "@graphql-codegen/core": "1.13.2",
     "@graphql-codegen/typescript": "1.13.2",
+    "@graphql-codegen/typescript-graphql-request": "1.13.2",
+    "@graphql-codegen/typescript-operations": "1.13.2",
     "@graphql-toolkit/core": "0.10.3",
     "@graphql-toolkit/graphql-file-loader": "0.10.3",
     "@graphql-toolkit/schema-merging": "0.10.3",
@@ -30,5 +32,8 @@
     "log-symbols": "3.0.0",
     "node-fetch": "2.6.0",
     "p-queue": "6.3.0"
+  },
+  "peerDependencies": {
+    "graphql-request": "^1.0.0"
   }
 }
