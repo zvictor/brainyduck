@@ -1,6 +1,9 @@
 {
   "name": "faugra-examples-basic",
   "version": "1.0.0",
+  "scripts": {
+    "start": "npx ts-node index.ts"
+  },
   "dependencies": {
     "graphql-request": "^1.8.2"
   }
