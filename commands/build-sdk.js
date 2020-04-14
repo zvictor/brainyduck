@@ -49,7 +49,7 @@ const generateSdk = async (schema, documentsPattern) => {
 
 const main = async (
   schemaPattern,
-  documentsPattern = '**/*.query.gql,**/*.query.graphql,!node_modules',
+  documentsPattern = '**/[a-z]*.(graphql|gql),!node_modules',
   outputPath
 ) => {
   await push(await schemaPattern)

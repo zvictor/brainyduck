@@ -31,26 +31,34 @@ const watch = (name, pattern, operation) =>
       .on('error', (error) => debug(`error: ${error}`))
       .on('add', (file) => {
         debug(`Watching ${file} [${name}]`)
-        queue.add(() => operation(file))
+        queue.add(async () => {
+          console.log(`${name} ${file} has been added.`)
+          await operation(file)
+          console.log(`${file} has been processed.`)
+        })
       })
       .on('change', (file) => {
         debug(`${file} has been changed`)
-        queue.add(() => operation(file))
+        queue.add(async () => {
+          console.log(`${name} ${file} has been modified.`)
+          await operation(file)
+          console.log(`${file} has been processed.`)
+        })
       })
       .on('ready', resolve)
   })
 
-const gql = watch('Schema', '**/*.(gql|graphql)', (file) => {
+const schema = watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
+)
 
-  if (file.includes('.query.')) {
-    buildSdk(undefined, undefined, './faugra.sdk.ts')
-  }
-})
+const documents = watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
+  buildSdk(undefined, undefined, './faugra.sdk.ts')
+)
 
 const fql = watch('UDF', '**/*.fql', defineFunctions)
 
-Promise.all([gql, fql]).then(() => {
+Promise.all([schema, documents, fql]).then(() => {
   debug('Initial scan complete')
   queue.start()
 })

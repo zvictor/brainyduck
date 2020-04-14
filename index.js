@@ -22,11 +22,11 @@ program
   .on('option:domain', function () {
     process.env.FAUGRA_DOMAIN = this.domain
   })
-  .option('--debug <port>', `run the command with debugging listening on <port>.`)
+  .option('--debug [port]', `run the command with debugging listening on [port].`)
   .on('option:debug', function () {
     process.env.NODE_OPTIONS = `--inspect=${this.debug || 9229}`
   })
-  .option('--debug-brk <port>', `run the command with debugging(-brk) listening on <port>.`)
+  .option('--debug-brk [port]', `run the command with debugging(-brk) listening on [port].`)
   .on('option:debug-brk', function () {
     process.env.NODE_OPTIONS = `--inspect-brk=${this['debug-brk'] || 9229}`
   })
@@ -58,7 +58,7 @@ program
 
   .command(
     'push-schema [pattern]',
-    'push your schema to faunadb. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules]',
+    'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql),!node_modules]',
     {
       executableFile: path.join(__dirname, './commands/push-schema.js'),
     }
@@ -66,7 +66,7 @@ program
 
   .command(
     'generate-types [pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules, output: <stdout>]',
+    'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql),!node_modules, output: <stdout>]',
     {
       executableFile: path.join(__dirname, './commands/generate-types.js'),
     }
@@ -74,7 +74,7 @@ program
 
   .command(
     'build-sdk [schema-pattern] [documents-pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/*.gql,**/*.graphql,!node_modules, documents-pattern: **/*.query.gql,**/*.query.graphql,!node_modules output: <stdout>]',
+    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql),!node_modules, documents-pattern: **/[a-z]*.(graphql|gql),!node_modules output: <stdout>]',
     {
       executableFile: path.join(__dirname, './commands/build-sdk.js'),
     }

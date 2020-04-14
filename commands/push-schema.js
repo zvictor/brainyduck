@@ -57,7 +57,7 @@ const filterBase = (schema) =>
     .filter((line) => !baseLines.includes(line))
     .join('\n')
 
-const main = async (inputPath = '**/*.gql,**/*.graphql,!node_modules') => {
+const main = async (inputPath = '**/[A-Z]*.(graphql|gql),!node_modules') => {
   const schema = filterBase(await loadSchema(inputPath))
   debug(`The resulting merged schema:\n${schema.replace(/^/gm, '\t')}`)
   // debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in OVERRIDE mode!`)
