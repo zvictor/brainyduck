@@ -1,3 +1,9 @@
+mutation createUser($username: String!) {
+  createUser(data: { username: $username }) {
+    _id
+  }
+}
+
 query allUsers {
   allUsers {
     data {

@@ -60,18 +60,22 @@ const main = async (
 
   const ouput = `${sdk}
 
-export default function main() {
-  if(!process.env.FAUGRA_SECRET) {
+export default function main({
+  secret = process.env.FAUGRA_SECRET,
+  domain = process.env.FAUGRA_DOMAIN,
+} = {}) {
+  if (!secret) {
     throw new Error('FAUGRA_SECRET has not been defined.')
   }
 
-  return getSdk(new GraphQLClient(process.env.FAUGRA_DOMAIN || 'https://graphql.fauna.com/graphql', {
-    headers: {
-      authorization: \`Bearer \${process.env.FAUGRA_SECRET}\`,
-    }
-  }));
-}
-  `
+  return getSdk(
+    new GraphQLClient(domain || 'https://graphql.fauna.com/graphql', {
+      headers: {
+        authorization: \`Bearer \${secret || process.env.FAUGRA_SECRET}\`,
+      },
+    })
+  )
+}`
 
   if (outputPath) {
     const dir = path.dirname(outputPath)
