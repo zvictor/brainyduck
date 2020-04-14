@@ -2,7 +2,7 @@
 
 const scream = (e) => {
   console.error(e.stack || e)
-  process.exit(1)
+  // process.exit(1)
 }
 
 process.on('unhandledRejection', scream)
