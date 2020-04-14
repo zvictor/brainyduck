@@ -1,0 +1,9 @@
+query findPostByID($id: ID!) {
+  findPostByID(id: $id) {
+    title
+    content
+    author {
+      username
+    }
+  }
+}

@@ -14,6 +14,7 @@ const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')
 const generateTypes = require('./generate-types')
+const buildSdk = require('./build-sdk')
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
@@ -39,9 +40,14 @@ const watch = (name, pattern, operation) =>
       .on('ready', resolve)
   })
 
-const gql = watch('Schema', '**/*.(gql|graphql)', (file) =>
+const gql = watch('Schema', '**/*.(gql|graphql)', (file) => {
   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
-)
+
+  if (file.includes('.query.')) {
+    buildSdk(undefined, undefined, './faugra.sdk.ts')
+  }
+})
+
 const fql = watch('UDF', '**/*.fql', defineFunctions)
 
 Promise.all([gql, fql]).then(() => {
