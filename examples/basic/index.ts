@@ -2,12 +2,13 @@ import faugra from './faugra.sdk'
 const { log } = console
 
 const sdk = faugra()
+const random = () => Math.random().toString(36).substring(7)
 
 async function main() {
   log(await sdk.sayHello({ name: 'dimension C-137' }))
 
-  log(await sdk.createUser({ username: 'rick-sanchez' }))
-  log(await sdk.createUser({ username: 'morty-smith' }))
+  log(await sdk.createUser({ username: `rick-sanchez-${random()}` }))
+  log(await sdk.createUser({ username: `morty-smith-${random()}` }))
 
   const { allUsers } = await sdk.allUsers()
 
