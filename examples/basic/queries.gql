@@ -11,7 +11,3 @@ query allUsers {
     }
   }
 }
-
-query sayHello($name: String!) {
-  sayHello(name: $name)
-}
