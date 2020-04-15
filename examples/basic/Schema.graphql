@@ -1,4 +1,6 @@
-# import User from "./User.gql"
+type User {
+  username: String! @unique
+}
 
 type Query {
   allUsers: [User!]
