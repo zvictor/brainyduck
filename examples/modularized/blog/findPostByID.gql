@@ -3,7 +3,7 @@ query findPostByID($id: ID!) {
     title
     content
     author {
-      username
+      name
     }
   }
 }
