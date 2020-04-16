@@ -32,6 +32,8 @@ _Alternatively, you can:_
 Given a GraphQL schema looking anything like this:
 
 ```graphql
+# Schema.gql ↓
+
 type User {
   username: String! @unique
 }
@@ -39,6 +41,22 @@ type User {
 type Post {
   content: String!
   author: User!
+}
+
+# queries.gql ↓
+
+mutation createUser($data: UserInput!) {
+  createUser(data: $data) {
+    _id
+  }
+}
+
+query allUsers {
+  allUsers {
+    data {
+      username
+    }
+  }
 }
 ```
 
