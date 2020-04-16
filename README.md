@@ -2,7 +2,7 @@
 <br>
 
 <p align="center">
-<strong>A micro backend framework/builder</strong><br />
+<strong>A micro "no-backend" backend framework 🤯</strong><br />
 <sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of FAUnadb + GRAphql.</sub>
 </p>
 
@@ -29,10 +29,7 @@ _Alternatively, you can:_
 
 ## What does it do?
 
-Given a schema looking anything like this:
-
-<details>
-  <summary>schema</summary>
+Given a GraphQL schema looking anything like this:
 
 ```graphql
 type User {
@@ -45,15 +42,12 @@ type Post {
 }
 ```
 
-</details>
-
 Faugra will give you:
 
-1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction).
-2. Your original schema will be expanded to provide basic CRUD (no need to worry about their resolvers!). Expect it to look like this:
+1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) in which your original schema will be expanded to provide basic CRUD out of the box (i.e. no need to define resolvers for basic operations!). Expect it to look like this:
 
    <details>
-      <summary>expanded schema</summary>
+      <summary>auto-expanded schema</summary>
 
    ```graphql
    type Query {
@@ -97,7 +91,7 @@ Faugra will give you:
 
    </details>
 
-3. Do you like TypeScript? TS types are auto generated for you.
+2. Do you like TypeScript? Your schema will also be exported as TS types.
 
    <details>
       <summary>TS types</summary>
@@ -148,10 +142,35 @@ Faugra will give you:
 
    </details>
 
+3. You will be able to abstract the GraphQL layer and make calls using a convenient API (with full autocomplete support!)
+
+   <details>
+      <summary>your-code.js</summary>
+
+   ```typescript
+   import faugra from './fraugra.sdk.ts' // <-- auto generated file based on your schema
+
+   await faugra().createUser({ username: `rick-sanchez` })
+   await faugra().createUser({ username: `morty-smith` })
+
+   const { allUsers } = await faugra().allUsers()
+
+   for (const user of allUsers.data) {
+     console.log(user)
+   }
+
+   // output:
+   //
+   // { username: 'rick-sanchez' }
+   // { username: 'morty-smith' }
+   ```
+
+   </details>
+
 **What else?**
 
-1. Faugra supports [imports in the graph schemas](https://github.com/ardatan/graphql-import) so your codebase can embrace modularization.
-2. Isn't basic CRUD enough? What about custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+1. Faugra supports [imports in the graph schemas](https://github.com/ardatan/graphql-import) so your codebase can embrace [modularization](examples/modularized).
+2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples)
 
@@ -180,18 +199,32 @@ You can install it globally, per project or just run it on demand:
 Usage: faugra [options] [command]
 
 Options:
-  -V, --version                      output the version number
-  -s, --secret <value>               set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
-  -d, --domain <value>               set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).
-  -h, --help                         display help for command
+  -V, --version                                            output the version number
+  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the
+                                                           database (defaults to <FAUGRA_SECRET>).
+  -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or
+                                                           'https://graphql.fauna.com'>).
+  --verbose                                                run the command with verbose logging.
+  --debug [port]                                           run the command with debugging listening on [port].
+  --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
+  -h, --help                                               display help for command
 
 Commands:
-  dev [directory]                    watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
-  define-functions [pattern]         upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.fql]
-  pull-schema [output]               load the schema hosted in faunadb. Defaults: [output: <stdout>]
-  push-schema [pattern]              push your schema to faunadb. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules]
-  generate-types [pattern] [output]  code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/*.gql,**/*.graphql,!node_modules, output: <stdout>]
-  help [command]                     display help for command
+  dev [directory]                                          watch for changes and run helpers accordingly. Defaults:
+                                                           [directory: <pwd>]
+  define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults:
+                                                           [pattern: **/*.fql]
+  pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
+  push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern:
+                                                           **/*.(graphql|gql),!node_modules]
+  generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript
+                                                           types. Defaults: [pattern: **/[A-Z]*.(graphql|gql),!node_modules,
+                                                           output: <stdout>]
+  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that converts graphql schemas into typescript
+                                                           types. Defaults: [schema-pattern:
+                                                           **/[A-Z]*.(graphql|gql),!node_modules, documents-pattern:
+                                                           **/[a-z]*.(graphql|gql),!node_modules output: <stdout>]
+  help [command]                                           display help for command
 ```
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)

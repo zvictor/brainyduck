@@ -19,7 +19,7 @@ main()
 
 // Expected output of this script:
 
-// { createUser: { _id: '262820989366174226' } }
-// { createUser: { _id: '262820990060331538' } }
-// { username: 'rick-sanchez' }
-// { username: 'morty-smith' }
+// { createUser: { _id: 'xxx' } }
+// { createUser: { _id: 'xxx' } }
+// { username: 'rick-sanchez-xxx' }
+// { username: 'morty-smith-xxx' }
