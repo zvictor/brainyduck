@@ -8,6 +8,7 @@ const scream = (e) => {
 process.on('unhandledRejection', scream)
 process.on('uncaughtException', scream)
 
+const ora = require('ora')
 const path = require('path')
 const debug = require('debug')('watcher')
 const chokidar = require('chokidar')
@@ -19,7 +20,20 @@ const buildSdk = require('./build-sdk')
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
 
-const watch = (name, pattern, operation) =>
+const processor = (type, operation, file) =>
+  queue.add(async () => {
+    const spinner = ora(`Processing ${file} [${type}]\n`).start()
+
+    try {
+      await operation(file)
+      spinner.succeed(`Processed ${file} [${type}]`)
+    } catch (e) {
+      spinner.fail()
+      console.error(e)
+    }
+  })
+
+const watch = (type, pattern, operation) =>
   new Promise((resolve) => {
     chokidar
       .watch(pattern, {
@@ -30,20 +44,12 @@ const watch = (name, pattern, operation) =>
       })
       .on('error', (error) => debug(`error: ${error}`))
       .on('add', (file) => {
-        debug(`Watching ${file} [${name}]`)
-        queue.add(async () => {
-          console.log(`${name} ${file} has been added.`)
-          await operation(file)
-          console.log(`${file} has been processed.`)
-        })
+        debug(`Watching ${file} [${type}]`)
+        processor(type, operation, file)
       })
       .on('change', (file) => {
-        debug(`${file} has been changed`)
-        queue.add(async () => {
-          console.log(`${name} ${file} has been modified.`)
-          await operation(file)
-          console.log(`${file} has been processed.`)
-        })
+        debug(`${file} has been changed [${type}]`)
+        processor(type, operation, file)
       })
       .on('ready', resolve)
   })

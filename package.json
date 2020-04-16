@@ -31,6 +31,7 @@
     "graphql": "15.0.0",
     "log-symbols": "3.0.0",
     "node-fetch": "2.6.0",
+    "ora": "4.0.3",
     "p-queue": "6.3.0"
   },
   "peerDependencies": {

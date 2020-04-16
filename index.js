@@ -4,8 +4,6 @@ const path = require('path')
 const { program } = require('commander')
 const package = require('./package.json')
 
-process.env.DEBUG = process.env.DEBUG || '*'
-
 program
   .version(package.version)
   .option(
@@ -21,6 +19,10 @@ program
   )
   .on('option:domain', function () {
     process.env.FAUGRA_DOMAIN = this.domain
+  })
+  .option('--verbose', `run the command with verbose logging.`)
+  .on('option:verbose', function () {
+    process.env.DEBUG = '*'
   })
   .option('--debug [port]', `run the command with debugging listening on [port].`)
   .on('option:debug', function () {
