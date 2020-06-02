@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": "./index.js",
   "files": [
     "/commands",
@@ -13,30 +13,30 @@
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
-    "@graphql-codegen/core": "1.13.2",
-    "@graphql-codegen/typescript": "1.13.2",
-    "@graphql-codegen/typescript-graphql-request": "1.13.2",
-    "@graphql-codegen/typescript-operations": "1.13.2",
-    "@graphql-toolkit/core": "0.10.3",
-    "@graphql-toolkit/graphql-file-loader": "0.10.3",
-    "@graphql-toolkit/schema-merging": "0.10.3",
-    "@graphql-toolkit/url-loader": "0.10.3",
-    "chokidar": "3.3.1",
-    "commander": "5.0.0",
+    "@graphql-codegen/core": "1.15.0",
+    "@graphql-codegen/typescript": "1.15.0",
+    "@graphql-codegen/typescript-graphql-request": "1.15.0",
+    "@graphql-codegen/typescript-operations": "1.15.0",
+    "@graphql-toolkit/core": "0.10.7",
+    "@graphql-toolkit/graphql-file-loader": "0.10.7",
+    "@graphql-toolkit/schema-merging": "0.10.7",
+    "@graphql-toolkit/url-loader": "0.10.7",
+    "chokidar": "3.4.0",
+    "commander": "5.1.0",
     "debug": "4.1.1",
-    "execa": "4.0.0",
-    "faunadb": "2.13.1",
+    "execa": "4.0.2",
+    "faunadb": "2.14.1",
     "figures": "3.2.0",
     "globby": "11.0.0",
     "graphql": "15.0.0",
-    "log-symbols": "3.0.0",
+    "log-symbols": "4.0.0",
     "node-fetch": "2.6.0",
-    "ora": "4.0.3",
-    "p-queue": "6.3.0"
+    "ora": "4.0.4",
+    "p-queue": "6.4.0"
   },
   "peerDependencies": {
     "graphql": "^15.0.0",
-    "graphql-tag": "^2.10.0",
+    "graphql-tag": "^2.10.3",
     "graphql-request": "^1.0.0"
   }
 }
