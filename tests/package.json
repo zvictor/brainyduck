@@ -8,9 +8,9 @@
     "test": "./run-tests.sh"
   },
   "dependencies": {
-    "ava": "3.6.0",
+    "ava": "3.11.0",
     "esm": "3.2.25",
-    "execa": "4.0.0"
+    "execa": "4.0.3"
   },
   "ava": {
     "require": [
