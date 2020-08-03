@@ -25,6 +25,7 @@
     "commander": "6.0.0",
     "debug": "4.1.1",
     "execa": "4.0.3",
+    "fauna-shell": "0.11.4",
     "faunadb": "2.14.2",
     "figures": "3.2.0",
     "globby": "11.0.1",
@@ -32,7 +33,8 @@
     "log-symbols": "4.0.0",
     "node-fetch": "2.6.0",
     "ora": "4.0.5",
-    "p-queue": "6.6.0"
+    "p-queue": "6.6.0",
+    "tempy": "0.6.0"
   },
   "peerDependencies": {
     "graphql": "^15.3.0",
