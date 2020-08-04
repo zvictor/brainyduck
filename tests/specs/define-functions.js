@@ -3,11 +3,12 @@ import execa from 'execa'
 import test from 'ava'
 
 test('upload all UDF: sayHello', async (t) => {
-  const basePath = resolve(`${__dirname}/../../examples/basic`)
-  process.chdir(basePath)
-  t.timeout(5000)
+  const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
+  t.timeout(15000)
 
-  const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'])
+  const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'], {
+    cwd,
+  })
 
   t.is(stdout, `User-defined function(s) created or updated: [ 'sayHello' ]`)
 
