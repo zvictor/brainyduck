@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const debug = require('debug')('push-schema')
+const debug = require('debug')('faugra:push-schema')
 const figures = require('figures')
 const fetch = require('node-fetch')
 const { performance } = require('perf_hooks')

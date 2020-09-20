@@ -9,7 +9,7 @@ test('generate types for a schema without imports', async (t) => {
   const { stdout, stderr, exitCode } = await execa(
     'node',
     ['../../index.js', 'generate-types', 'Schema.graphql'],
-    { env: { DEBUG: '*' }, cwd }
+    { env: { DEBUG: 'faugra:*' }, cwd }
   )
 
   const expectedOutput = `export type Maybe<T> = T | null;

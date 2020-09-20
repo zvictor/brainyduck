@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const debug = require('debug')('pull-schema')
+const debug = require('debug')('faugra:pull-schema')
 const { performance } = require('perf_hooks')
 const { loadTypedefs, OPERATION_KINDS } = require('@graphql-toolkit/core')
 const { UrlLoader } = require('@graphql-toolkit/url-loader')

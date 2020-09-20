@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const debug = require('debug')('build-sdk')
+const debug = require('debug')('faugra:build-sdk')
 const { codegen } = require('@graphql-codegen/core')
 const { parse } = require('graphql')
 const { pipeData, patternMatch } = require('../utils')

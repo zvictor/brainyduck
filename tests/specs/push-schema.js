@@ -7,7 +7,7 @@ test('push a basic schema', async (t) => {
   t.timeout(35000)
 
   const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'push-schema'], {
-    env: { DEBUG: '*' },
+    env: { DEBUG: 'faugra:*' },
     cwd,
   })
 
@@ -31,7 +31,7 @@ test('push a modular schema', async (t) => {
   t.timeout(35000)
 
   const { stdout, stderr, exitCode } = await execa('node', ['../../index.js', 'push-schema'], {
-    env: { DEBUG: '*' },
+    env: { DEBUG: 'faugra:*' },
     cwd,
   })
   const mergedSchema = `The resulting merged schema:

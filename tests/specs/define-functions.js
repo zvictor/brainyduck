@@ -7,7 +7,7 @@ test('upload all UDF: sayHello', async (t) => {
   t.timeout(15000)
 
   const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'], {
-    env: { DEBUG: '*' },
+    env: { DEBUG: 'faugra:*' },
     cwd,
   })
 

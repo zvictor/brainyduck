@@ -10,7 +10,7 @@ process.on('uncaughtException', scream)
 
 const ora = require('ora')
 const path = require('path')
-const debug = require('debug')('watcher')
+const debug = require('debug')('faugra:watcher')
 const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')

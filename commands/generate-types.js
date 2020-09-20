@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs')
-const debug = require('debug')('generate-types')
+const debug = require('debug')('faugra:generate-types')
 const { codegen } = require('@graphql-codegen/core')
 const { parse } = require('graphql')
 const { pipeData } = require('../utils')
