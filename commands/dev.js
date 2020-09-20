@@ -16,6 +16,7 @@ const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')
 const generateTypes = require('./generate-types')
 const buildSdk = require('./build-sdk')
+const { ignored } = require('../utils')
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
