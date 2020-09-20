@@ -37,7 +37,7 @@ const watch = (type, pattern, operation) =>
   new Promise((resolve) => {
     chokidar
       .watch(pattern, {
-        ignored: [/(^|[\/\\])\../, 'node_modules'],
+        ignored: [/(^|[\/\\])\../, ...ignored],
         persistent: true,
 
         cwd: path.resolve(directory),

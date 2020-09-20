@@ -20,6 +20,13 @@ program
   .on('option:domain', function () {
     process.env.FAUGRA_DOMAIN = this.domain
   })
+  .option(
+    '-i, --ignore <value>',
+    `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`
+  )
+  .on('option:ignore', function () {
+    process.env.FAUGRA_IGNORE = this.ignore
+  })
   .option('--verbose', `run the command with verbose logging.`)
   .on('option:verbose', function () {
     process.env.DEBUG = '*'
@@ -60,7 +67,7 @@ program
 
   .command(
     'push-schema [pattern]',
-    'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql),!node_modules]',
+    'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
     {
       executableFile: path.join(__dirname, './commands/push-schema.js'),
     }
@@ -68,7 +75,7 @@ program
 
   .command(
     'generate-types [pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql),!node_modules, output: <stdout>]',
+    'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]',
     {
       executableFile: path.join(__dirname, './commands/generate-types.js'),
     }
@@ -76,7 +83,7 @@ program
 
   .command(
     'build-sdk [schema-pattern] [documents-pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql),!node_modules, documents-pattern: **/[a-z]*.(graphql|gql),!node_modules output: <stdout>]',
+    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
     {
       executableFile: path.join(__dirname, './commands/build-sdk.js'),
     }

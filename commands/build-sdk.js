@@ -47,11 +47,7 @@ const generateSdk = async (schema, documentsPattern) => {
   })
 }
 
-const main = async (
-  schemaPattern,
-  documentsPattern = '**/[a-z]*.(graphql|gql),!node_modules',
-  outputPath
-) => {
+const main = async (schemaPattern, documentsPattern = '**/[a-z]*.(graphql|gql)', outputPath) => {
   await push(await schemaPattern)
   const schema = await pull()
 

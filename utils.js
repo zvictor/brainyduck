@@ -1,8 +1,13 @@
 const globby = require('globby')
 
+const ignored = process.env.FAUGRA_IGNORE
+  ? process.env.FAUGRA_IGNORE.split(',')
+  : ['**/node_modules/**', '**/.git/**']
+
 const patternMatch = (pattern) =>
   globby(pattern, {
     cwd: process.cwd(),
+    ignore: ignored,
   })
 
 const pipeData = new Promise((resolve, reject) => {
@@ -25,4 +30,5 @@ const pipeData = new Promise((resolve, reject) => {
 module.exports = {
   patternMatch,
   pipeData,
+  ignored,
 }

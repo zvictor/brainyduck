@@ -222,6 +222,8 @@ Options:
                                                            database (defaults to <FAUGRA_SECRET>).
   -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or
                                                            'https://graphql.fauna.com'>).
+  -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE
+                                                           or '**/node_modules/**,**/.git/**'>).
   --verbose                                                run the command with verbose logging.
   --debug [port]                                           run the command with debugging listening on [port].
   --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
@@ -234,14 +236,13 @@ Commands:
                                                            [pattern: **/*.fql]
   pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern:
-                                                           **/*.(graphql|gql),!node_modules]
+                                                           **/*.(graphql|gql)]
   generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript
-                                                           types. Defaults: [pattern: **/[A-Z]*.(graphql|gql),!node_modules,
-                                                           output: <stdout>]
+                                                           types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output:
+                                                           <stdout>]
   build-sdk [schema-pattern] [documents-pattern] [output]  code generator that converts graphql schemas into typescript
-                                                           types. Defaults: [schema-pattern:
-                                                           **/[A-Z]*.(graphql|gql),!node_modules, documents-pattern:
-                                                           **/[a-z]*.(graphql|gql),!node_modules output: <stdout>]
+                                                           types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql),
+                                                           documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
   help [command]                                           display help for command
 ```
 
