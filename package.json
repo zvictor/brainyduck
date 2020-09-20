@@ -13,32 +13,32 @@
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
-    "@graphql-codegen/core": "1.17.6",
-    "@graphql-codegen/typescript": "1.17.6",
-    "@graphql-codegen/typescript-graphql-request": "1.17.6",
-    "@graphql-codegen/typescript-operations": "1.17.6",
+    "@graphql-codegen/core": "1.17.8",
+    "@graphql-codegen/typescript": "1.17.9",
+    "@graphql-codegen/typescript-graphql-request": "2.0.0",
+    "@graphql-codegen/typescript-operations": "1.17.8",
     "@graphql-toolkit/core": "0.10.7",
     "@graphql-toolkit/graphql-file-loader": "0.10.7",
     "@graphql-toolkit/schema-merging": "0.10.7",
     "@graphql-toolkit/url-loader": "0.10.7",
-    "chokidar": "3.4.1",
-    "commander": "6.0.0",
-    "debug": "4.1.1",
+    "chokidar": "3.4.2",
+    "commander": "6.1.0",
+    "debug": "4.2.0",
     "execa": "4.0.3",
-    "fauna-shell": "0.11.4",
-    "faunadb": "2.14.2",
+    "fauna-shell": "0.11.5",
+    "faunadb": "3.0.1",
     "figures": "3.2.0",
     "globby": "11.0.1",
     "graphql": "15.0.0",
     "log-symbols": "4.0.0",
-    "node-fetch": "2.6.0",
-    "ora": "4.0.5",
-    "p-queue": "6.6.0",
-    "tempy": "0.6.0"
+    "node-fetch": "2.6.1",
+    "ora": "5.1.0",
+    "p-queue": "6.6.1",
+    "tempy": "0.7.0"
   },
   "peerDependencies": {
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
-    "graphql-request": "^2.0.0"
+    "graphql-request": "^3.1.0"
   }
 }
