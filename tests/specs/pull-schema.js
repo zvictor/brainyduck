@@ -33,6 +33,7 @@ test('fetch schema from fauna', async (t) => {
   await prepopulate(schema)
 
   const { stdout, exitCode } = await execa('node', ['../../index.js', 'pull-schema'], {
+    env: { DEBUG: '*' },
     cwd: __dirname,
   })
 
