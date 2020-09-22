@@ -42,6 +42,9 @@ const main = async (pattern = '**/*.fql') => {
       const tmpFile = tempy.file()
       await faunaEval.run([query, '--secret', secret, '--output', tmpFile])
 
+      // temporary fix for https://github.com/fauna/fauna-shell/pull/61:
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       return new Promise((resolve, reject) => {
         const stream = fs.createReadStream(tmpFile)
         const chunks = []
