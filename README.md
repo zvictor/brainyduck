@@ -234,6 +234,8 @@ Commands:
                                                            [directory: <pwd>]
   define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults:
                                                            [pattern: **/*.udf]
+  define-roles [pattern]                                   upload your User-Defined Roles (UDR) to faunadb. Defaults:
+                                                           [pattern: **/*.role]
   pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern:
                                                            **/*.(graphql|gql)]

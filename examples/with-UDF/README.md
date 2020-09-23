@@ -2,6 +2,7 @@ This example contains:
 
 - a User-Defined Function (UDF) with simplified definition [sayHi.udf]
 - a User-Defined Function (UDF) with extended definition [sayHello.udf]
+- a User-Defined Role (UDR) [publicAccess.role]
 - a Graphql schema [Schema.graphql]
 - a Graphql operations document [queries.gql]
 

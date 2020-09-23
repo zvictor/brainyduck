@@ -1,0 +1,10 @@
+{
+  # The role name does not match the file name [throws ERROR!]
+  name: "publicAccess",
+  privileges: [
+    {
+      resource: Function('sayHello'),
+      actions: { call: true }
+    }
+  ]
+}

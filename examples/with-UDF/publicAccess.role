@@ -1,0 +1,12 @@
+{
+  privileges: [
+    {
+      resource: Function('sayHi'),
+      actions: { call: true }
+    },
+    {
+      resource: Function('sayHello'),
+      actions: { call: true }
+    }
+  ]
+}

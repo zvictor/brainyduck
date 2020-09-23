@@ -58,6 +58,14 @@ program
   )
 
   .command(
+    'define-roles [pattern]',
+    'upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]',
+    {
+      executableFile: path.join(__dirname, './commands/define-roles.js'),
+    }
+  )
+
+  .command(
     'pull-schema [output]',
     'load the schema hosted in faunadb. Defaults: [output: <stdout>]',
     {
