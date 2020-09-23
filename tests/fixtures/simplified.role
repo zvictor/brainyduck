@@ -1,0 +1,7 @@
+# Simplified format is not allowed for roles.
+[
+  {
+    resource: Function('sayHello'),
+    actions: { call: true }
+  }
+]

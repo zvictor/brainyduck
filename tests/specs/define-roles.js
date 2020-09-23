@@ -2,6 +2,20 @@ import { resolve } from 'path'
 import execa from 'execa'
 import test from 'ava'
 
+test('role definitions should not accept simplified formats', async (t) => {
+  const cwd = resolve(`${__dirname}/../fixtures`)
+
+  const error = await t.throwsAsync(() =>
+    execa('node', ['../../index.js', 'define-roles', 'simplified.role'], {
+      env: { DEBUG: 'faugra:*' },
+      cwd,
+    })
+  )
+
+  t.true(error.message.includes('Error: Incorrect syntax used in role definition'))
+  t.is(error.exitCode, 1)
+})
+
 test('role name should match file name', async (t) => {
   const cwd = resolve(`${__dirname}/../fixtures`)
 

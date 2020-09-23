@@ -34,7 +34,7 @@ const main = async (pattern = '**/*.role') => {
       let query = content.replace(/#[^!].*$([\s]*)?/gm, '')
 
       // forbid simplified definitions (only available for UDFs)
-      if (!query.includes('{')) {
+      if (!query.match(/^[\s]*\{/)) {
         throw new Error(`Incorrect syntax used in role definition`)
       }
 

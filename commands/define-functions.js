@@ -34,7 +34,7 @@ const main = async (pattern = '**/*.udf') => {
       let query = content.replace(/#[^!].*$([\s]*)?/gm, '')
 
       // converts simplified definitions into extended definitions
-      if (!query.includes('{')) {
+      if (!query.match(/^[\s]*\{/)) {
         query = `{ name: "${name}", body:\n${query}\n}`
       }
 
