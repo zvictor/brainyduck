@@ -1,0 +1,6 @@
+# This file contains only the body of the UDF.
+# The function name is taken from the file name.
+
+Query(Lambda(["name"],
+  Concat(["Hi ", Var("name")])
+))

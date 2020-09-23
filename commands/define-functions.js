@@ -25,10 +25,29 @@ const main = async (pattern = '**/*.udf') => {
     files.map(async (file) => {
       debug(`\t${figures.pointer} found ${file}`)
       const name = path.basename(file, path.extname(file))
-      const body = fs.readFileSync(file).toString('utf8')
+      const content = fs.readFileSync(file).toString('utf8')
       const replacing = await client.query(q.IsFunction(q.Function(name)))
 
       debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
+
+      // remove comments
+      let query = content.replace(/#[^!].*$([\s]*)?/gm, '')
+
+      // converts simplified definitions into extended definitions
+      if (!query.includes('{')) {
+        query = `{ name: "${name}", body:\n${query}\n}`
+      }
+
+      // infer function name only if it has not been declared
+      if (!query.includes('name:')) {
+        query = query.replace('{', `{ name: "${name}", `)
+      }
+
+      if (name !== query.match(/name:[\s]*(['"])(.*?)\1/)[2]) {
+        throw new Error(`File name does not match function name: ${name}`)
+      }
+
+      query = `CreateFunction(${query})`
 
       if (replacing) {
         await client
@@ -36,7 +55,6 @@ const main = async (pattern = '**/*.udf') => {
           .then(() => debug(logSymbols.warning, 'old function deleted'))
       }
 
-      const query = `CreateFunction({ name: "${name}", body:\n${body}\n})`
       debug(`Executing query:\n${query}`)
 
       const tmpFile = tempy.file()

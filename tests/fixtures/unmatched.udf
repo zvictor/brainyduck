@@ -1,0 +1,7 @@
+{
+  # The function name does not match the file name [throws ERROR!]
+  name: "sayHello",
+  body: Query(Lambda(["name"],
+    Concat(["Hello ", Var("name")])
+  ))
+}

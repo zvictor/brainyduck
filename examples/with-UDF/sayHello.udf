@@ -1,3 +1,13 @@
-Query(Lambda(["name"],
-  Concat(["Hello ", Var("name")])
-))
+# This file contains the full definition of the function.
+{
+
+  # The function name is being manually defined here, but,
+  # if ommited, the function name would be inferred from the file name.
+  # If defined, it must always match the file name.
+  name: "sayHello", # (optional)
+
+  body: Query(Lambda(["name"],
+    Concat(["Hello ", Var("name")])
+  ))
+
+}

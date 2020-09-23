@@ -1,3 +1,7 @@
+query sayHi($name: String!) {
+  sayHi(name: $name)
+}
+
 query sayHello($name: String!) {
   sayHello(name: $name)
 }
