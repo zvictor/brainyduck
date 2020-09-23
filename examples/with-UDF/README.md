@@ -8,7 +8,7 @@ This example contains:
 
 By running `npx faugra --secret <MY_FAUNA_SECRET>` you should expect to see:
 
-- The UDF uploaded to the cloud
+- The UDF and UDR uploaded to the cloud
 - a TypeScript typings file generated per schema [Schema.d.ts]
 - a requests sdk containing all the operations, fully typed and with auto-complete support [faugra.sdk.ts]
 
