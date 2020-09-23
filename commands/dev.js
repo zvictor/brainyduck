@@ -15,6 +15,7 @@ const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')
 const generateTypes = require('./generate-types')
+const defineRoles = require('./define-roles')
 const buildSdk = require('./build-sdk')
 const { ignored } = require('../utils')
 
@@ -40,7 +41,6 @@ const watch = (type, pattern, operation) =>
       .watch(pattern, {
         ignored: [/(^|[\/\\])\../, ...ignored],
         persistent: true,
-
         cwd: path.resolve(directory),
       })
       .on('error', (error) => debug(`error: ${error}`))
@@ -55,17 +55,23 @@ const watch = (type, pattern, operation) =>
       .on('ready', resolve)
   })
 
-const schema = watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
-  generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
-)
+const main = async () => {
+  const schema = watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
+    generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
+  )
 
-const documents = watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
-  buildSdk(undefined, undefined, './faugra.sdk.ts')
-)
+  const documents = watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
+    buildSdk(undefined, undefined, './faugra.sdk.ts')
+  )
 
-const fql = watch('UDF', '**/*.udf', defineFunctions)
+  const udf = watch('UDF', '**/*.udf', defineFunctions)
+  const udr = watch('UDR', '**/*.role', defineRoles)
 
-Promise.all([schema, documents, fql]).then(() => {
+  await Promise.all([schema, documents, udf])
+  await Promise.all([udr])
+
   debug('Initial scan complete')
   queue.start()
-})
+}
+
+main()
