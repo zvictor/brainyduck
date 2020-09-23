@@ -72,6 +72,13 @@ const main = async () => {
 
   debug('Initial scan complete')
   queue.start()
+
+  if (process.env.FAUGRA_NO_WATCH) {
+    queue.onIdle().then(() => {
+      console.log('All operations complete')
+      process.exit(0)
+    })
+  }
 }
 
 main()
