@@ -63,7 +63,7 @@ const documents = watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
   buildSdk(undefined, undefined, './faugra.sdk.ts')
 )
 
-const fql = watch('UDF', '**/*.fql', defineFunctions)
+const fql = watch('UDF', '**/*.udf', defineFunctions)
 
 Promise.all([schema, documents, fql]).then(() => {
   debug('Initial scan complete')

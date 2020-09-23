@@ -17,7 +17,7 @@ if (!secret) {
 
 const client = new Client({ secret })
 
-const main = async (pattern = '**/*.fql') => {
+const main = async (pattern = '**/*.udf') => {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 

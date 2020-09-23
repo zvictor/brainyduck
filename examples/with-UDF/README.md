@@ -1,6 +1,6 @@
 This example contains:
 
-- a User-Defined Function (UDF) [sayHello.fql]
+- a User-Defined Function (UDF) [sayHello.udf]
 - a Graphql schema [Schema.graphql]
 - a Graphql operations document [queries.gql]
 

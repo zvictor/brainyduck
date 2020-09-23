@@ -51,7 +51,7 @@ program
 
   .command(
     'define-functions [pattern]',
-    'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.fql]',
+    'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]',
     {
       executableFile: path.join(__dirname, './commands/define-functions.js'),
     }

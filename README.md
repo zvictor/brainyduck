@@ -233,7 +233,7 @@ Commands:
   dev [directory]                                          watch for changes and run helpers accordingly. Defaults:
                                                            [directory: <pwd>]
   define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults:
-                                                           [pattern: **/*.fql]
+                                                           [pattern: **/*.udf]
   pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern:
                                                            **/*.(graphql|gql)]
