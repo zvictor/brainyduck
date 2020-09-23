@@ -224,6 +224,7 @@ Options:
                                                            'https://graphql.fauna.com'>).
   -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE
                                                            or '**/node_modules/**,**/.git/**'>).
+  --no-watch                                               disable the files watcher (only used in the dev command).
   --verbose                                                run the command with verbose logging.
   --debug [port]                                           run the command with debugging listening on [port].
   --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].

@@ -31,10 +31,7 @@ program
     process.env.FAUGRA_IGNORE = this.ignore
   })
 
-  .option(
-    '--no-watch',
-    `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`
-  )
+  .option('--no-watch', `disable the files watcher (only used in the dev command).`)
   .on('option:no-watch', function () {
     process.env.FAUGRA_NO_WATCH = !this.watch
   })
