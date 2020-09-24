@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.design/logo.jpg" alt="faugra's logo" /><p>
+<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/logo.jpg" alt="faugra's logo" /><p>
 <br>
 
 <p align="center">
@@ -25,7 +25,7 @@ _Alternatively, you can:_
 1. Clone this repo: `git clone https://github.com/zvictor/faugra.git`
 2. In the `examples/basic` or `examples/modularized` folders, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 ## What does it do?
 
@@ -192,7 +192,7 @@ Faugra will give you:
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples)
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 ## Installation
 
@@ -209,7 +209,7 @@ You can install it globally, per project or just run it on demand:
   $ npx faugra
 ```
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 ## Usage
 
@@ -249,7 +249,7 @@ Commands:
   help [command]                                           display help for command
 ```
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.design/divider.png)
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 <p align="center">
 Logo by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">Pixabay</a>
