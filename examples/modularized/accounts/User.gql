@@ -1,3 +1,9 @@
+# import * from "faugra"
+
 type User {
   name: String!
+}
+
+extend type Query {
+  sayHello(name: String!): String! @resolver(name: "sayHello")
 }

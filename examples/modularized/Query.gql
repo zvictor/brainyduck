@@ -1,7 +1,5 @@
-# import * from "faugra"
 # import Post from "./blog/Post.gql"
 
 type Query {
   allPosts: [Post!]
-  sayHello(name: String!): String! @resolver(name: "sayHello")
 }
