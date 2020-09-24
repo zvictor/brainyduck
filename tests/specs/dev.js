@@ -16,7 +16,7 @@ test(`complete all 'dev' operations for the 'basic' example`, async (t) => {
   )
 
   t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'))
+  t.false(stderr.includes('error'), stderr)
   t.deepEqual(
     new Set(stderr.split('\n').sort()),
     new Set(
@@ -27,7 +27,8 @@ test(`complete all 'dev' operations for the 'basic' example`, async (t) => {
         '✔ Processed queries.gql [Document]',
         '',
       ].sort()
-    )
+    ),
+    stderr
   )
 
   t.is(exitCode, 0)
@@ -47,7 +48,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, async (t) =>
   )
 
   t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'))
+  t.false(stderr.includes('error'), stderr)
   t.deepEqual(
     new Set(stderr.split('\n').sort()),
     new Set(
@@ -66,7 +67,8 @@ test(`complete all 'dev' operations for the 'modularized' example`, async (t) =>
         '✔ Processed accounts/sayHello.udf [UDF]',
         '',
       ].sort()
-    )
+    ),
+    stderr
   )
 
   t.is(exitCode, 0)
@@ -86,7 +88,7 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, async (t) => {
   )
 
   t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'))
+  t.false(stderr.includes('error'), stderr)
   t.deepEqual(
     new Set(stderr.split('\n').sort()),
     new Set(
@@ -103,7 +105,8 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, async (t) => {
         '✔ Processed publicAccess.role [UDR]',
         '',
       ].sort()
-    )
+    ),
+    stderr
   )
 
   t.is(exitCode, 0)

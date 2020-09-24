@@ -14,4 +14,4 @@ if [ -z ${FAUGRA_SECRET+x} ]; then
   exit 1;
 fi
 
-$cmd --serial
+$cmd --serial --verbose --timeout 60000
