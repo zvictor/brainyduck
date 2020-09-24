@@ -56,19 +56,16 @@ const watch = (type, pattern, operation) =>
   })
 
 const main = async () => {
-  const schema = watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
+  const udf = await watch('UDF', '**/*.udf', defineFunctions)
+  const udr = await watch('UDR', '**/*.role', defineRoles)
+
+  const schema = await watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
     generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   )
 
-  const documents = watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
+  const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
     buildSdk(undefined, undefined, './faugra.sdk.ts')
   )
-
-  const udf = watch('UDF', '**/*.udf', defineFunctions)
-  const udr = watch('UDR', '**/*.role', defineRoles)
-
-  await Promise.all([schema, documents, udf])
-  await Promise.all([udr])
 
   debug('Initial scan complete')
   queue.start()
