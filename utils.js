@@ -7,8 +7,8 @@ const { processImport } = require('@graphql-tools/import')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
 const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
 
-const basePath = path.resolve(path.join(__dirname, './base.gql'))
-const baseContent = fs.readFileSync(basePath).toString('utf8')
+const baseSchemaPath = path.resolve(path.join(__dirname, './base.gql'))
+const baseSchema = fs.readFileSync(baseSchemaPath).toString('utf8')
 
 const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
@@ -49,8 +49,8 @@ class FaugraSchemaLoader extends GraphQLFileLoader {
 
   handleFileContent(rawSDL, pointer, options) {
     if (!options.skipGraphQLImport && isGraphQLImportFile(rawSDL)) {
-      // the only change made to the method is down below: {          👇          }
-      const document = processImport(pointer, options.cwd, { faugra: baseContent })
+      // the only change made to the method is down below: {         👇         }
+      const document = processImport(pointer, options.cwd, { faugra: baseSchema })
       const typeSystemDefinitions = document.definitions
         .filter((d) => !isExecutableDefinitionNode(d))
         .map((definition) => ({
@@ -73,6 +73,7 @@ class FaugraSchemaLoader extends GraphQLFileLoader {
 }
 
 module.exports = {
+  baseSchema,
   patternMatch,
   pipeData,
   ignored,

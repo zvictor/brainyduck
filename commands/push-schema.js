@@ -9,11 +9,9 @@ const { performance } = require('perf_hooks')
 const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { print } = require('graphql')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { patternMatch, FaugraSchemaLoader } = require('../utils')
+const { patternMatch, baseSchema, FaugraSchemaLoader } = require('../utils')
 
 const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
-const basePath = path.resolve(path.join(__dirname, '../base.gql'))
-const baseLines = fs.readFileSync(basePath).toString('utf8').split('\n')
 
 // The version below is simpler but cuts out the directive statements from the output 😕
 // const { loadSchemaSync } = require('@graphql-tools/load')
@@ -75,7 +73,7 @@ const loadSchema = async (pattern) => {
 const filterBase = (schema) =>
   schema
     .split('\n')
-    .filter((line) => !baseLines.includes(line))
+    .filter((line) => !baseSchema.split('\n').includes(line))
     .join('\n')
 
 const main = async (inputPath = '**/[A-Z]*.(graphql|gql)') => {
