@@ -68,14 +68,29 @@ const main = async () => {
   )
 
   debug('Initial scan complete')
-  queue.start()
 
   if (process.env.FAUGRA_NO_WATCH) {
     queue.onIdle().then(() => {
       console.log('All operations complete')
       process.exit(0)
     })
+  } else {
+    const spinner = ora({
+      text: `All done! Waiting for new files changes`,
+      prefixText: '\n',
+      spinner: 'bounce',
+    })
+
+    queue.on('active', () => {
+      spinner.stop()
+    })
+
+    queue.on('idle', () => {
+      spinner.start()
+    })
   }
+
+  queue.start()
 }
 
 main()
