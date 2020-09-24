@@ -4,10 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('faugra:pull-schema')
 const { performance } = require('perf_hooks')
-const { loadTypedefs, OPERATION_KINDS } = require('@graphql-toolkit/core')
-const { UrlLoader } = require('@graphql-toolkit/url-loader')
+const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
+const { UrlLoader } = require('@graphql-tools/url-loader')
 const { print } = require('graphql')
-const { mergeTypeDefs } = require('@graphql-toolkit/schema-merging')
+const { mergeTypeDefs } = require('@graphql-tools/merge')
 
 const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 

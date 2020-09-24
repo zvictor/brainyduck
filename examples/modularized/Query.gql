@@ -1,3 +1,4 @@
+# import * from "faugra"
 # import Post from "./blog/Post.gql"
 
 type Query {

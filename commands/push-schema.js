@@ -6,23 +6,33 @@ const debug = require('debug')('faugra:push-schema')
 const figures = require('figures')
 const fetch = require('node-fetch')
 const { performance } = require('perf_hooks')
-const { loadTypedefs, OPERATION_KINDS } = require('@graphql-toolkit/core')
-const { GraphQLFileLoader } = require('@graphql-toolkit/graphql-file-loader')
+const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { print } = require('graphql')
-const { mergeTypeDefs } = require('@graphql-toolkit/schema-merging')
-const { patternMatch } = require('../utils')
+const { mergeTypeDefs } = require('@graphql-tools/merge')
+const { patternMatch, FaugraSchemaLoader } = require('../utils')
 
 const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 const basePath = path.resolve(path.join(__dirname, '../base.gql'))
 const baseLines = fs.readFileSync(basePath).toString('utf8').split('\n')
 
-const options = {
-  loaders: [new GraphQLFileLoader()],
-  filterKinds: OPERATION_KINDS,
-  sort: false,
-  forceGraphQLImport: true,
-  useSchemaDefinition: false,
-}
+// The version below is simpler but cuts out the directive statements from the output 😕
+// const { loadSchemaSync } = require('@graphql-tools/load')
+// const { printSchema } = require('graphql')
+
+// const loadSchema = async (pattern) => {
+//   debug(`Looking for schemas matching '${pattern}'`)
+
+//   const files = (
+//     await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))
+//   ).map((x) => path.resolve(x))
+//   files.map((x) => debug(`\t${figures.pointer} found ${x}`))
+
+//   const schema = loadSchemaSync(files, {
+//     loaders: [new FaugraSchemaLoader()],
+//   })
+
+//   return printSchema(schema)
+// }
 
 const loadSchema = async (pattern) => {
   debug(`Looking for schemas matching '${pattern}'`)
@@ -30,19 +40,30 @@ const loadSchema = async (pattern) => {
   const files = (
     await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))
   ).map((x) => path.resolve(x))
+
+  if (!files.length) {
+    throw new Error(`no file could be found with pattern '${pattern}'`)
+  }
+
   files.map((x) => debug(`\t${figures.pointer} found ${x}`))
 
-  const typeDefs = await loadTypedefs([...files, basePath], options)
+  const typeDefs = await loadTypedefs(files, {
+    loaders: [new FaugraSchemaLoader()],
+    filterKinds: OPERATION_KINDS,
+    sort: false,
+    forceGraphQLImport: true,
+  })
 
-  const found = typeDefs.filter((x) => x.location !== basePath)
-  if (!found.length) {
+  if (!typeDefs.length) {
     throw new Error('no documents could be loaded')
   }
 
   const mergedDocuments = print(
     mergeTypeDefs(
       typeDefs.map((r) => r.document),
-      options
+      {
+        useSchemaDefinition: false,
+      }
     )
   )
 
