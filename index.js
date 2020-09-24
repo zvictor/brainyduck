@@ -38,7 +38,7 @@ program
 
   .option('--verbose', `run the command with verbose logging.`)
   .on('option:verbose', function () {
-    process.env.DEBUG = '*'
+    process.env.DEBUG = 'faugra:*'
   })
 
   .option('--debug [port]', `run the command with debugging listening on [port].`)

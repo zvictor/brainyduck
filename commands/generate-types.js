@@ -27,8 +27,10 @@ const generateTypes = (schema) =>
   })
 
 const main = async (inputData, outputPath) => {
+  debug(`schema needs to be pushed-and-pulled first`)
   await push(await inputData)
   const schema = await pull()
+
   debug(`Generating TypeScript types`)
   const types = await generateTypes(schema, outputPath)
 

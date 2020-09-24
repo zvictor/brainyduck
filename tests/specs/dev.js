@@ -10,6 +10,7 @@ test(`complete all 'dev' operations for the 'basic' example`, async (t) => {
     'node',
     ['../../index.js', 'dev', '--no-watch'],
     {
+      env: { DEBUG: '' },
       cwd,
     }
   )
@@ -40,6 +41,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, async (t) =>
     'node',
     ['../../index.js', 'dev', '--no-watch'],
     {
+      env: { DEBUG: '' },
       cwd,
     }
   )
@@ -78,6 +80,7 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, async (t) => {
     'node',
     ['../../index.js', 'dev', '--no-watch'],
     {
+      env: { DEBUG: '' },
       cwd,
     }
   )
