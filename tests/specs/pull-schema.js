@@ -1,8 +1,9 @@
 import execa from 'execa'
 import fetch from 'node-fetch'
 import { serial as test } from 'ava'
+import { loadSecret } from '../../utils'
 
-const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
+const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
 const prepopulate = async (schema) => {
   // The schema needs to be pre-populated/reset before we can pull them again
@@ -10,7 +11,7 @@ const prepopulate = async (schema) => {
     method: 'POST',
     body: schema,
     headers: new fetch.Headers({
-      Authorization: `Bearer ${FAUGRA_SECRET}`,
+      Authorization: `Bearer ${loadSecret()}`,
     }),
   })
 

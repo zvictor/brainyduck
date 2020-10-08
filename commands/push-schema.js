@@ -9,9 +9,9 @@ const { performance } = require('perf_hooks')
 const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { print } = require('graphql')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { patternMatch, baseSchema, FaugraSchemaLoader } = require('../utils')
+const { loadSecret, patternMatch, baseSchema, FaugraSchemaLoader } = require('../utils')
 
-const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
+const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
 // The version below is simpler but cuts out the directive statements from the output 😕
 // const { loadSchemaSync } = require('@graphql-tools/load')
@@ -88,7 +88,7 @@ const main = async (inputPath = '**/[A-Z]*.(graphql|gql)') => {
     method: 'POST',
     body: schema,
     headers: new fetch.Headers({
-      Authorization: `Bearer ${FAUGRA_SECRET}`,
+      Authorization: `Bearer ${loadSecret()}`,
     }),
   })
   debug(`The call to fauna took ${performance.now() - t0} milliseconds.`)

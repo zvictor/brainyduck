@@ -8,13 +8,9 @@ const logSymbols = require('log-symbols')
 const debug = require('debug')('faugra:define-roles')
 const faunaEval = require('fauna-shell/src/commands/eval')
 const { Client, query: q } = require('faunadb')
-const { patternMatch } = require('../utils')
+const { loadSecret, patternMatch } = require('../utils')
 
-const secret = process.env.FAUGRA_SECRET
-if (!secret) {
-  throw new Error(`missing fauna's secret`)
-}
-
+const secret = loadSecret()
 const client = new Client({ secret })
 
 const main = async (pattern = '**/*.role') => {

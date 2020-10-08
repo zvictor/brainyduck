@@ -14,6 +14,20 @@ const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
 
+const loadSecret = () => {
+  const secret = process.env.FAUGRA_SECRET
+
+  if (!secret) {
+    console.error(
+      `The faugra secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Faugra-secret\n`
+    )
+
+    throw new Error(`missing faugra's secret`)
+  }
+
+  return secret
+}
+
 const patternMatch = (pattern) =>
   globby(pattern, {
     cwd: process.cwd(),
@@ -74,8 +88,9 @@ class FaugraSchemaLoader extends GraphQLFileLoader {
 
 module.exports = {
   baseSchema,
+  ignored,
+  loadSecret,
   patternMatch,
   pipeData,
-  ignored,
   FaugraSchemaLoader,
 }

@@ -2,7 +2,10 @@
 
 const scream = (e) => {
   console.error(e.stack || e)
-  // process.exit(1)
+
+  if (e.message === `missing faugra's secret`) {
+    process.exit(1)
+  }
 }
 
 process.on('unhandledRejection', scream)

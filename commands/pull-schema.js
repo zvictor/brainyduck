@@ -8,8 +8,9 @@ const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { UrlLoader } = require('@graphql-tools/url-loader')
 const { print } = require('graphql')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
+const { loadSecret } = require('../utils')
 
-const { FAUGRA_SECRET, FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
+const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
 const options = {
   loaders: [new UrlLoader()],
@@ -18,7 +19,7 @@ const options = {
   forceGraphQLImport: true,
   useSchemaDefinition: false,
   headers: {
-    Authorization: `Bearer ${FAUGRA_SECRET}`,
+    Authorization: `Bearer ${loadSecret()}`,
   },
 }
 
