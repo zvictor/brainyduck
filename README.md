@@ -25,6 +25,11 @@ _Alternatively, you can:_
 1. Clone this repo: `git clone https://github.com/zvictor/faugra.git`
 2. In the `examples/basic` or `examples/modularized` folders, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
+|                                                            [Basic](./examples/basic)                                                            |                                                            [Modularized](./examples/modularized)                                                            |                                                            [with-UDF](./examples/with-UDF)                                                            |
+| :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [![Basic example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/basic.gif)](https://asciinema.org/a/361576) | [![Modularized example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562) | [![with-UDF example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/with-UDF.gif)](https://asciinema.org/a/361573) |
+|                                                                                                                                                 |
+
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 ## What does it do?
@@ -190,12 +195,7 @@ Faugra will give you:
 1. Faugra supports [imports in the graphql schemas](https://www.graphql-tools.com/docs/schema-loading/#using-import-expression) so your codebase can embrace [modularization](examples/modularized).
 2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 
-For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples) or watch one of the screencasts below:
-
-|                                                            [Basic](./examples/basic)                                                            |                                                            [Modularized](./examples/Modularized)                                                            |                                                            [with-UDF](./examples/with-UDF)                                                            |
-| :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
-| [![Basic example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/basic.gif)](https://asciinema.org/a/361576) | [![Modularized example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562) | [![with-UDF example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/with-UDF.gif)](https://asciinema.org/a/361573) |
-|                                                                                                                                                 |
+For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples).
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
