@@ -256,6 +256,14 @@ Commands:
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
+## Troubleshooting
+
+- **Error "Couldn't find type _\<type-name\>_ in any of the schemas."**
+
+Fauna supports a few [scalar types natively](https://docs.fauna.com/fauna/current/api/graphql/#supported-scalar-types), plus a few [directives](https://docs.fauna.com/fauna/current/api/graphql/directives/). In order to make use of any of them you need to import faugra's reference file by adding `# import * from "faugra"` to the top of your file, as in [this example](./examples/modularized/accounts/User.gql#L1).
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
+
 <p align="center">
 Logo by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">Pixabay</a>
 </p>
