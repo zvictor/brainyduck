@@ -36,6 +36,14 @@ program
     process.env.FAUGRA_NO_WATCH = !this.watch
   })
 
+  .option(
+    '--callback <command>',
+    `run external command after every execution completion (only used in the dev command).`
+  )
+  .on('option:callback', function () {
+    process.env.CALLBACK = this.callback
+  })
+
   .option('--verbose', `run the command with verbose logging.`)
   .on('option:verbose', function () {
     process.env.DEBUG = 'faugra:*'
@@ -102,7 +110,7 @@ program
 
   .command(
     'build-sdk [schema-pattern] [documents-pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
+    'code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
     {
       executableFile: path.join(__dirname, './commands/build-sdk.js'),
     }

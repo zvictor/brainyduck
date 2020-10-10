@@ -13,6 +13,7 @@ process.on('uncaughtException', scream)
 
 const ora = require('ora')
 const path = require('path')
+const execa = require('execa')
 const debug = require('debug')('faugra:watcher')
 const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
@@ -24,6 +25,20 @@ const { ignored } = require('../utils')
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
+
+const runCallback = () => {
+  if (!process.env.CALLBACK) return
+
+  console.log(`Running callback '${process.env.CALLBACK}':`)
+  const cmd = process.env.CALLBACK.split(' ')
+
+  execa.sync(cmd.shift(), cmd, {
+    stdio: ['pipe', process.stdout, process.stderr],
+    cwd: process.cwd(),
+  })
+
+  console.log('')
+}
 
 const processor = (type, operation, file) =>
   queue.add(async () => {
@@ -74,6 +89,8 @@ const main = async () => {
 
   if (process.env.FAUGRA_NO_WATCH) {
     queue.onIdle().then(() => {
+      runCallback()
+
       console.log('All operations complete')
       process.exit(0)
     })
@@ -89,6 +106,7 @@ const main = async () => {
     })
 
     queue.on('idle', () => {
+      runCallback()
       spinner.start()
     })
   }

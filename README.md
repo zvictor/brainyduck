@@ -230,6 +230,8 @@ Options:
   -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE
                                                            or '**/node_modules/**,**/.git/**'>).
   --no-watch                                               disable the files watcher (only used in the dev command).
+  --callback <command>                                     run external command after every execution completion (only used in the dev
+                                                           command).
   --verbose                                                run the command with verbose logging.
   --debug [port]                                           run the command with debugging listening on [port].
   --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
@@ -248,9 +250,9 @@ Commands:
   generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript
                                                            types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output:
                                                            <stdout>]
-  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that converts graphql schemas into typescript
-                                                           types. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql),
-                                                           documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
+  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults:
+                                                           [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern:
+                                                           **/[a-z]*.(graphql|gql) output: <stdout>]
   help [command]                                           display help for command
 ```
 
