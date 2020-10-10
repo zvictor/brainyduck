@@ -63,10 +63,14 @@ const watch = (type, pattern, operation) =>
       })
       .on('error', (error) => debug(`error: ${error}`))
       .on('add', (file) => {
+        file = path.join(directory, file)
+
         debug(`Watching ${file} [${type}]`)
         processor(type, operation, file)
       })
       .on('change', (file) => {
+        file = path.join(directory, file)
+
         debug(`${file} has been changed [${type}]`)
         processor(type, operation, file)
       })
@@ -82,7 +86,7 @@ const main = async () => {
   )
 
   const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
-    buildSdk(undefined, undefined, './faugra.sdk.ts')
+    buildSdk(undefined, undefined, path.join(directory, './faugra.sdk.ts'))
   )
 
   debug('Initial scan complete')
@@ -114,4 +118,8 @@ const main = async () => {
   queue.start()
 }
 
-main()
+if (require.main === module) {
+  main()
+}
+
+module.exports = main
