@@ -42,6 +42,10 @@ const runCallback = () => {
 
 const processor = (type, operation, file) =>
   queue.add(async () => {
+    if (!operation) {
+      return debug(`Ignoring file ${file} [${type}] (no operation defined)`)
+    }
+
     const spinner = ora(`Processing ${file} [${type}]\n`).start()
 
     try {
@@ -66,7 +70,7 @@ const watch = (type, pattern, operation) =>
         file = path.join(directory, file)
 
         debug(`Watching ${file} [${type}]`)
-        processor(type, operation, file)
+        operation && processor(type, operation, file)
       })
       .on('change', (file) => {
         file = path.join(directory, file)
@@ -78,6 +82,8 @@ const watch = (type, pattern, operation) =>
   })
 
 const main = async () => {
+  const ts = await watch('typescript', '**/*.(ts|tsx)')
+
   const udf = await watch('UDF', '**/*.udf', defineFunctions)
   const udr = await watch('UDR', '**/*.role', defineRoles)
 
