@@ -77,6 +77,14 @@ program
   )
 
   .command(
+    'define-indexes [pattern]',
+    'upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]',
+    {
+      executableFile: path.join(__dirname, './commands/define-indexes.js'),
+    }
+  )
+
+  .command(
     'define-roles [pattern]',
     'upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]',
     {

@@ -19,6 +19,7 @@ const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')
 const generateTypes = require('./generate-types')
+const defineIndexes = require('./define-indexes')
 const defineRoles = require('./define-roles')
 const buildSdk = require('./build-sdk')
 const { ignored } = require('../utils')
@@ -82,14 +83,17 @@ const watch = (type, pattern, operation) =>
   })
 
 const main = async () => {
-  const ts = await watch('typescript', '**/*.(ts|tsx)')
+  const ts = await watch('Typescript', '**/*.(ts|tsx)')
 
   const udf = await watch('UDF', '**/*.udf', defineFunctions)
-  const udr = await watch('UDR', '**/*.role', defineRoles)
 
   const schema = await watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
     generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   )
+
+  const index = await watch('Index', '**/*.index', defineIndexes)
+
+  const udr = await watch('UDR', '**/*.role', defineRoles)
 
   const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
     buildSdk(undefined, undefined, path.join(directory, './faugra.sdk.ts'))
@@ -106,7 +110,7 @@ const main = async () => {
     })
   } else {
     const spinner = ora({
-      text: `All done! Waiting for new files changes`,
+      text: `All done! Waiting for new file changes`,
       prefixText: '\n',
       spinner: 'bounce',
     })
