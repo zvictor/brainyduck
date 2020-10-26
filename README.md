@@ -253,6 +253,10 @@ Commands:
 
 Fauna supports a few [scalar types natively](https://docs.fauna.com/fauna/current/api/graphql/#supported-scalar-types), plus a few [directives](https://docs.fauna.com/fauna/current/api/graphql/directives/). In order to make use of any of them you need to import faugra's reference file by adding `# import * from "faugra"` to the top of your file, as in [this example](./examples/modularized/accounts/User.gql#L1).
 
+- **Error: Unsupported GraphQL type extend type _\<type-name\>_**
+
+In order to extend a type, you need to import it first. Try adding `# import Query from "../Query.gql"` or similar to the top of your file
+
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 <p align="center">
