@@ -1,17 +1,17 @@
 {
   "name": "faugra",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "bin": "./cli.js",
   "files": [
     "/commands",
     "base.gql",
     "cli.js",
     "index.js",
-    "index.d.ts",
     "README.md",
     "utils.js"
   ],
   "scripts": {
+    "postinstall": "./scripts/postinstall.js",
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
