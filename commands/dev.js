@@ -24,8 +24,27 @@ const defineRoles = require('./define-roles')
 const buildSdk = require('./build-sdk')
 const { ignored } = require('../utils')
 
+const PATTERNS = {
+  ts: '**/*.(ts|tsx)',
+  udf: '**/*.udf',
+  schema: '**/[A-Z]*.(gql|graphql)',
+  index: '**/*.index',
+  udr: '**/*.role',
+  documents: '**/[a-z]*.(gql|graphql)',
+}
+
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
+const lock = {}
+
+const block = (type, file) => {
+  lock[type] = lock[type] || []
+  lock[type].push(file)
+}
+
+const unblock = (type) => {
+  lock[type] = false
+}
 
 const runCallback = () => {
   if (!process.env.CALLBACK) return
@@ -41,24 +60,36 @@ const runCallback = () => {
   console.log('')
 }
 
-const processor = (type, operation, file) =>
+const processor = (type, operation, file, cumulative) => {
+  if (lock[type]) {
+    return block(type, file)
+  }
+
+  if (cumulative) {
+    block(type, file)
+  }
+
   queue.add(async () => {
+    const name = lock[type] || file
+    unblock(type)
+
     if (!operation) {
-      return debug(`Ignoring file ${file} [${type}] (no operation defined)`)
+      return debug(`Ignoring file(s) ${file} [${type}] (no operation defined)`)
     }
 
-    const spinner = ora(`Processing ${file} [${type}]\n`).start()
+    const spinner = ora(`Processing ${name} [${type}]\n`).start()
 
     try {
       await operation(file)
-      spinner.succeed(`Processed ${file} [${type}]`)
+      spinner.succeed(`Processed ${name} [${type}]`)
     } catch (e) {
       spinner.fail()
       console.error(e)
     }
   })
+}
 
-const watch = (type, pattern, operation) =>
+const watch = (type, pattern, operation, cumulative) =>
   new Promise((resolve) => {
     chokidar
       .watch(pattern, {
@@ -71,31 +102,36 @@ const watch = (type, pattern, operation) =>
         file = path.join(directory, file)
 
         debug(`Watching ${file} [${type}]`)
-        operation && processor(type, operation, file)
+        operation && processor(type, operation, file, cumulative)
       })
       .on('change', (file) => {
         file = path.join(directory, file)
 
         debug(`${file} has been changed [${type}]`)
-        processor(type, operation, file)
+        processor(type, operation, file, cumulative)
       })
       .on('ready', resolve)
   })
 
 const main = async () => {
-  const ts = await watch('Typescript', '**/*.(ts|tsx)')
+  const ts = await watch('Typescript', PATTERNS['ts'], null, true)
 
-  const udf = await watch('UDF', '**/*.udf', defineFunctions)
+  const udf = await watch('UDF', PATTERNS['udf'], defineFunctions)
 
-  const schema = await watch('Schema', '**/[A-Z]*.(gql|graphql)', (file) =>
+  const schema = await watch('Schema', PATTERNS['schema'], (file) =>
     generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   )
 
-  const index = await watch('Index', '**/*.index', defineIndexes)
+  const index = await watch('Index', PATTERNS['index'], defineIndexes)
 
-  const udr = await watch('UDR', '**/*.role', defineRoles)
+  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
 
-  const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', buildSdk)
+  const documents = await watch(
+    'Document',
+    PATTERNS['documents'],
+    () => buildSdk(PATTERNS['schema'], PATTERNS['documents']),
+    true
+  )
 
   debug('Initial scan complete')
 
@@ -108,7 +144,7 @@ const main = async () => {
     })
   } else {
     const spinner = ora({
-      text: `All done! Waiting for new file changes`,
+      text: `All done! Waiting for new file changes 🦆`,
       prefixText: '\n',
       spinner: 'bounce',
     })
