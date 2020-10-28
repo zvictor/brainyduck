@@ -6,7 +6,10 @@ const findCacheDir = require('find-cache-dir')
 
 const cache = findCacheDir({ name: 'faugra', cwd: '../..', thunk: true })('sdk.d.ts')
 
-fs.unlinkSync('index.d.ts')
+try {
+  fs.unlinkSync('index.d.ts')
+} catch (e) {}
+
 fs.symlinkSync(cache, 'index.d.ts', 'file')
 
 process.exit(0)
