@@ -18,7 +18,7 @@ const debug = require('debug')('faugra:watcher')
 const chokidar = require('chokidar')
 const { default: PQueue } = require('p-queue')
 const defineFunctions = require('./define-functions')
-const generateTypes = require('./generate-types')
+// const generateTypes = require('./generate-types')
 const defineIndexes = require('./define-indexes')
 const defineRoles = require('./define-roles')
 const buildSdk = require('./build-sdk')
@@ -118,13 +118,9 @@ const main = async () => {
 
   const udf = await watch('UDF', PATTERNS['udf'], defineFunctions)
 
-  const schema = await watch('Schema', PATTERNS['schema'], (file) =>
-    generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
-  )
-
-  const index = await watch('Index', PATTERNS['index'], defineIndexes)
-
-  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
+  // const schema = await watch('Schema', PATTERNS['schema'], (file) =>
+  //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
+  // )
 
   const documents = await watch(
     'Document',
@@ -132,6 +128,10 @@ const main = async () => {
     () => buildSdk(PATTERNS['schema'], PATTERNS['documents']),
     true
   )
+
+  const index = await watch('Index', PATTERNS['index'], defineIndexes)
+
+  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
 
   debug('Initial scan complete')
 

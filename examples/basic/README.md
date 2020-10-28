@@ -5,7 +5,6 @@ This example contains:
 
 By running `npx faugra --secret <MY_FAUNA_SECRET>` you should expect to see:
 
-- a TypeScript typings file generated per schema [Schema.d.ts]
 - a requests sdk containing all the operations, fully typed and with auto-complete support [accessible through `import sdk from 'faugra'`]
 
 Once faugra has been setup, you can run `FAUGRA_SECRET=<MY_FAUNA_SECRET> npm start` to execute the operations demonstration [index.ts].
