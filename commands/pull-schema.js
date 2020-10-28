@@ -45,6 +45,7 @@ const loadSchema = async (url) => {
 }
 
 const main = async (outputPath) => {
+  debug(`called with:`, { outputPath })
   const t0 = performance.now()
   const schema = await loadSchema(`${FAUGRA_DOMAIN}/graphql`)
   debug(`The call to fauna took ${performance.now() - t0} milliseconds.`)

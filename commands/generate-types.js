@@ -27,6 +27,7 @@ const generateTypes = (schema) =>
   })
 
 const main = async (inputData, outputPath) => {
+  debug(`called with:`, { inputData, outputPath })
   debug(`schema needs to be pushed-and-pulled first`)
   await push(await inputData)
   const schema = await pull()

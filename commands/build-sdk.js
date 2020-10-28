@@ -53,6 +53,8 @@ const main = async (
   documentsPattern = '**/[a-z]*.(graphql|gql)',
   outputPath = locateCache('sdk.ts')
 ) => {
+  debug(`called with:`, { schemaPattern, documentsPattern, outputPath })
+
   await push(await schemaPattern)
   const schema = await pull()
 

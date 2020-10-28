@@ -171,10 +171,10 @@ Faugra will give you:
       <summary>your-code.js</summary>
 
    ```typescript
-   import faugra from './fraugra.sdk.ts' // <-- auto generated file based on your schema
+   import faugra from 'fraugra' // <-- automatically loads the SDK generated exclusively to your schema
 
-   await faugra().createUser({ username: `rick-sanchez` })
-   await faugra().createUser({ username: `morty-smith` })
+   await faugra().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
+   await faugra({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions
 
    const { allUsers } = await faugra().allUsers()
 
@@ -194,6 +194,7 @@ Faugra will give you:
 
 1. Faugra supports [imports in the graphql schemas](https://www.graphql-tools.com/docs/schema-loading/#using-import-expression) so your codebase can embrace [modularization](examples/modularized).
 2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples).
 
