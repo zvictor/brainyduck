@@ -1,9 +1,10 @@
 {
   "name": "faugra",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "bin": "./cli.js",
   "files": [
     "/commands",
+    "/scripts",
     "base.gql",
     "cli.js",
     "index.js",
