@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import faugra from './faugra.sdk'
+import faugra from 'faugra'
 
 faugra().sayHi({ name: 'dimension C-137' }).then(console.log)
 faugra().sayHello({ name: 'dimension C-137' }).then(console.log)

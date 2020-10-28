@@ -7,8 +7,8 @@ By running `npx faugra --secret <MY_FAUNA_SECRET>` you should expect to see:
 
 - all UDF uploaded to the cloud
 - a TypeScript typings file generated next to their respective schema [Query.d.ts, accounts/User.d.ts, blog/Post.d.ts]
-- a requests sdk containing all the operations, fully typed and with auto-complete support [faugra.sdk.ts]
+- a requests sdk containing all the operations, fully typed and with auto-complete support [accessible through `import sdk from 'faugra'`]
 
-Once your `faugra.sdk.ts` has been generated, you can run `FAUGRA_SECRET=<MY_FAUNA_SECRET> npm start` to see the operations demo.
+Once faugra has been setup, you can run `FAUGRA_SECRET=<MY_FAUNA_SECRET> npm start` to execute the operations demonstration [index.ts].
 
 [![asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562)

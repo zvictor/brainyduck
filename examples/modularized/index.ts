@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import faugra from './faugra.sdk'
+import faugra from 'faugra'
 const { log } = console
 
 async function main() {

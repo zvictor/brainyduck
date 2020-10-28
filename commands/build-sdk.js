@@ -2,10 +2,11 @@
 
 const fs = require('fs')
 const path = require('path')
+const execa = require('execa')
+const { parse } = require('graphql')
 const debug = require('debug')('faugra:build-sdk')
 const { codegen } = require('@graphql-codegen/core')
-const { parse } = require('graphql')
-const { pipeData, patternMatch } = require('../utils')
+const { pipeData, patternMatch, locateCache } = require('../utils')
 const push = require('./push-schema')
 const pull = require('./pull-schema')
 
@@ -47,7 +48,11 @@ const generateSdk = async (schema, documentsPattern) => {
   })
 }
 
-const main = async (schemaPattern, documentsPattern = '**/[a-z]*.(graphql|gql)', outputPath) => {
+const main = async (
+  schemaPattern,
+  documentsPattern = '**/[a-z]*.(graphql|gql)',
+  outputPath = locateCache('sdk.ts')
+) => {
   await push(await schemaPattern)
   const schema = await pull()
 
@@ -80,18 +85,20 @@ export default function main({
     }
 
     fs.writeFileSync(outputPath, ouput)
-    debug(`The sdk were saved at '${outputPath}'`)
+    debug(`The sdk has been saved at '${outputPath}'`)
+
+    execa.sync(`./node_modules/.bin/tsc`, [outputPath, '--declaration', '--declarationMap'], {
+      stdio: ['pipe', process.stdout, process.stderr],
+      cwd: process.cwd(),
+    })
+    debug(`The sdk has been transpiled in place`)
   }
 
   return ouput
 }
 
 if (require.main === module) {
-  const [
-    schemaPattern,
-    documentsPattern,
-    outputPath = path.resolve('./faugra.sdk.ts'),
-  ] = process.argv.slice(2)
+  const [schemaPattern, documentsPattern, outputPath] = process.argv.slice(2)
 
   main(
     schemaPattern === '-' ? pipeData() : schemaPattern,

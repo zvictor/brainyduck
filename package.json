@@ -1,11 +1,13 @@
 {
   "name": "faugra",
-  "version": "0.0.14",
-  "bin": "./index.js",
+  "version": "0.0.15",
+  "bin": "./cli.js",
   "files": [
     "/commands",
     "base.gql",
+    "cli.js",
     "index.js",
+    "index.d.ts",
     "README.md",
     "utils.js"
   ],
@@ -20,7 +22,7 @@
     "@graphql-tools/graphql-file-loader": "6.2.5",
     "@graphql-tools/load": "6.2.5",
     "@graphql-tools/merge": "6.2.5",
-    "@graphql-tools/url-loader": "6.3.1",
+    "@graphql-tools/url-loader": "6.3.2",
     "chokidar": "3.4.3",
     "commander": "6.2.0",
     "debug": "4.2.0",
@@ -28,17 +30,19 @@
     "fauna-shell": "0.11.5",
     "faunadb": "3.0.1",
     "figures": "3.2.0",
+    "find-cache-dir": "3.3.1",
     "globby": "11.0.1",
     "graphql": "15.0.0",
     "log-symbols": "4.0.0",
     "node-fetch": "2.6.1",
     "ora": "5.1.0",
     "p-queue": "6.6.2",
-    "tempy": "1.0.0"
+    "tempy": "1.0.0",
+    "typescript": "4.0.5"
   },
   "peerDependencies": {
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
-    "graphql-request": "^3.2.0"
+    "graphql-request": "^3.3.0"
   }
 }

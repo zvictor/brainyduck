@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const globby = require('globby')
+const findCacheDir = require('find-cache-dir')
 const { parseGraphQLSDL } = require('@graphql-tools/utils')
 const { isExecutableDefinitionNode, Kind } = require('graphql')
 const { processImport } = require('@graphql-tools/import')
@@ -33,6 +34,8 @@ const patternMatch = (pattern) =>
     cwd: process.cwd(),
     ignore: ignored,
   })
+
+const locateCache = findCacheDir({ name: 'faugra', thunk: true })
 
 const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
@@ -91,6 +94,7 @@ module.exports = {
   ignored,
   loadSecret,
   patternMatch,
+  locateCache,
   pipeData,
   FaugraSchemaLoader,
 }

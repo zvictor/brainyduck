@@ -95,9 +95,7 @@ const main = async () => {
 
   const udr = await watch('UDR', '**/*.role', defineRoles)
 
-  const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', async (file) =>
-    buildSdk(undefined, undefined, path.join(directory, './faugra.sdk.ts'))
-  )
+  const documents = await watch('Document', '**/[a-z]*.(gql|graphql)', buildSdk)
 
   debug('Initial scan complete')
 
