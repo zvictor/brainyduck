@@ -43,18 +43,12 @@ const main = async (pattern = '**/*.udf') => {
         throw new Error(`File name does not match function name: ${name}`)
       }
 
-      query = `CreateFunction(${query})`
-
-      if (replacing) {
-        await client
-          .query(q.Delete(q.Function(name)))
-          .then(() => debug(logSymbols.warning, 'old function deleted'))
-      }
-
+      query = !replacing ? `CreateFunction(${query})` : `Update(Function('${name}'), ${query})`
       debug(`Executing query:\n${query}`)
 
       const tmpFile = tempy.file()
       await faunaEval.run([query, '--secret', secret, '--output', tmpFile])
+      debug(`The query has been executed`)
 
       // temporary fix for https://github.com/fauna/fauna-shell/pull/61:
       await new Promise((resolve) => setTimeout(resolve, 1000))

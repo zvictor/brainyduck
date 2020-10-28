@@ -43,18 +43,12 @@ const main = async (pattern = '**/*.index') => {
         throw new Error(`File name does not match index name: ${name}`)
       }
 
-      query = `CreateIndex(${query})`
-
-      if (replacing) {
-        await client
-          .query(q.Delete(q.Index(name)))
-          .then(() => debug(logSymbols.warning, 'old index deleted'))
-      }
-
+      query = !replacing ? `CreateIndex(${query})` : `Update(Index('${name}'), ${query})`
       debug(`Executing query:\n${query}`)
 
       const tmpFile = tempy.file()
       await faunaEval.run([query, '--secret', secret, '--output', tmpFile])
+      debug(`The query has been executed`)
 
       // temporary fix for https://github.com/fauna/fauna-shell/pull/61:
       await new Promise((resolve) => setTimeout(resolve, 1000))

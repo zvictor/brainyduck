@@ -43,20 +43,14 @@ const main = async (pattern = '**/*.role') => {
         throw new Error(`File name does not match role name: ${name}`)
       }
 
-      query = `CreateRole(${query})`
-
-      if (replacing) {
-        await client
-          .query(q.Delete(q.Role(name)))
-          .then(() => debug(logSymbols.warning, 'old role deleted'))
-      }
-
+      query = !replacing ? `CreateRole(${query})` : `Update(Role('${name}'), ${query})`
       debug(`Executing query:\n${query}`)
 
       const tmpFile = tempy.file()
       await faunaEval.run([query, '--secret', secret, '--output', tmpFile])
+      debug(`The query has been executed`)
 
-      // temporary fix for https://github.com/fauna/fauna-shell/pull/61:
+      // temporary fix for https://github.com/fauna/fauna-shell/pull/61
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       return new Promise((resolve, reject) => {
