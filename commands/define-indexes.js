@@ -5,7 +5,6 @@ const path = require('path')
 const figures = require('figures')
 const logSymbols = require('log-symbols')
 const debug = require('debug')('faugra:define-indexes')
-const faunaEval = require('fauna-shell/src/commands/eval')
 const { Client, query: q } = require('faunadb')
 const { loadSecret, patternMatch, runFQL } = require('../utils')
 

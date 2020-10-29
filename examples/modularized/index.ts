@@ -11,7 +11,7 @@ async function main() {
     },
   })
 
-  log(`post created created with id: ${mutation.createPost._id}\n`)
+  log(`post created with id: ${mutation.createPost._id}\n`)
 
   log(await faugra().findPostByID({ id: mutation.createPost._id }))
 }
@@ -20,7 +20,7 @@ main()
 
 // Expected output of this script:
 
-// post created created with id: 262903814408897042
+// post created with id: 262903814408897042
 //
 // {
 //   findPostByID: {
