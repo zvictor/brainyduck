@@ -21,6 +21,7 @@ const defineFunctions = require('./define-functions')
 // const generateTypes = require('./generate-types')
 const defineIndexes = require('./define-indexes')
 const defineRoles = require('./define-roles')
+const pushSchema = require('./push-schema')
 const buildSdk = require('./build-sdk')
 const { ignored } = require('../utils')
 
@@ -121,6 +122,13 @@ const main = async () => {
   // const schema = await watch('Schema', PATTERNS['schema'], (file) =>
   //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   // )
+
+  const schema = await watch(
+    'Schema',
+    PATTERNS['schema'],
+    () => pushSchema(PATTERNS['schema']),
+    true
+  )
 
   const documents = await watch(
     'Document',
