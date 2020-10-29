@@ -35,7 +35,8 @@ const patternMatch = (pattern) =>
     ignore: ignored,
   })
 
-const locateCache = findCacheDir({ name: 'faugra', thunk: true })
+const locateCache = (file, options = {}) =>
+  findCacheDir({ name: 'faugra', thunk: true, ...options })(file)
 
 const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
