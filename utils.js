@@ -5,7 +5,6 @@ const tempy = require('tempy')
 const globby = require('globby')
 const fetch = require('node-fetch')
 const { performance } = require('perf_hooks')
-const findCacheDir = require('find-cache-dir')
 const faunaEval = require('fauna-shell/src/commands/eval')
 const { parseGraphQLSDL } = require('@graphql-tools/utils')
 const { isExecutableDefinitionNode, Kind } = require('graphql')
@@ -41,8 +40,7 @@ const patternMatch = (pattern) =>
     ignore: ignored,
   })
 
-const locateCache = (file, options = {}) =>
-  findCacheDir({ name: 'faugra', thunk: true, ...options })(file)
+const locateCache = (file) => path.join(__dirname, '.cache/', file)
 
 const runFQL = async (query) => {
   // runFQL is needed because otherwise we can't easily store the ouput of faunaEval in a variable.
