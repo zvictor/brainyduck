@@ -4,14 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('faugra:push-schema')
 const figures = require('figures')
-const fetch = require('node-fetch')
-const { performance } = require('perf_hooks')
 const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { print } = require('graphql')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { loadSecret, patternMatch, baseSchema, FaugraSchemaLoader } = require('../utils')
-
-const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
+const { patternMatch, importSchema, baseSchema, FaugraSchemaLoader } = require('../utils')
 
 // The version below is simpler but cuts out the directive statements from the output 😕
 // const { loadSchemaSync } = require('@graphql-tools/load')
@@ -76,30 +72,12 @@ const filterBase = (schema) =>
     .filter((line) => !baseSchema.split('\n').includes(line))
     .join('\n')
 
-const main = async (inputPath = '**/[A-Z]*.(graphql|gql)') => {
-  debug(`called with:`, { inputPath })
+const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
+  debug(`called with:`, { inputPath, override })
   const schema = filterBase(await loadSchema(inputPath))
   debug(`The resulting merged schema:\n${schema.replace(/^/gm, '\t')}`)
-  // debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in OVERRIDE mode!`)
-  debug(`Pushing the schema to ${FAUGRA_DOMAIN}/import in NORMAL mode`)
 
-  const t0 = performance.now()
-  // const response = await fetch(`${FAUGRA_DOMAIN}/import?mode=override`, {
-  const response = await fetch(`${FAUGRA_DOMAIN}/import`, {
-    method: 'POST',
-    body: schema,
-    headers: new fetch.Headers({
-      Authorization: `Bearer ${loadSecret()}`,
-    }),
-  })
-  debug(`The call to fauna took ${performance.now() - t0} milliseconds.`)
-
-  const message = await response.text()
-  if (response.status !== 200) {
-    throw new Error(message)
-  }
-
-  return message
+  return importSchema(schema, override)
 }
 
 if (require.main === module) {

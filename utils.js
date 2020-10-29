@@ -3,6 +3,8 @@ const path = require('path')
 const debug = require('debug')
 const tempy = require('tempy')
 const globby = require('globby')
+const fetch = require('node-fetch')
+const { performance } = require('perf_hooks')
 const findCacheDir = require('find-cache-dir')
 const faunaEval = require('fauna-shell/src/commands/eval')
 const { parseGraphQLSDL } = require('@graphql-tools/utils')
@@ -13,6 +15,7 @@ const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
 
 const baseSchemaPath = path.resolve(path.join(__dirname, './base.gql'))
 const baseSchema = fs.readFileSync(baseSchemaPath).toString('utf8')
+const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
 const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
@@ -67,6 +70,29 @@ const runFQL = async (query) => {
       resolve(data)
     })
   })
+}
+
+const importSchema = async (schema, override) => {
+  debug('faugra:importSchema')(
+    `Pushing the schema to ${FAUGRA_DOMAIN}/import in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
+  )
+
+  const t0 = performance.now()
+  const response = await fetch(`${FAUGRA_DOMAIN}/import${override ? '?mode=override' : ''}`, {
+    method: 'POST',
+    body: schema,
+    headers: new fetch.Headers({
+      Authorization: `Bearer ${loadSecret()}`,
+    }),
+  })
+  debug('faugra:importSchema')(`The call to fauna took ${performance.now() - t0} milliseconds.`)
+
+  const message = await response.text()
+  if (response.status !== 200) {
+    throw new Error(message)
+  }
+
+  return message
 }
 
 const pipeData = new Promise((resolve, reject) => {
@@ -128,6 +154,7 @@ module.exports = {
   patternMatch,
   locateCache,
   runFQL,
+  importSchema,
   pipeData,
   FaugraSchemaLoader,
 }

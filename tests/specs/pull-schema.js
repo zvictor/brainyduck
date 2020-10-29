@@ -1,27 +1,6 @@
 import execa from 'execa'
-import fetch from 'node-fetch'
 import { serial as test } from 'ava'
-import { loadSecret } from '../../utils'
-
-const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
-
-const prepopulate = async (schema) => {
-  // The schema needs to be pre-populated/reset before we can pull them again
-  const response = await fetch(`${FAUGRA_DOMAIN}/import?mode=override`, {
-    method: 'POST',
-    body: schema,
-    headers: new fetch.Headers({
-      Authorization: `Bearer ${loadSecret()}`,
-    }),
-  })
-
-  const message = await response.text()
-  if (response.status !== 200) {
-    throw new Error(message)
-  }
-
-  return message
-}
+import { importSchema } from '../../utils'
 
 test('fetch schema from fauna', async (t) => {
   t.timeout(65000)
@@ -31,7 +10,8 @@ test('fetch schema from fauna', async (t) => {
     username: String! @unique
   }`
 
-  await prepopulate(schema)
+  // The schema needs to be pre-populated/reset before we can pull it again
+  await importSchema(schema, true)
 
   const { stdout, exitCode } = await execa('node', ['../../index.js', 'pull-schema'], {
     env: { DEBUG: 'faugra:*' },
