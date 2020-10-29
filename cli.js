@@ -124,4 +124,8 @@ program
     }
   )
 
+  .command('reset', 'wipe out all data in the database [Be careful!]', {
+    executableFile: path.join(__dirname, './commands/reset.js'),
+  })
+
 program.parse(process.argv)

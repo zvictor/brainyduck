@@ -1,0 +1,7 @@
+// Delete all Roles
+Foreach(
+  Paginate(Roles()),
+  Lambda("ref",
+    Delete(Var("ref"))
+  )
+)

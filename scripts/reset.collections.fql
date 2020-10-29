@@ -1,0 +1,7 @@
+// Delete all Collections
+Foreach(
+  Paginate(Collections()),
+  Lambda("ref",
+    Delete(Var("ref"))
+  )
+)

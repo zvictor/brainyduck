@@ -1,0 +1,41 @@
+// Remove GraphQL metadata from Collections
+Foreach(
+  Paginate(Collections()),
+  Lambda("ref",
+    Update(Var("ref"),
+      {
+        "data": {
+          "gql": null
+        }
+      }
+    )
+  )
+);
+
+// Remove GraphQL metadata from Functions
+Foreach(
+  Paginate(Functions()),
+  Lambda("ref",
+    Update(Var("ref"),
+      {
+        "data": {
+          "gql": null
+        }
+      }
+    )
+  )
+);
+
+// Remove GraphQL metadata from Indexes
+Foreach(
+  Paginate(Indexes()),
+  Lambda("ref",
+    Update(Var("ref"),
+      {
+        "data": {
+          "gql": null
+        }
+      }
+    )
+  )
+);

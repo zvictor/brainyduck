@@ -1,0 +1,7 @@
+// Delete all Indexes
+Foreach(
+  Paginate(Indexes()),
+  Lambda("ref",
+    Delete(Var("ref"))
+  )
+)

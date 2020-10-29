@@ -243,6 +243,7 @@ Commands:
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
   build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
+  reset                                                    wipe out all data in the database [Be careful!]
   help [command]                                           display help for command
 ```
 

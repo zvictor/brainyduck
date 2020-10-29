@@ -1,0 +1,7 @@
+// Delete all Functions
+Foreach(
+  Paginate(Functions()),
+  Lambda("ref",
+    Delete(Var("ref"))
+  )
+)
