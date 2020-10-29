@@ -226,6 +226,7 @@ Options:
   -V, --version                                            output the version number
   -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
   -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).
+  --overwrite                                              wipe out data related to the command before its execution
   -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
   --no-watch                                               disable the files watcher (only used in the dev command).
   --callback <command>                                     run external command after every execution completion (only used in the dev command).

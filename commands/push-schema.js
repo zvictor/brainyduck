@@ -83,15 +83,23 @@ const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
 if (require.main === module) {
   const [inputPath] = process.argv.slice(2)
 
-  return main(inputPath)
-    .then((message) => {
-      console.log(message)
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+  let startup = Promise.resolve()
+
+  if (process.env.FAUGRA_OVERWRITE) {
+    startup = require('./reset')({ collections: true, schemas: true })
+  }
+
+  startup.then(() =>
+    main(inputPath)
+      .then((message) => {
+        console.log(message)
+        process.exit(0)
+      })
+      .catch((e) => {
+        console.error(e)
+        process.exit(1)
+      })
+  )
 }
 
 module.exports = main

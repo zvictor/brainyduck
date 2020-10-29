@@ -23,6 +23,11 @@ program
     process.env.FAUGRA_DOMAIN = this.domain
   })
 
+  .option('--overwrite', `wipe out data related to the command before its execution`)
+  .on('option:overwrite', function () {
+    process.env.FAUGRA_OVERWRITE = this.overwrite
+  })
+
   .option(
     '-i, --ignore <value>',
     `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`

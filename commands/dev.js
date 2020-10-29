@@ -171,7 +171,13 @@ const main = async () => {
 }
 
 if (require.main === module) {
-  main()
+  let startup = Promise.resolve()
+
+  if (process.env.FAUGRA_OVERWRITE) {
+    startup = require('./reset')()
+  }
+
+  startup.then(main)
 }
 
 module.exports = main

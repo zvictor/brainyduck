@@ -55,18 +55,26 @@ const main = async (pattern = '**/*.udf') => {
 if (require.main === module) {
   const [pattern] = process.argv.slice(2)
 
-  main(pattern)
-    .then((refs) => {
-      console.log(
-        `User-defined function(s) created or updated:`,
-        refs.map((x) => x.name)
-      )
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+  let startup = Promise.resolve()
+
+  if (process.env.FAUGRA_OVERWRITE) {
+    startup = require('./reset')({ functions: true })
+  }
+
+  startup.then(() =>
+    main(pattern)
+      .then((refs) => {
+        console.log(
+          `User-defined function(s) created or updated:`,
+          refs.map((x) => x.name)
+        )
+        process.exit(0)
+      })
+      .catch((e) => {
+        console.error(e)
+        process.exit(1)
+      })
+  )
 }
 
 module.exports = main
