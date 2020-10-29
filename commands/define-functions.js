@@ -2,13 +2,12 @@
 
 const fs = require('fs')
 const path = require('path')
-const tempy = require('tempy')
 const figures = require('figures')
 const logSymbols = require('log-symbols')
 const debug = require('debug')('faugra:define-functions')
 const faunaEval = require('fauna-shell/src/commands/eval')
 const { Client, query: q } = require('faunadb')
-const { loadSecret, patternMatch } = require('../utils')
+const { loadSecret, patternMatch, runFQL } = require('../utils')
 
 const secret = loadSecret()
 const client = new Client({ secret })
@@ -44,29 +43,11 @@ const main = async (pattern = '**/*.udf') => {
       }
 
       query = !replacing ? `CreateFunction(${query})` : `Update(Function('${name}'), ${query})`
-      debug(`Executing query:\n${query}`)
 
-      const tmpFile = tempy.file()
-      await faunaEval.run([query, '--secret', secret, '--output', tmpFile])
-      debug(`The query has been executed`)
+      const data = await runFQL(query)
+      debug(`${logSymbols.success} function has been created/updated: ${data.name}`)
 
-      // temporary fix for https://github.com/fauna/fauna-shell/pull/61:
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      return new Promise((resolve, reject) => {
-        const stream = fs.createReadStream(tmpFile)
-        const chunks = []
-
-        stream.on('error', reject)
-        stream.on('data', (chunk) => chunks.push(chunk))
-        stream.on('end', () => {
-          const data = JSON.parse(Buffer.concat(chunks).toString('utf8'))
-
-          debug(`${logSymbols.success} function has been created/updated: ${data.name}`)
-
-          resolve(data)
-        })
-      })
+      return data
     })
   )
 }

@@ -1,7 +1,10 @@
 const fs = require('fs')
 const path = require('path')
+const debug = require('debug')
+const tempy = require('tempy')
 const globby = require('globby')
 const findCacheDir = require('find-cache-dir')
+const faunaEval = require('fauna-shell/src/commands/eval')
 const { parseGraphQLSDL } = require('@graphql-tools/utils')
 const { isExecutableDefinitionNode, Kind } = require('graphql')
 const { processImport } = require('@graphql-tools/import')
@@ -37,6 +40,34 @@ const patternMatch = (pattern) =>
 
 const locateCache = (file, options = {}) =>
   findCacheDir({ name: 'faugra', thunk: true, ...options })(file)
+
+const runFQL = async (query) => {
+  // runFQL is needed because otherwise we can't easily store the ouput of faunaEval in a variable.
+  // "killing a fly with a bazooka" here.
+
+  debug('faugra:runFQL')(`Executing query:\n${query}`)
+
+  const tmpFile = tempy.file()
+  await faunaEval.run([query, '--secret', loadSecret(), '--output', tmpFile])
+
+  debug('faugra:runFQL')(`The query has been executed`)
+
+  // temporary fix for https://github.com/fauna/fauna-shell/pull/61
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  return new Promise((resolve, reject) => {
+    const stream = fs.createReadStream(tmpFile)
+    const chunks = []
+
+    stream.on('error', reject)
+    stream.on('data', (chunk) => chunks.push(chunk))
+    stream.on('end', () => {
+      const data = JSON.parse(Buffer.concat(chunks).toString('utf8'))
+
+      resolve(data)
+    })
+  })
+}
 
 const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
@@ -96,6 +127,7 @@ module.exports = {
   loadSecret,
   patternMatch,
   locateCache,
+  runFQL,
   pipeData,
   FaugraSchemaLoader,
 }
