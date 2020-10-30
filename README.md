@@ -1,9 +1,8 @@
-<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/logo.jpg" alt="faugra's logo" /><p>
-<br>
+<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/logo.png" alt="faugra's logo" /><p>
 
 <p align="center">
-<strong>A micro "no-backend" backend framework 🤯</strong><br />
-<sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of FAUnadb + GRAphql.</sub>
+  <strong>A micro "no-backend" backend framework 🤯</strong><br />
+  <sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of FAUnadb + GRAphql.</sub>
 </p>
 
 <p align="center">
