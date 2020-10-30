@@ -11,6 +11,12 @@
 </p>
 <br />
 
+## Why
+
+Faunadb is a new type of database that provides a wonderful foundation for a world-class backend as a service. However, as in every new paradigm, it introduces a whole new setup and deployment flow to your project. We built Faugra to help you transition to a top notch serverless environment while keeping else everything simple!
+
+<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
+
 ⚠️ This tool is currently in Preview mode, in a very early phase of development. Expect broken behaviour to be the norm for now! If you like the idea, though, [please help us tackle the issues we have found!](https://github.com/zvictor/faugra/issues)
 
 ## Getting started
