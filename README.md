@@ -180,10 +180,10 @@ Faugra will give you:
       <summary>your-code.js</summary>
 
    ```typescript
-   import faugra from 'fraugra' // <-- automatically loads the SDK generated exclusively to your schema
+   import faugra from 'faugra' // <-- automatically loads the SDK generated exclusively to your schema
 
    await faugra().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
-   await faugra({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions
+   await faugra({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions by providing different credentials
 
    const { allUsers } = await faugra().allUsers()
 
