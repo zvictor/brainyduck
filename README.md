@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>A micro "no-backend" backend framework 🤯</strong><br />
-  <sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of FAUnadb + GRAphql.</sub>
+  <sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of serverless and modern architectures.</sub>
 </p>
 
 <p align="center">
@@ -10,25 +10,29 @@
 </p>
 <br />
 
-## Why
-
-Faunadb is a new type of database that provides a wonderful foundation for a world-class backend as a service. However, as in every new paradigm, it introduces a whole new setup and deployment flow to your project. We built Faugra to help you transition to a top notch serverless environment while keeping everything else simple!
+_⚠️ This tool is currently in Preview mode, in a very early phase of development. Expect broken behaviour to be the norm for now! If you like the idea, though, [please help us tackle the issues we have found!](https://github.com/zvictor/faugra/issues)_
 
 <p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
 
-⚠️ This tool is currently in Preview mode, in a very early phase of development. Expect broken behaviour to be the norm for now! If you like the idea, though, [please help us tackle the issues we have found!](https://github.com/zvictor/faugra/issues)
+## Why
+
+Building world-class backend as a service became not only possible but also effortless with the advent of powerful technologies such as graphql and faunadb. However, this new paradigm introduces a whole new setup and deployment requisites to your project development.
+
+We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🦄
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 ## Getting started
 
-It takes just **2 steps to get started**:
+It takes only **3 steps to get started**:
 
 1. Create a `.graphql` file defining your desired Graphql schema
-2. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
+2. Create or reuse a [Faugra secret](https://github.com/zvictor/faugra/wiki/Faugra-secret)
+3. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
 _Alternatively, you can:_
 
-1. Clone this repo: `git clone https://github.com/zvictor/faugra.git`
-2. In the `examples/basic` or `examples/modularized` folders, run `npx faugra --secret <MY_FAUNA_SECRET>`
+- In any of our [examples](./examples) folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
 |                                                            [Basic](./examples/basic)                                                            |                                                            [Modularized](./examples/modularized)                                                            |                                                            [with-UDF](./examples/with-UDF)                                                            |
 | :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
