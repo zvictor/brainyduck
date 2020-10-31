@@ -14,7 +14,7 @@ const reset = async (type) => {
   const { data } = await runFQL(readScript(`reset.${type}.fql`))
 
   if (!data || !data.length) {
-    return console.log(`No data was deleted of type '${type}'`)
+    return debug(`No data was deleted of type '${type}'`)
   }
 
   for (const item of data) {

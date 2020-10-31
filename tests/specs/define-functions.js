@@ -1,12 +1,15 @@
 import { resolve } from 'path'
 import execa from 'execa'
 import test from 'ava'
+import reset from '../../commands/reset'
+
+test.beforeEach(() => reset({ functions: true }))
 
 test('UDF name should match file name', async (t) => {
   const cwd = resolve(`${__dirname}/../fixtures`)
 
   const error = await t.throwsAsync(() =>
-    execa('node', ['../../index.js', 'define-functions', 'unmatched.udf'], {
+    execa('node', ['../../cli.js', 'define-functions', 'unmatched.udf'], {
       env: { DEBUG: 'faugra:*' },
       cwd,
     })
@@ -20,7 +23,7 @@ test('upload simplified and extended UDFs: sayHi, sayHello', async (t) => {
   const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
   t.timeout(15000)
 
-  const { stdout, exitCode } = await execa('node', ['../../index.js', 'define-functions'], {
+  const { stdout, exitCode } = await execa('node', ['../../cli.js', 'define-functions'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })

@@ -1,6 +1,9 @@
 import execa from 'execa'
 import { serial as test } from 'ava'
 import { importSchema } from '../../utils'
+import reset from '../../commands/reset'
+
+test.beforeEach(() => reset({ schemas: true }))
 
 test('fetch schema from fauna', async (t) => {
   t.timeout(65000)
@@ -13,7 +16,7 @@ test('fetch schema from fauna', async (t) => {
   // The schema needs to be pre-populated/reset before we can pull it again
   await importSchema(schema, true)
 
-  const { stdout, exitCode } = await execa('node', ['../../index.js', 'pull-schema'], {
+  const { stdout, exitCode } = await execa('node', ['../../cli.js', 'pull-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd: __dirname,
   })

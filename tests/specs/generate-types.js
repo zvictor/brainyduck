@@ -1,6 +1,9 @@
 import { resolve } from 'path'
 import execa from 'execa'
 import { serial as test } from 'ava'
+import reset from '../../commands/reset'
+
+test.beforeEach(() => reset({ schemas: true }))
 
 test('generate types for a schema without imports', async (t) => {
   const cwd = resolve(`${__dirname}/../../examples/basic`)
@@ -8,7 +11,7 @@ test('generate types for a schema without imports', async (t) => {
 
   const { stdout, stderr, exitCode } = await execa(
     'node',
-    ['../../index.js', 'generate-types', 'Schema.graphql'],
+    ['../../cli.js', 'generate-types', 'Schema.graphql'],
     { env: { DEBUG: 'faugra:*' }, cwd }
   )
 
