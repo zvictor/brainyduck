@@ -10,7 +10,7 @@
   "dependencies": {
     "ava": "3.13.0",
     "esm": "3.2.25",
-    "execa": "4.0.3"
+    "execa": "4.1.0"
   },
   "ava": {
     "require": [
