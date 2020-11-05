@@ -75,9 +75,17 @@ const filterBase = (schema) =>
 const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
   debug(`called with:`, { inputPath, override })
   const schema = filterBase(await loadSchema(inputPath))
-  debug(`The resulting merged schema:\n${schema.replace(/^/gm, '\t')}`)
 
-  return importSchema(schema, override)
+  const prettySchema = schema.replace(/^/gm, '\t')
+  debug(`The resulting merged schema:\n${prettySchema}`)
+
+  try {
+    return importSchema(schema, override)
+  } catch (error) {
+    console.error(`The schema below could not be pushed to fauna:\n\n${prettySchema}`)
+
+    throw error
+  }
 }
 
 if (require.main === module) {
