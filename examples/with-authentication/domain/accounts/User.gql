@@ -1,0 +1,13 @@
+# import * from "faugra"
+# import Mutation from "../Schema.gql"
+# import Token from "./Token.gql"
+
+type User {
+  email: String! @unique
+}
+
+extend type Mutation {
+  signUp(email: String!, password: String!): Token! @resolver(name: "signUp")
+  login(email: String!, password: String!): Token! @resolver(name: "login")
+  logout: Boolean! @resolver(name: "logout")
+}

@@ -1,3 +1,7 @@
+<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/logo.png" alt="faugra's logo" /><p>
+
+# with user-defined-functions example
+
 This example contains:
 
 - a User-Defined Function (UDF) with simplified definition [sayHi.udf]

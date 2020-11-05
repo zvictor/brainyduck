@@ -1,0 +1,9 @@
+{
+  membership: [{ resource: Collection('User') }],
+  privileges: [
+    {
+      resource: Function('logout'),
+      actions: { call: true }
+    }
+  ]
+}
