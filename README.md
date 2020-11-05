@@ -2,15 +2,15 @@
 
 <p align="center">
   <strong>A micro "no-backend" backend framework 🤯</strong><br />
-  <sub>faugra is an opinionated approach to quickly building powerful backends while leveraging on the power of serverless and modern architectures.</sub>
+  <sub>faugra is an opinionated approach to quickly building powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
 </p>
 
 <p align="center">
-  [ <a href="#getting-started">Getting started 🤓</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
+  [ <a href="#getting-started">Getting started 🐣</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="#troubleshooting">Troubleshooting 🤓</a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
 </p>
 <br />
 
-_⚠️ This tool is currently in Preview mode, in a very early phase of development. Expect broken behaviour to be the norm for now! If you like the idea, though, [please help us tackle the issues we have found!](https://github.com/zvictor/faugra/issues)_
+_⚠️ This tool is not yet recommended for production applications. If you like the idea, though, [please help us tackle the issues as fast as possible!](https://github.com/zvictor/faugra/issues)_
 
 <p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
 
@@ -18,7 +18,7 @@ _⚠️ This tool is currently in Preview mode, in a very early phase of develop
 
 Building world-class backend as a service became not only possible but also effortless with the advent of powerful technologies such as graphql and faunadb. However, this new paradigm introduces a whole new setup and deployment requisites to your project development.
 
-We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🦄
+We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
@@ -29,6 +29,8 @@ It takes only **3 steps to get started**:
 1. Create a `.graphql` file defining your desired Graphql schema
 2. Create or reuse a [Faugra secret](https://github.com/zvictor/faugra/wiki/Faugra-secret)
 3. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
+
+That's it! Now you can start importing and consuming your sdk with `import sdk from 'faugra'` 🐣🎉
 
 _Alternatively, you can:_
 
@@ -41,7 +43,57 @@ _Alternatively, you can:_
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
-## What does it do?
+## Installation
+
+You can install it globally, per project or just run it on demand:
+
+```bash
+  # npm, globally:
+  $ npm install -g faugra
+
+  # npm, project-only:
+  $ npm i faugra -D
+
+  # or run on demand:
+  $ npx faugra
+```
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
+
+## Usage
+
+```
+Usage: faugra [options] [command]
+
+Options:
+  -V, --version                                            output the version number
+  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
+  -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).
+  --overwrite                                              wipe out data related to the command before its execution
+  -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
+  --no-watch                                               disable the files watcher (only used in the dev command).
+  --callback <command>                                     run external command after every execution completion (only used in the dev command).
+  --verbose                                                run the command with verbose logging.
+  --debug [port]                                           run the command with debugging listening on [port].
+  --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
+  -h, --help                                               display help for command
+
+Commands:
+  dev [directory]                                          watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
+  define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
+  define-indexes [pattern]                                 upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
+  define-roles [pattern]                                   upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
+  pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
+  push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
+  generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
+  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
+  reset                                                    wipe out all data in the database [Be careful!]
+  help [command]                                           display help for command
+```
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
+
+## Features
 
 Given a GraphQL schema looking anything like this:
 
@@ -206,56 +258,6 @@ Faugra will give you:
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples).
-
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
-
-## Installation
-
-You can install it globally, per project or just run it on demand:
-
-```bash
-  # npm, globally:
-  $ npm install -g faugra
-
-  # npm, project-only:
-  $ npm i faugra -D
-
-  # or run on demand:
-  $ npx faugra
-```
-
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
-
-## Usage
-
-```
-Usage: faugra [options] [command]
-
-Options:
-  -V, --version                                            output the version number
-  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
-  -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).
-  --overwrite                                              wipe out data related to the command before its execution
-  -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
-  --no-watch                                               disable the files watcher (only used in the dev command).
-  --callback <command>                                     run external command after every execution completion (only used in the dev command).
-  --verbose                                                run the command with verbose logging.
-  --debug [port]                                           run the command with debugging listening on [port].
-  --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
-  -h, --help                                               display help for command
-
-Commands:
-  dev [directory]                                          watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
-  define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
-  define-indexes [pattern]                                 upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
-  define-roles [pattern]                                   upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
-  pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
-  push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
-  generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
-  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
-  reset                                                    wipe out all data in the database [Be careful!]
-  help [command]                                           display help for command
-```
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
