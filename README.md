@@ -175,7 +175,7 @@ Faugra will give you:
 
    </details>
 
-2. Do you like TypeScript? Your schema will also be exported as TS types.
+1. Do you like TypeScript? Your schema will also be exported as TS types.
 
    <details>
       <summary>TS types</summary>
@@ -226,7 +226,7 @@ Faugra will give you:
 
    </details>
 
-3. You will be able to abstract the GraphQL layer and make calls using a convenient API (with full autocomplete support!)
+1. You will be able to abstract the GraphQL layer and make calls using a convenient API (with full autocomplete support!)
 
    <details>
       <summary>your-code.js</summary>
@@ -250,6 +250,8 @@ Faugra will give you:
    ```
 
    </details>
+
+1. The API can be used both on backend and frontend, as long as you are careful enough with your [secrets management](https://forums.fauna.com/t/do-i-need-a-backend-api-between-faunadb-and-my-app-what-are-the-use-cases-of-an-api/95/6?u=zvictor).
 
 **What else?**
 
