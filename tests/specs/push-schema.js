@@ -38,12 +38,14 @@ test('push a modular schema', async (t) => {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
+
   const mergedSchema = `The resulting merged schema:
 \ttype Query {
+\t  allPosts: [Post!]
+\t
+\t
 \t  sayHello(name: String!): String! @resolver(name: "sayHello")
 \t
-\t
-\t  allPosts: [Post!]
 \t}
 \t
 \ttype User {

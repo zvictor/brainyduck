@@ -12,7 +12,12 @@ const extendTypes = (schema) => {
   for (const [raw, name, content] of schema.matchAll(regexp)) {
     schema = schema
       .replace(raw, '')
-      .replace(new RegExp(`type[\\s]+${name}[\\s]*\\{`), `type ${name} {${content}\n`)
+      .replace(new RegExp(`(?<!extend )type[\\s]+${name}[\\s]*\\{`), `type ${name} {${content}\n`)
+
+    if (!schema.match(new RegExp(`type[\\s]+${name}[\\s]*\\{`))) {
+      console.error(`Make sure a type has been defined before trying to extend it 🍳`)
+      throw new Error(`Type ${name} could not be extended`)
+    }
   }
 
   return schema

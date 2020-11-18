@@ -3,3 +3,7 @@ type Post {
   content: String!
   author: User!
 }
+
+extend type Query {
+  allPosts: [Post!]
+}
