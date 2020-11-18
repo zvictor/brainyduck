@@ -1,7 +1,3 @@
-# import * from "faugra"
-# import Mutation from "../Schema.gql"
-# import Token from "./Token.gql"
-
 type User {
   email: String! @unique
 }

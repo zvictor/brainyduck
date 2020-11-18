@@ -1,31 +1,22 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('faugra:push-schema')
 const figures = require('figures')
-const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
-const { print } = require('graphql')
-const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { patternMatch, importSchema, baseSchema, FaugraSchemaLoader } = require('../utils')
+const { patternMatch, importSchema } = require('../utils')
 
-// The version below is simpler but cuts out the directive statements from the output 😕
-// const { loadSchemaSync } = require('@graphql-tools/load')
-// const { printSchema } = require('graphql')
+const extendTypes = (schema) => {
+  const regexp = /[\s]+extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm
 
-// const loadSchema = async (pattern) => {
-//   debug(`Looking for schemas matching '${pattern}'`)
+  for (const [raw, name, content] of schema.matchAll(regexp)) {
+    schema = schema
+      .replace(raw, '')
+      .replace(new RegExp(`type[\\s]+${name}[\\s]*\\{`), `type ${name} {${content}\n`)
+  }
 
-//   const files = (
-//     await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))
-//   ).map((x) => path.resolve(x))
-//   files.map((x) => debug(`\t${figures.pointer} found ${x}`))
-
-//   const schema = loadSchemaSync(files, {
-//     loaders: [new FaugraSchemaLoader()],
-//   })
-
-//   return printSchema(schema)
-// }
+  return schema
+}
 
 const loadSchema = async (pattern) => {
   debug(`Looking for schemas matching '${pattern}'`)
@@ -38,42 +29,17 @@ const loadSchema = async (pattern) => {
     throw new Error(`no file could be found with pattern '${pattern}'`)
   }
 
-  files.map((x) => debug(`\t${figures.pointer} found ${x}`))
-
-  const typeDefs = await loadTypedefs(files, {
-    loaders: [new FaugraSchemaLoader()],
-    filterKinds: OPERATION_KINDS,
-    sort: false,
-    forceGraphQLImport: true,
+  const content = files.map((x) => {
+    debug(`\t${figures.pointer} found ${x}`)
+    return fs.readFileSync(x)
   })
 
-  if (!typeDefs.length) {
-    throw new Error('no documents could be loaded')
-  }
-
-  const mergedDocuments = print(
-    mergeTypeDefs(
-      typeDefs.map((r) => r.document),
-      {
-        useSchemaDefinition: false,
-      }
-    )
-  )
-
-  return typeof mergedDocuments === 'string'
-    ? mergedDocuments
-    : mergedDocuments && print(mergedDocuments)
+  return content.join('\n')
 }
-
-const filterBase = (schema) =>
-  schema
-    .split('\n')
-    .filter((line) => !baseSchema.split('\n').includes(line))
-    .join('\n')
 
 const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
   debug(`called with:`, { inputPath, override })
-  const schema = filterBase(await loadSchema(inputPath))
+  const schema = extendTypes(await loadSchema(inputPath))
 
   const prettySchema = schema.replace(/^/gm, '\t')
   debug(`The resulting merged schema:\n${prettySchema}`)

@@ -1,5 +1,3 @@
-# import * from "faugra"
-
 type Query {
   sayHi(name: String!): String! @resolver(name: "sayHi")
   sayHello(name: String!): String! @resolver(name: "sayHello")

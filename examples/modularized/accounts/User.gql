@@ -1,6 +1,3 @@
-# import * from "faugra"
-# import Query from "../Query.gql"
-
 type User {
   name: String!
 }

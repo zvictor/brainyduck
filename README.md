@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  [ <a href="#getting-started">Getting started 🐣</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="#troubleshooting">Troubleshooting 🤓</a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
+  [ <a href="#getting-started">Getting started 🐣</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
 </p>
 <br />
 
@@ -260,18 +260,6 @@ Faugra will give you:
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples).
-
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
-
-## Troubleshooting
-
-- **Error "Couldn't find type _\<type-name\>_ in any of the schemas."**
-
-Fauna supports a few [scalar types natively](https://docs.fauna.com/fauna/current/api/graphql/#supported-scalar-types), plus a few [directives](https://docs.fauna.com/fauna/current/api/graphql/directives/). In order to make use of any of them you need to import faugra's reference file by adding `# import * from "faugra"` to the top of your file, as in [this example](./examples/modularized/accounts/User.gql#L1).
-
-- **Error: Unsupported GraphQL type extend type _\<type-name\>_**
-
-In order to extend a type, you need to import it first. Try adding `# import Query from "../Query.gql"` or similar to the top of your file
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 

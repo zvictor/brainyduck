@@ -18,6 +18,7 @@ test('push a basic schema', async (t) => {
 \ttype User {
 \t  username: String! @unique
 \t}
+\t
 \ttype Query {
 \t  allUsers: [User!]
 \t}`
@@ -39,16 +40,20 @@ test('push a modular schema', async (t) => {
   })
   const mergedSchema = `The resulting merged schema:
 \ttype Query {
-\t  allPosts: [Post!]
 \t  sayHello(name: String!): String! @resolver(name: "sayHello")
+\t
+\t
+\t  allPosts: [Post!]
 \t}
+\t
+\ttype User {
+\t  name: String!
+\t}
+\t
 \ttype Post {
 \t  title: String!
 \t  content: String!
 \t  author: User!
-\t}
-\ttype User {
-\t  name: String!
 \t}`
 
   t.true(stderr.includes(mergedSchema))

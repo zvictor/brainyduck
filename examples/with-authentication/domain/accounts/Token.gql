@@ -1,6 +1,3 @@
-# import * from "faugra"
-# import User from "./User.gql"
-
 type Token @embedded {
   instance: User!
   secret: String!

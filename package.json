@@ -26,7 +26,6 @@
     "@graphql-codegen/typescript": "1.17.11",
     "@graphql-codegen/typescript-graphql-request": "2.0.2",
     "@graphql-codegen/typescript-operations": "1.17.9",
-    "@graphql-tools/graphql-file-loader": "6.2.5",
     "@graphql-tools/load": "6.2.5",
     "@graphql-tools/merge": "6.2.5",
     "@graphql-tools/url-loader": "6.4.0",
