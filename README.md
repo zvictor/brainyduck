@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  [ <a href="#getting-started">Getting started 🐣</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🦆</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
+  [ <a href="#getting-started">Getting started 🐣</a> | <a href="#getting-started">Installation 💾</a> | <a href="#usage">Usage 🍗</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a> ]
 </p>
 <br />
 
@@ -255,7 +255,7 @@ Faugra will give you:
 
 **What else?**
 
-1. Faugra supports [imports in the graphql schemas](https://www.graphql-tools.com/docs/schema-loading/#using-import-expression) so your codebase can embrace [modularization](examples/modularized).
+1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](examples/modularized).
 2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
@@ -264,5 +264,5 @@ For more examples, please check our [examples directory](https://github.com/zvic
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 <p align="center">
-Logo by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">Pixabay</a>
+<sub><sup>Logo by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">Pixabay</a><sub><sup>
 </p>
