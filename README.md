@@ -1,4 +1,4 @@
-<p align="center"><img src="https://rawcdn.githack.com/zvictor/faugra/5b1f935ecee99ea403db9a372a2a53f6b02096b2/.media/logo.jpg" alt="faugra's logo" /><p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="faugra's logo" /><p>
 
 <p align="center">
   <strong>A micro "no-backend" backend framework 🤯</strong><br />
@@ -12,7 +12,7 @@
 
 _⚠️ This tool is not yet recommended for production applications. If you like the idea, though, [please help us tackle the issues as fast as possible!](https://github.com/zvictor/faugra/issues)_
 
-<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
 
 ## Why
 
