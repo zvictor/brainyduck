@@ -152,6 +152,8 @@ const main = async () => {
       process.exit(0)
     })
   } else {
+    let started = false
+
     const spinner = ora({
       text: `All done! Waiting for new file changes 🦆`,
       prefixText: '\n',
@@ -159,11 +161,15 @@ const main = async () => {
     })
 
     queue.on('active', () => {
+      started = true
       spinner.stop()
     })
 
     queue.on('idle', () => {
-      runCallback()
+      if (started) {
+        runCallback()
+      }
+
       spinner.start()
     })
   }
