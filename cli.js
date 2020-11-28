@@ -42,6 +42,14 @@ program
   })
 
   .option(
+    '--watch-changes',
+    `ignore initial files and watch changes ONLY (only used in the dev command).`
+  )
+  .on('option:watch-changes', function () {
+    process.env.FAUGRA_WATCH_CHANGES = this.watchChanges
+  })
+
+  .option(
     '--callback <command>',
     `run external command after every execution completion (only used in the dev command).`
   )

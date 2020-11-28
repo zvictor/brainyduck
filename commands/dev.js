@@ -94,6 +94,7 @@ const watch = (type, pattern, operation, cumulative) =>
   new Promise((resolve) => {
     chokidar
       .watch(pattern, {
+        ignoreInitial: Boolean(process.env.FAUGRA_WATCH_CHANGES),
         ignored: [/(^|[\/\\])\../, ...ignored],
         persistent: true,
         cwd: path.resolve(directory),
