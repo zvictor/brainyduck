@@ -25,7 +25,7 @@ const main = async (pattern = '**/*.udf') => {
       debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
 
       // remove comments
-      let query = content.replace(/#[^!].*$([\s]*)?/gm, '')
+      let query = content.replace(/^([^\"\'][\s]*)?#[^!].*$([\s]*)?$/gm, '')
 
       // converts simplified definitions into extended definitions
       if (!query.match(/^[\s]*\{/)) {
