@@ -50,7 +50,7 @@ const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
   debug(`The resulting merged schema:\n${prettySchema}`)
 
   try {
-    return importSchema(schema, override)
+    return await importSchema(schema, override)
   } catch (error) {
     console.error(`The schema below could not be pushed to fauna:\n\n${prettySchema}`)
 
