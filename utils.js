@@ -36,13 +36,35 @@ const patternMatch = (pattern) =>
 const locateCache = (file) => path.join(__dirname, '.cache/', file)
 
 const runFQL = async (query) => {
-  // runFQL is needed because otherwise we can't easily store the ouput of faunaEval in a variable.
-  // "killing a fly with a bazooka" here.
+  // a wrapper around faunaEval is needed because otherwise we can't easily store its output in a variable.
+  // this whole method is sadly "killing a fly with a bazooka" here.
 
   debug('faugra:runFQL')(`Executing query:\n${query}`)
-
   const tmpFile = tempy.file()
+
+  let error = false
+  const { exit } = process
+
+  process.exit = () => {
+    // Avoid fauna-eval from killing the process in case of error
+    // Ridiculous workaround, but what else can we do? 🤷‍♀️
+    // https://github.com/fauna/fauna-shell/blob/9465b80960820b56a6b533f148f7a355338d0bd9/src/lib/misc.js#L245
+
+    if (error) {
+      return
+    }
+
+    console.error(`The FQL below failed to be executed:\n\n${query}`)
+    error = new Error(`runFQL failed to run`)
+  }
+
   await faunaEval.run([query, '--secret', loadSecret(), '--output', tmpFile])
+
+  process.exit = exit
+
+  if (error) {
+    throw error
+  }
 
   debug('faugra:runFQL')(`The query has been executed`)
 
