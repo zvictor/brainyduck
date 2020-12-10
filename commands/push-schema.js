@@ -7,7 +7,7 @@ const figures = require('figures')
 const { patternMatch, importSchema } = require('../utils')
 
 const extendTypes = (schema) => {
-  const regexp = /[\s]+extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm
+  const regexp = /^[\s]*(?!#)[\s]*extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm
 
   for (const [raw, name, content] of schema.matchAll(regexp)) {
     schema = schema
