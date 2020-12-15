@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const debug = require('debug')
 const tempy = require('tempy')
+const execa = require('execa')
 const globby = require('globby')
 const fetch = require('node-fetch')
 const { performance } = require('perf_hooks')
@@ -36,53 +37,26 @@ const patternMatch = (pattern) =>
 const locateCache = (file) => path.join(__dirname, '.cache/', file)
 
 const runFQL = async (query) => {
-  // a wrapper around faunaEval is needed because otherwise we can't easily store its output in a variable.
-  // this whole method is sadly "killing a fly with a bazooka" here.
-
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const tmpFile = tempy.file()
 
-  let error = false
-  const { exit } = process
+  fs.writeFileSync(tmpFile, query, 'utf8')
 
-  process.exit = () => {
-    // Avoid fauna-eval from killing the process in case of error
-    // Ridiculous workaround, but what else can we do? 🤷‍♀️
-    // https://github.com/fauna/fauna-shell/blob/9465b80960820b56a6b533f148f7a355338d0bd9/src/lib/misc.js#L245
+  const { stdout, stderr, exitCode } = execa.sync(`./node_modules/.bin/fauna`, [
+    `eval`,
+    `--secret=${loadSecret()}`,
+    `--file=${tmpFile}`,
+  ])
 
-    if (error) {
-      return
-    }
+  if (exitCode) {
+    debug('faugra:runFQL')(`The query has failed to execute.`)
+    console.error(stderr)
 
-    console.error(`The FQL below failed to be executed:\n\n${query}`)
-    error = new Error(`runFQL failed to run`)
-  }
-
-  await faunaEval.run([query, '--secret', loadSecret(), '--output', tmpFile])
-
-  process.exit = exit
-
-  if (error) {
-    throw error
+    throw new Error(`runFQL failed with exit code ${exitCode}`)
   }
 
   debug('faugra:runFQL')(`The query has been executed`)
-
-  // temporary fix for https://github.com/fauna/fauna-shell/pull/61
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  return new Promise((resolve, reject) => {
-    const stream = fs.createReadStream(tmpFile)
-    const chunks = []
-
-    stream.on('error', reject)
-    stream.on('data', (chunk) => chunks.push(chunk))
-    stream.on('end', () => {
-      const data = JSON.parse(Buffer.concat(chunks).toString('utf8'))
-
-      resolve(data)
-    })
-  })
+  return JSON.parse(stdout)
 }
 
 const importSchema = async (schema, override) => {
