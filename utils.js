@@ -42,11 +42,13 @@ const runFQL = async (query) => {
 
   fs.writeFileSync(tmpFile, query, 'utf8')
 
-  const { stdout, stderr, exitCode } = execa.sync(`./node_modules/.bin/fauna`, [
-    `eval`,
-    `--secret=${loadSecret()}`,
-    `--file=${tmpFile}`,
-  ])
+  const { stdout, stderr, exitCode } = execa.sync(
+    `./node_modules/.bin/fauna`,
+    [`eval`, `--secret=${loadSecret()}`, `--file=${tmpFile}`],
+    {
+      cwd: __dirname,
+    }
+  )
 
   if (exitCode) {
     debug('faugra:runFQL')(`The query has failed to execute.`)
