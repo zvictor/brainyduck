@@ -1,6 +1,6 @@
 {
   "name": "faugra-tests",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -8,16 +8,10 @@
     "test": "./run-tests.sh"
   },
   "dependencies": {
-    "ava": "3.13.0",
-    "esm": "3.2.25",
-    "execa": "4.1.0"
-  },
-  "ava": {
-    "require": [
-      "esm"
-    ],
-    "files": [
-      "specs/**/*"
-    ]
+    "@babel/core": "7.12.10",
+    "@babel/preset-env": "7.12.10",
+    "babel-jest": "26.6.3",
+    "execa": "4.1.0",
+    "jest": "26.6.3"
   }
 }

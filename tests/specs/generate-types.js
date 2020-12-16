@@ -1,15 +1,13 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import { serial as test } from 'ava'
 import reset from '../../commands/reset'
 
-test.beforeEach(() => reset({ schemas: true }))
+beforeEach(() => reset({ schemas: true }), 120000)
 
-test('generate types for a schema without imports', async (t) => {
+test('generate types for a schema without imports', () => {
   const cwd = resolve(`${__dirname}/../../examples/basic`)
-  t.timeout(35000)
 
-  const { stdout, stderr, exitCode } = await execa(
+  const { stdout, stderr, exitCode } = execa.sync(
     'node',
     ['../../cli.js', 'generate-types', 'Schema.graphql'],
     { env: { DEBUG: 'faugra:*' }, cwd }
@@ -103,7 +101,9 @@ export type UserPage = {
 
 `
 
-  t.false(stdout.includes('error'))
-  t.is(stdout, expectedOutput)
-  t.is(exitCode, 0)
-})
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
+
+  expect(stdout).toEqual(expectedOutput)
+  expect(exitCode).toBe(0)
+}, 35000)

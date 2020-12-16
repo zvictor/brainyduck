@@ -2,10 +2,10 @@
 set -e
 cd `dirname "$0"`
 
-cmd=./node_modules/.bin/ava
+cmd=./node_modules/.bin/jest
 
 if [ !  -f "$cmd" ] ; then
-  echo "Ava could not be found. Please run 'npm install' in the tests folder";
+  echo "Jest could not be found. Please run 'npm install' in the tests folder";
   exit 1
 fi
 
@@ -14,4 +14,4 @@ if [ -z ${FAUGRA_SECRET+x} ]; then
   exit 1;
 fi
 
-$cmd --serial --verbose --timeout 120000
+$cmd --runInBand

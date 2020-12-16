@@ -1,23 +1,21 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import test from 'ava'
 import reset from '../../commands/reset'
 
-test.beforeEach(() => reset())
+beforeEach(() => reset(), 120000)
 
-test(`complete all 'dev' operations for the 'basic' example`, async (t) => {
+test(`complete all 'dev' operations for the 'basic' example`, () => {
   const cwd = resolve(`${__dirname}/../../examples/basic`)
-  t.timeout(15000)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },
     cwd,
   })
 
-  t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'), stderr)
-  t.deepEqual(
-    new Set(stderr.split('\n').sort()),
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
+
+  expect(new Set(stderr.split('\n').sort())).toEqual(
     new Set(
       [
         '- Processing Schema.graphql [Schema]',
@@ -26,26 +24,25 @@ test(`complete all 'dev' operations for the 'basic' example`, async (t) => {
         '✔ Processed queries.gql [Document]',
         '',
       ].sort()
-    ),
-    stderr
+    )
   )
 
-  t.is(exitCode, 0)
-})
+  expect(stdout).toEqual('All operations complete')
+  expect(exitCode).toBe(0)
+}, 15000)
 
-test(`complete all 'dev' operations for the 'modularized' example`, async (t) => {
+test(`complete all 'dev' operations for the 'modularized' example`, () => {
   const cwd = resolve(`${__dirname}/../../examples/modularized`)
-  t.timeout(15000)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },
     cwd,
   })
 
-  t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'), stderr)
-  t.deepEqual(
-    new Set(stderr.split('\n').sort()),
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
+
+  expect(new Set(stderr.split('\n').sort())).toEqual(
     new Set(
       [
         '- Processing accounts/sayHello.udf [UDF]',
@@ -56,26 +53,25 @@ test(`complete all 'dev' operations for the 'modularized' example`, async (t) =>
         '✔ Processed blog/createPost.gql,blog/findPostByID.gql [Document]',
         '',
       ].sort()
-    ),
-    stderr
+    )
   )
 
-  t.is(exitCode, 0)
-})
+  expect(stdout).toEqual('All operations complete')
+  expect(exitCode).toBe(0)
+}, 15000)
 
-test(`complete all 'dev' operations for the 'with-UDF' example`, async (t) => {
+test(`complete all 'dev' operations for the 'with-UDF' example`, () => {
   const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
-  t.timeout(15000)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },
     cwd,
   })
 
-  t.is(stdout, 'All operations complete')
-  t.false(stderr.includes('error'), stderr)
-  t.deepEqual(
-    new Set(stderr.split('\n').sort()),
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
+
+  expect(new Set(stderr.split('\n').sort())).toEqual(
     new Set(
       [
         '- Processing Schema.graphql [Schema]',
@@ -90,9 +86,9 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, async (t) => {
         '✔ Processed publicAccess.role [UDR]',
         '',
       ].sort()
-    ),
-    stderr
+    )
   )
 
-  t.is(exitCode, 0)
-})
+  expect(stdout).toEqual('All operations complete')
+  expect(exitCode).toBe(0)
+}, 15000)

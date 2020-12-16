@@ -1,15 +1,13 @@
 import execa from 'execa'
 import { resolve } from 'path'
-import { serial as test } from 'ava'
 // import reset from '../../commands/reset'
 
-// test.beforeEach(() => reset({ schemas: true }))
+// test.beforeEach(() => reset({ schemas: true }), 120000)
 
-test('push a basic schema', async (t) => {
+test('push a basic schema', () => {
   const cwd = resolve(`${__dirname}/../../examples/basic`)
-  t.timeout(35000)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../cli.js', 'push-schema'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'push-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -23,18 +21,19 @@ test('push a basic schema', async (t) => {
 \t  allUsers: [User!]
 \t}`
 
-  t.true(stderr.includes(mergedSchema))
-  t.is(stdout.split('\n')[0], `Schema imported successfully.`)
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  t.false(stdout.includes('error'))
-  t.is(exitCode, 0)
-})
+  expect(stderr).toEqual(expect.stringContaining(mergedSchema))
+  expect(stdout.split('\n')[0]).toBe(`Schema imported successfully.`)
 
-test('push a modular schema', async (t) => {
+  expect(exitCode).toBe(0)
+}, 35000)
+
+test('push a modular schema', () => {
   const cwd = resolve(`${__dirname}/../../examples/modularized`)
-  t.timeout(35000)
 
-  const { stdout, stderr, exitCode } = await execa('node', ['../../cli.js', 'push-schema'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'push-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -52,15 +51,18 @@ test('push a modular schema', async (t) => {
 \t  name: String!
 \t}
 \t
+\t
 \ttype Post {
 \t  title: String!
 \t  content: String!
 \t  author: User!
 \t}`
 
-  t.true(stderr.includes(mergedSchema))
-  t.is(stdout.split('\n')[0], `Schema imported successfully.`)
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  t.false(stdout.includes('error'))
-  t.is(exitCode, 0)
-})
+  expect(stderr).toEqual(expect.stringContaining(mergedSchema))
+  expect(stdout.split('\n')[0]).toBe(`Schema imported successfully.`)
+
+  expect(exitCode).toBe(0)
+}, 35000)

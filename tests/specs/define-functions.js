@@ -1,35 +1,38 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import test from 'ava'
 import reset from '../../commands/reset'
 
-test.beforeEach(() => reset({ functions: true }))
+beforeEach(() => reset({ functions: true }), 10000)
 
-test('UDF name should match file name', async (t) => {
+test('UDF name should match file name', () => {
   const cwd = resolve(`${__dirname}/../fixtures`)
 
-  const error = await t.throwsAsync(() =>
-    execa('node', ['../../cli.js', 'define-functions', 'unmatched.udf'], {
+  try {
+    execa.sync('node', ['../../cli.js', 'define-functions', 'unmatched.udf'], {
       env: { DEBUG: 'faugra:*' },
       cwd,
     })
-  )
 
-  t.true(error.message.includes('Error: File name does not match function name: unmatched'))
-  t.is(error.exitCode, 1)
+    fail('it should not reach here')
+  } catch (e) {
+    expect(e.message).toEqual(
+      expect.stringContaining('Error: File name does not match function name: unmatched')
+    )
+    expect(e.exitCode).toBe(1)
+  }
 })
 
-test('upload simplified and extended UDFs: sayHi, sayHello', async (t) => {
+test('upload simplified and extended UDFs: sayHi, sayHello', () => {
   const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
-  t.timeout(15000)
 
-  const { stdout, exitCode } = await execa('node', ['../../cli.js', 'define-functions'], {
+  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'define-functions'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
 
-  t.is(stdout, `User-defined function(s) created or updated: [ 'sayHello', 'sayHi' ]`)
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  t.false(stdout.includes('error'))
-  t.is(exitCode, 0)
-})
+  expect(stdout).toBe(`User-defined function(s) created or updated: [ 'sayHello', 'sayHi' ]`)
+  expect(exitCode).toBe(0)
+}, 15000)
