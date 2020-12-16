@@ -264,6 +264,12 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
+## Sponsors
+
+<p align="center">Got frustrated with Fauna/Faugra? Consider giving a try to Slash GraphQL from our friends of Dgraph!<br /><img src="https://cdn.jsdelivr.net/gh/dgraph-io/dgraph@master/logo.png" alt="dgraph's logo" /><p>
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
+
 <p align="center">
-<sub><sup>Logo edited by <a href="https://github.com/zvictor/faugra">zvictor</a>, adapted from an illustration by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a><sub><sup>
+<sub><sup>Logo edited by <a href="https://github.com/zvictor">zvictor</a>, adapted from an illustration by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a><sub><sup>
 </p>
