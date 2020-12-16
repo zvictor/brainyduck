@@ -24,8 +24,13 @@ const main = async (pattern = '**/*.udf') => {
 
       debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
 
-      // remove comments
-      let query = content.replace(/^([^\"\'][\s]*)?#[^!].*$([\s]*)?$/gm, '')
+      // Remove comments.
+      // Regex based on: https://stackoverflow.com/a/17791790/599991
+      // Playground: https://regex101.com/r/IlsODE/3
+      let query = content.replace(
+        /(("[^"\\]*(?:\\.[^"\\]*)*")|('[^'\\]*(?:\\.[^'\\]*)*'))|#[^\n]*/gm,
+        (match, p1, p2, p3, offset, string) => p1 || ''
+      )
 
       // converts simplified definitions into extended definitions
       if (!query.match(/^[\s]*\{/)) {
