@@ -5,14 +5,19 @@ const tempy = require('tempy')
 const execa = require('execa')
 const globby = require('globby')
 const fetch = require('node-fetch')
+const resolve = require('resolve-as-bin')
 const { performance } = require('perf_hooks')
-const faunaEval = require('fauna-shell/src/commands/eval')
 
 const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
 
 const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
+
+let faunaShell = path.join(__dirname, `./node_modules/.bin/fauna`)
+if (!fs.existsSync(faunaShell)) {
+  faunaShell = resolve('fauna')
+}
 
 const loadSecret = () => {
   const secret = process.env.FAUGRA_SECRET
@@ -43,7 +48,7 @@ const runFQL = (query) => {
   fs.writeFileSync(tmpFile, query, 'utf8')
 
   const { stdout, stderr, exitCode } = execa.sync(
-    `./node_modules/.bin/fauna`,
+    faunaShell,
     [`eval`, `--secret=${loadSecret()}`, `--file=${tmpFile}`],
     {
       cwd: __dirname,

@@ -1,7 +1,7 @@
 {
   "name": "faugra",
-  "version": "0.0.31",
-  "description": "Opinionated approach to quickly building powerful BaaS while leveraging on the power of serverless and modern architectures",
+  "version": "0.0.32",
+  "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
     "fauna",
@@ -44,6 +44,7 @@
     "node-fetch": "2.6.1",
     "ora": "5.1.0",
     "p-queue": "6.6.2",
+    "resolve-as-bin": "2.1.0",
     "tempy": "1.0.0",
     "typescript": "4.1.3"
   }

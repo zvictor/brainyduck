@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>A micro "no-backend" backend framework 🤯</strong><br />
-  <sub>faugra is an opinionated approach to quickly building powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
+  <sub>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
 </p>
 
 <p align="center">
