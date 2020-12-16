@@ -63,7 +63,7 @@ const main = async (
 
   const ouput = `${sdk}
 
-export default function main({
+export default function faugra({
   secret = process.env.FAUGRA_SECRET,
   domain = process.env.FAUGRA_DOMAIN,
 } = {}) {

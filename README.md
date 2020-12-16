@@ -16,7 +16,7 @@ _⚠️ This tool is not yet recommended for production applications. If you lik
 
 ## Why
 
-Building world-class backend as a service became not only possible but also effortless with the advent of powerful technologies such as graphql and faunadb. However, this new paradigm introduces a whole new setup and deployment requisites to your project development.
+Building world-class backend as a service became accessible with the advent of technologies such as graphql and faunadb. Within this new paradigm, a whole new setup and deployment requisites were introduced to your project development.
 
 We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
@@ -265,5 +265,5 @@ For more examples, please check our [examples directory](https://github.com/zvic
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
 <p align="center">
-<sub><sup>Logo by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">Pixabay</a><sub><sup>
+<sub><sup>Logo edited by <a href="https://github.com/zvictor/faugra">zvictor</a>, adapted from an illustration by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a><sub><sup>
 </p>
