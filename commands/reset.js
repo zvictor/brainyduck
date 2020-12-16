@@ -9,11 +9,11 @@ const { runFQL, importSchema } = require('../utils')
 const readScript = (name) =>
   fs.readFileSync(path.join(__dirname, `../scripts/`, name), { encoding: 'utf8' })
 
-const reset = async (type) => {
+const reset = (type) => {
   const spinner = ora(`Wiping out ${type}...`).start()
 
   try {
-    const { data } = await runFQL(readScript(`reset.${type}.fql`))
+    const { data } = runFQL(readScript(`reset.${type}.fql`))
 
     if (!data || !data.length) {
       return spinner.succeed(`No data was deleted of type '${type}'`)
@@ -56,7 +56,7 @@ const main = async (
   }
 
   for (const type of _types) {
-    await reset(type)
+    reset(type)
   }
 }
 

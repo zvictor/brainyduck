@@ -36,7 +36,7 @@ const patternMatch = (pattern) =>
 
 const locateCache = (file) => path.join(__dirname, '.cache/', file)
 
-const runFQL = async (query) => {
+const runFQL = (query) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const tmpFile = tempy.file()
 
