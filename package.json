@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@graphql-codegen/core": "1.17.9",
-    "@graphql-codegen/typescript": "1.19.0",
+    "@graphql-codegen/typescript": "1.20.0",
     "@graphql-codegen/typescript-graphql-request": "3.0.0",
     "@graphql-codegen/typescript-operations": "1.17.13",
     "@graphql-tools/load": "6.2.5",
@@ -42,7 +42,7 @@
     "graphql-request": "3.4.0",
     "log-symbols": "4.0.0",
     "node-fetch": "2.6.1",
-    "ora": "5.1.0",
+    "ora": "5.2.0",
     "p-queue": "6.6.2",
     "resolve-as-bin": "2.1.0",
     "tempy": "1.0.0",
