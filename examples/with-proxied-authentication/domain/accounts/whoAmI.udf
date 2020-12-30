@@ -1,0 +1,3 @@
+Query(Lambda([],
+  Get(CurrentIdentity())
+))

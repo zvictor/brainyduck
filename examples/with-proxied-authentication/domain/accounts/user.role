@@ -1,0 +1,21 @@
+{
+  membership: [{ resource: Collection('User') }],
+  privileges: [
+    {
+      resource: Collection('User'),
+      actions: {
+        read: Query(
+          Lambda('ref', Equals(CurrentIdentity(), Var('ref')))
+        )
+      }
+    },
+    {
+      resource: Function('logout'),
+      actions: { call: true }
+    },
+    {
+      resource: Function('whoAmI'),
+      actions: { call: true }
+    }
+  ]
+}

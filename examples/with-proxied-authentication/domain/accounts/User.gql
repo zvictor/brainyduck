@@ -1,0 +1,13 @@
+type User {
+  email: String! @unique
+}
+
+extend type Mutation {
+  signUp(email: String!, password: String!): Token! @resolver(name: "signUp")
+  login(email: String!, password: String!): Token! @resolver(name: "login")
+  logout: Boolean! @resolver(name: "logout")
+}
+
+extend type Query {
+  whoAmI: User @resolver(name: "whoAmI")
+}

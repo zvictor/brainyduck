@@ -1,0 +1,16 @@
+Query(
+  Lambda(
+    ['email', 'password'],
+    Login(
+      Select('ref',
+        Create(Collection('User'), {
+          credentials: { password: Var('password') },
+          data: {
+            email: Var('email'),
+          },
+        }),
+      ),
+      { password: Var('password') },
+    )
+  )
+)
