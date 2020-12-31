@@ -18,9 +18,9 @@ That's it! Now you can start importing and consuming your sdk with `import sdk f
 
 _Alternatively, you can:_
 
-- In any of our [examples](./examples) folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
+- In any of our [examples](https://github.com/zvictor/faugra/tree/master/examples) folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
-|                                                            [Basic](./examples/basic)                                                            |                                                            [Modularized](./examples/modularized)                                                            |                                                            [with-UDF](./examples/with-UDF)                                                            |
+|                                      [Basic](https://github.com/zvictor/faugra/tree/master/examples/basic)                                      |                                      [Modularized](https://github.com/zvictor/faugra/tree/master/examples/modularized)                                      |                                      [with-UDF](https://github.com/zvictor/faugra/tree/master/examples/with-UDF)                                      |
 | :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
 | [![Basic example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/basic.gif)](https://asciinema.org/a/361576) | [![Modularized example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562) | [![with-UDF example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/with-UDF.gif)](https://asciinema.org/a/361573) |
 |                                                                                                                                                 |
