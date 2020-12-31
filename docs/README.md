@@ -240,7 +240,7 @@ Faugra will give you:
 
 **What else?**
 
-1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](examples/modularized).
+1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/faugra/tree/master/examples/modularized).
 2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
