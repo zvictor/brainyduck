@@ -38,7 +38,8 @@ const main = async (pattern = '**/*.udf') => {
       }
 
       // infer function name only if it has not been declared
-      if (!query.includes('name:')) {
+      // Playground: https://regex101.com/r/9ndMaH/1
+      if (!query.match(/^[\s]*name[\s]*:/m)) {
         query = query.replace('{', `{ name: "${name}", `)
       }
 
