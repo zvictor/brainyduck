@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
