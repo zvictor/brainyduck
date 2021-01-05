@@ -118,8 +118,6 @@ const watch = (type, pattern, operation, cumulative) =>
 const main = async () => {
   const ts = await watch('Typescript', PATTERNS['ts'], null, true)
 
-  const udf = await watch('UDF', PATTERNS['udf'], defineFunctions)
-
   // const schema = await watch('Schema', PATTERNS['schema'], (file) =>
   //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   // )
@@ -131,16 +129,18 @@ const main = async () => {
     true
   )
 
+  const index = await watch('Index', PATTERNS['index'], defineIndexes)
+
+  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
+
+  const udf = await watch('UDF', PATTERNS['udf'], defineFunctions)
+
   const documents = await watch(
     'Document',
     PATTERNS['documents'],
     () => buildSdk(PATTERNS['schema'], PATTERNS['documents']),
     true
   )
-
-  const index = await watch('Index', PATTERNS['index'], defineIndexes)
-
-  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
 
   debug('Initial scan complete')
 
