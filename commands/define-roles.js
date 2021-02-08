@@ -8,8 +8,12 @@ const debug = require('debug')('faugra:define-roles')
 const { Client, query: q } = require('faunadb')
 const { loadSecret, patternMatch, runFQL } = require('../utils')
 
-const secret = loadSecret()
-const client = new Client({ secret })
+const client = new Client({
+  domain: process.env.FAUGRA_DOMAIN,
+  scheme: process.env.FAUGRA_SCHEME,
+  port: process.env.FAUGRA_PORT,
+  secret: loadSecret(),
+})
 
 const main = async (pattern = '**/*.role') => {
   debug(`Looking for files matching '${pattern}'`)

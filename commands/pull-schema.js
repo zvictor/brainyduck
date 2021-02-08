@@ -8,9 +8,7 @@ const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
 const { UrlLoader } = require('@graphql-tools/url-loader')
 const { print } = require('graphql')
 const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { loadSecret } = require('../utils')
-
-const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
+const { graphqlEndpoint, loadSecret } = require('../utils')
 
 const options = {
   loaders: [new UrlLoader()],
@@ -47,7 +45,7 @@ const loadSchema = async (url) => {
 const main = async (outputPath) => {
   debug(`called with:`, { outputPath })
   const t0 = performance.now()
-  const schema = await loadSchema(`${FAUGRA_DOMAIN}/graphql`)
+  const schema = await loadSchema(graphqlEndpoint.server)
   debug(`The call to fauna took ${performance.now() - t0} milliseconds.`)
 
   if (outputPath) {

@@ -65,14 +65,14 @@ const main = async (
 
 export default function faugra({
   secret = process.env.FAUGRA_SECRET,
-  domain = process.env.FAUGRA_DOMAIN,
+  endpoint = process.env.FAUGRA_ENDPOINT,
 } = {}) {
   if (!secret) {
     throw new Error('SDK requires a secret to be defined.')
   }
 
   return getSdk(
-    new GraphQLClient(domain || 'https://graphql.fauna.com/graphql', {
+    new GraphQLClient(endpoint || 'https://graphql.fauna.com/graphql', {
       headers: {
         authorization: secret && \`Bearer \${secret}\`,
       },

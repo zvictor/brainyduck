@@ -52,7 +52,11 @@ Usage: faugra [options] [command]
 Options:
   -V, --version                                            output the version number
   -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
-  -d, --domain <value>                                     set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).
+  --domain <value>                                         FaunaDB server domain (defaults to <FAUGRA_DOMAIN or 'db.fauna.com'>).
+  --port <value>                                           Connection port (defaults to <FAUGRA_PORT>).
+  --graphql-domain <value>                                 Graphql server domain (defaults to <FAUGRA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
+  --graphql-port <value>                                   Graphql connection port (defaults to <FAUGRA_GRAPHQL_PORT>).
+  --scheme <value>                                         Connection scheme (defaults to <FAUGRA_SCHEME or 'https'>).
   --overwrite                                              wipe out data related to the command before its execution
   -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
   --no-watch                                               disable the files watcher (only used in the dev command).

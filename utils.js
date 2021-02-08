@@ -8,8 +8,6 @@ const fetch = require('node-fetch')
 const resolve = require('resolve-as-bin')
 const { performance } = require('perf_hooks')
 
-const { FAUGRA_DOMAIN = 'https://graphql.fauna.com' } = process.env
-
 const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
@@ -18,6 +16,19 @@ let faunaShell = path.join(__dirname, `./node_modules/.bin/fauna`)
 if (!fs.existsSync(faunaShell)) {
   faunaShell = resolve('fauna')
 }
+
+const graphqlEndpoint = (() => {
+  const {
+    FAUGRA_GRAPHQL_DOMAIN = 'graphql.fauna.com',
+    FAUGRA_SCHEME = 'https',
+    FAUGRA_GRAPHQL_PORT,
+  } = process.env
+
+  const base = `${FAUGRA_SCHEME}://${FAUGRA_GRAPHQL_DOMAIN}${
+    FAUGRA_GRAPHQL_PORT ? `:${FAUGRA_GRAPHQL_PORT}` : ``
+  }`
+  return { server: `${base}/graphql`, import: `${base}/import` }
+})()
 
 const loadSecret = () => {
   const secret = process.env.FAUGRA_SECRET
@@ -43,17 +54,31 @@ const locateCache = (file) => path.join(__dirname, '.cache/', file)
 
 const runFQL = (query) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
-  const tmpFile = tempy.file()
+  const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
 
+  const tmpFile = tempy.file()
   fs.writeFileSync(tmpFile, query, 'utf8')
 
-  const { stdout, stderr, exitCode } = execa.sync(
-    faunaShell,
-    [`eval`, `--secret=${loadSecret()}`, `--file=${tmpFile}`],
-    {
-      cwd: __dirname,
-    }
-  )
+  const args = [`eval`, `--secret=${loadSecret()}`, `--file=${tmpFile}`]
+
+  if (FAUGRA_DOMAIN) {
+    args.push('--domain')
+    args.push(FAUGRA_DOMAIN)
+  }
+
+  if (FAUGRA_PORT) {
+    args.push('--port')
+    args.push(FAUGRA_PORT)
+  }
+
+  if (FAUGRA_SCHEME) {
+    args.push('--scheme')
+    args.push(FAUGRA_SCHEME)
+  }
+
+  const { stdout, stderr, exitCode } = execa.sync(faunaShell, args, {
+    cwd: __dirname,
+  })
 
   if (exitCode) {
     debug('faugra:runFQL')(`The query has failed to execute.`)
@@ -68,11 +93,11 @@ const runFQL = (query) => {
 
 const importSchema = async (schema, override) => {
   debug('faugra:importSchema')(
-    `Pushing the schema to ${FAUGRA_DOMAIN}/import in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
+    `Pushing the schema to ${graphqlEndpoint.import} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
   )
 
   const t0 = performance.now()
-  const response = await fetch(`${FAUGRA_DOMAIN}/import${override ? '?mode=override' : ''}`, {
+  const response = await fetch(`${graphqlEndpoint.import}${override ? '?mode=override' : ''}`, {
     method: 'POST',
     body: schema,
     headers: new fetch.Headers({
@@ -108,6 +133,7 @@ const pipeData = new Promise((resolve, reject) => {
 
 module.exports = {
   ignored,
+  graphqlEndpoint,
   loadSecret,
   patternMatch,
   locateCache,

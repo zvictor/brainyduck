@@ -16,11 +16,34 @@ program
   })
 
   .option(
-    '-d, --domain <value>',
-    `set Fauna's endpoint (defaults to <FAUGRA_DOMAIN or 'https://graphql.fauna.com'>).`
+    '--domain <value>',
+    `FaunaDB server domain (defaults to <FAUGRA_DOMAIN or 'db.fauna.com'>).`
   )
   .on('option:domain', function () {
     process.env.FAUGRA_DOMAIN = this.domain
+  })
+
+  .option('--port <value>', `Connection port (defaults to <FAUGRA_PORT>).`)
+  .on('option:port', function () {
+    process.env.FAUGRA_PORT = this.port
+  })
+
+  .option(
+    '--graphql-domain <value>',
+    `Graphql server domain (defaults to <FAUGRA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).`
+  )
+  .on('option:graphql-domain', function () {
+    process.env.FAUGRA_GRAPHQL_DOMAIN = this.graphqlDomain
+  })
+
+  .option('--graphql-port <value>', `Graphql connection port (defaults to <FAUGRA_GRAPHQL_PORT>).`)
+  .on('option:graphql-port', function () {
+    process.env.FAUGRA_GRAPHQL_PORT = this.graphqlPort
+  })
+
+  .option('--scheme <value>', `Connection scheme (defaults to <FAUGRA_SCHEME or 'https'>).`)
+  .on('option:scheme', function () {
+    process.env.FAUGRA_SCHEME = this.scheme
   })
 
   .option('--overwrite', `wipe out data related to the command before its execution`)
