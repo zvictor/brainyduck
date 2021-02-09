@@ -7,6 +7,7 @@ const globby = require('globby')
 const fetch = require('node-fetch')
 const resolve = require('resolve-as-bin')
 const { performance } = require('perf_hooks')
+const { Client } = require('faunadb')
 
 const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
@@ -42,6 +43,25 @@ const loadSecret = () => {
   }
 
   return secret
+}
+
+const faunaClient = () => {
+  const { FAUGRA_DOMAIN, FAUGRA_SCHEME, FAUGRA_PORT } = process.env
+  const options = { secret: loadSecret() }
+
+  if (FAUGRA_DOMAIN) {
+    options.domain = process.env.FAUGRA_DOMAIN
+  }
+
+  if (FAUGRA_SCHEME) {
+    options.scheme = process.env.FAUGRA_SCHEME
+  }
+
+  if (FAUGRA_PORT) {
+    options.port = process.env.FAUGRA_PORT
+  }
+
+  return new Client(options)
 }
 
 const patternMatch = (pattern) =>
@@ -135,6 +155,7 @@ module.exports = {
   ignored,
   graphqlEndpoint,
   loadSecret,
+  faunaClient,
   patternMatch,
   locateCache,
   runFQL,

@@ -5,15 +5,8 @@ const path = require('path')
 const figures = require('figures')
 const logSymbols = require('log-symbols')
 const debug = require('debug')('faugra:define-functions')
-const { Client, query: q } = require('faunadb')
-const { loadSecret, patternMatch, runFQL } = require('../utils')
-
-const client = new Client({
-  domain: process.env.FAUGRA_DOMAIN,
-  scheme: process.env.FAUGRA_SCHEME,
-  port: process.env.FAUGRA_PORT,
-  secret: loadSecret(),
-})
+const { query: q } = require('faunadb')
+const { faunaClient, patternMatch, runFQL } = require('../utils')
 
 const main = async (pattern = '**/*.udf') => {
   debug(`Looking for files matching '${pattern}'`)
@@ -24,7 +17,7 @@ const main = async (pattern = '**/*.udf') => {
       debug(`\t${figures.pointer} found ${file}`)
       const name = path.basename(file, path.extname(file))
       const content = fs.readFileSync(file).toString('utf8')
-      const replacing = await client.query(q.IsFunction(q.Function(name)))
+      const replacing = await faunaClient().query(q.IsFunction(q.Function(name)))
 
       debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
 
