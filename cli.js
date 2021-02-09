@@ -2,7 +2,11 @@
 
 const path = require('path')
 const { program } = require('commander')
+const { constantCase } = require('constant-case')
 const package = require('./package.json')
+
+const optionParser = (key) => () =>
+  (process.env[`FAUGRA_${constantCase(key)}`] = program.opts()[key])
 
 program
   .version(package.version)
@@ -11,53 +15,37 @@ program
     '-s, --secret <value>',
     `set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).`
   )
-  .on('option:secret', function () {
-    process.env.FAUGRA_SECRET = this.secret
-  })
+  .on('option:secret', optionParser('secret'))
 
   .option(
     '--domain <value>',
     `FaunaDB server domain (defaults to <FAUGRA_DOMAIN or 'db.fauna.com'>).`
   )
-  .on('option:domain', function () {
-    process.env.FAUGRA_DOMAIN = this.domain
-  })
+  .on('option:domain', optionParser('domain'))
 
   .option('--port <value>', `Connection port (defaults to <FAUGRA_PORT>).`)
-  .on('option:port', function () {
-    process.env.FAUGRA_PORT = this.port
-  })
+  .on('option:port', optionParser('port'))
 
   .option(
     '--graphql-domain <value>',
     `Graphql server domain (defaults to <FAUGRA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).`
   )
-  .on('option:graphql-domain', function () {
-    process.env.FAUGRA_GRAPHQL_DOMAIN = this.graphqlDomain
-  })
+  .on('option:graphql-domain', optionParser('graphqlDomain'))
 
   .option('--graphql-port <value>', `Graphql connection port (defaults to <FAUGRA_GRAPHQL_PORT>).`)
-  .on('option:graphql-port', function () {
-    process.env.FAUGRA_GRAPHQL_PORT = this.graphqlPort
-  })
+  .on('option:graphql-port', optionParser('graphqlPort'))
 
   .option('--scheme <value>', `Connection scheme (defaults to <FAUGRA_SCHEME or 'https'>).`)
-  .on('option:scheme', function () {
-    process.env.FAUGRA_SCHEME = this.scheme
-  })
+  .on('option:scheme', optionParser('scheme'))
 
   .option('--overwrite', `wipe out data related to the command before its execution`)
-  .on('option:overwrite', function () {
-    process.env.FAUGRA_OVERWRITE = this.overwrite
-  })
+  .on('option:overwrite', optionParser('overwrite'))
 
   .option(
     '-i, --ignore <value>',
     `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`
   )
-  .on('option:ignore', function () {
-    process.env.FAUGRA_IGNORE = this.ignore
-  })
+  .on('option:ignore', optionParser('ignore'))
 
   .option('--no-watch', `disable the files watcher (only used in the dev command).`)
   .on('option:no-watch', function () {
@@ -68,17 +56,13 @@ program
     '--watch-changes',
     `ignore initial files and watch changes ONLY (only used in the dev command).`
   )
-  .on('option:watch-changes', function () {
-    process.env.FAUGRA_WATCH_CHANGES = this.watchChanges
-  })
+  .on('option:watch-changes', optionParser('watchChanges'))
 
   .option(
     '--callback <command>',
     `run external command after every execution completion (only used in the dev command).`
   )
-  .on('option:callback', function () {
-    process.env.CALLBACK = this.callback
-  })
+  .on('option:callback', optionParser('callback'))
 
   .option('--verbose', `run the command with verbose logging.`)
   .on('option:verbose', function () {
