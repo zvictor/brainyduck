@@ -66,6 +66,18 @@ type User {
 """The \`Long\` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1."""
 scalar Long
 
+directive @embedded on OBJECT
+
+directive @collection(name: String!) on OBJECT
+
+directive @index(name: String!) on FIELD_DEFINITION
+
+directive @resolver(name: String, paginated: Boolean! = false) on FIELD_DEFINITION
+
+directive @relation(name: String) on FIELD_DEFINITION
+
+directive @unique(index: String) on FIELD_DEFINITION
+
 schema {
   query: Query
   mutation: Mutation

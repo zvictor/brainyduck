@@ -31,6 +31,12 @@ export type Scalars = {
 };
 
 
+
+
+
+
+
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new document in the collection of 'User' */
