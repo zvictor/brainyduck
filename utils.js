@@ -13,11 +13,6 @@ const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
 
-let faunaShell = path.join(__dirname, `./node_modules/.bin/fauna`)
-if (!fs.existsSync(faunaShell)) {
-  faunaShell = resolve('fauna')
-}
-
 const graphqlEndpoint = (() => {
   const {
     FAUGRA_GRAPHQL_DOMAIN = 'graphql.fauna.com',
@@ -30,6 +25,12 @@ const graphqlEndpoint = (() => {
   }`
   return { server: `${base}/graphql`, import: `${base}/import` }
 })()
+
+const findBin = (name) => {
+  const local = path.join(__dirname, `./node_modules/.bin`, name)
+
+  return fs.existsSync(local) ? local : resolve(name)
+}
 
 const loadSecret = () => {
   const secret = process.env.FAUGRA_SECRET
@@ -96,7 +97,7 @@ const runFQL = (query) => {
     args.push(FAUGRA_SCHEME)
   }
 
-  const { stdout, stderr, exitCode } = execa.sync(faunaShell, args, {
+  const { stdout, stderr, exitCode } = execa.sync(findBin(`fauna`), args, {
     cwd: __dirname,
   })
 
@@ -153,6 +154,7 @@ const pipeData = new Promise((resolve, reject) => {
 
 module.exports = {
   ignored,
+  findBin,
   graphqlEndpoint,
   loadSecret,
   faunaClient,

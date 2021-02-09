@@ -6,7 +6,7 @@ const execa = require('execa')
 const { parse } = require('graphql')
 const debug = require('debug')('faugra:build-sdk')
 const { codegen } = require('@graphql-codegen/core')
-const { pipeData, patternMatch, locateCache } = require('../utils')
+const { findBin, pipeData, patternMatch, locateCache } = require('../utils')
 const push = require('./push-schema')
 const pull = require('./pull-schema')
 
@@ -89,7 +89,7 @@ export default function faugra({
     fs.writeFileSync(outputPath, ouput)
     debug(`The sdk has been saved at '${outputPath}'`)
 
-    execa.sync(`./node_modules/.bin/tsc`, [outputPath, '--declaration', '--declarationMap'], {
+    execa.sync(findBin(`tsc`), [outputPath, '--declaration', '--declarationMap'], {
       stdio: ['pipe', process.stdout, process.stderr],
       cwd: process.cwd(),
     })
