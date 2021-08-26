@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const ora = require('ora')
-const path = require('path')
-const debug = require('debug')('faugra:reset')
-const { runFQL, importSchema } = require('../utils')
+import fs from 'fs'
+import ora from 'ora'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { runFQL, importSchema } from '../utils.js'
 
 const readScript = (name) =>
-  fs.readFileSync(path.join(__dirname, `../scripts/`, name), { encoding: 'utf8' })
+  fs.readFileSync(new URL(path.join(`../scripts/`, name), import.meta.url), { encoding: 'utf8' })
 
 const reset = (type) => {
   const spinner = ora(`Wiping out ${type}...`).start()
@@ -30,7 +30,7 @@ const reset = (type) => {
   }
 }
 
-const main = async (
+export default async function main(
   types = {
     functions: true,
     indexes: true,
@@ -38,7 +38,7 @@ const main = async (
     collections: true,
     schemas: true,
   }
-) => {
+) {
   const _types = Object.keys(types).filter((key) => types[key])
   console.log(`The following types are about to be deleted:`, _types)
 
@@ -60,7 +60,7 @@ const main = async (
   }
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main()
     .then(() => {
       console.log(`All reset operations have succeeded.`)
@@ -71,5 +71,3 @@ if (require.main === module) {
       process.exit(1)
     })
 }
-
-module.exports = main

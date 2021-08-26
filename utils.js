@@ -1,19 +1,22 @@
-const fs = require('fs')
-const path = require('path')
-const debug = require('debug')
-const tempy = require('tempy')
-const execa = require('execa')
-const globby = require('globby')
-const fetch = require('node-fetch')
-const resolve = require('resolve-as-bin')
-const { performance } = require('perf_hooks')
-const { Client } = require('faunadb')
+import fs from 'fs'
+import path from 'path'
+import debug from 'debug'
+import tempy from 'tempy'
+import execa from 'execa'
+import fetch from 'node-fetch'
+import globby from 'globby'
+import faunadb from 'faunadb'
+import resolve from 'resolve-as-bin'
+import { performance } from 'perf_hooks'
+import { fileURLToPath } from 'url'
 
-const ignored = process.env.FAUGRA_IGNORE
+const { Client } = faunadb
+
+export const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
 
-const graphqlEndpoint = (() => {
+export const graphqlEndpoint = (() => {
   const {
     FAUGRA_GRAPHQL_DOMAIN = 'graphql.fauna.com',
     FAUGRA_SCHEME = 'https',
@@ -26,13 +29,13 @@ const graphqlEndpoint = (() => {
   return { server: `${base}/graphql`, import: `${base}/import` }
 })()
 
-const findBin = (name) => {
-  const local = path.join(__dirname, `./node_modules/.bin`, name)
+export const findBin = (name) => {
+  const local = fileURLToPath(new URL(path.join(`./node_modules/.bin`, name), import.meta.url))
 
   return fs.existsSync(local) ? local : resolve(name)
 }
 
-const loadSecret = () => {
+export const loadSecret = () => {
   const secret = process.env.FAUGRA_SECRET
 
   if (!secret) {
@@ -46,7 +49,7 @@ const loadSecret = () => {
   return secret
 }
 
-const faunaClient = () => {
+export const faunaClient = () => {
   const { FAUGRA_DOMAIN, FAUGRA_SCHEME, FAUGRA_PORT } = process.env
   const options = { secret: loadSecret() }
 
@@ -65,15 +68,16 @@ const faunaClient = () => {
   return new Client(options)
 }
 
-const patternMatch = (pattern) =>
+export const patternMatch = (pattern) =>
   globby(pattern, {
     cwd: process.cwd(),
     ignore: ignored,
   })
 
-const locateCache = (file) => path.join(__dirname, '.cache/', file)
+export const locateCache = (file) =>
+  fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
 
-const runFQL = (query) => {
+export const runFQL = (query) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
 
@@ -98,7 +102,7 @@ const runFQL = (query) => {
   }
 
   const { stdout, stderr, exitCode } = execa.sync(findBin(`fauna`), args, {
-    cwd: __dirname,
+    cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 
   if (exitCode) {
@@ -112,7 +116,7 @@ const runFQL = (query) => {
   return JSON.parse(stdout)
 }
 
-const importSchema = async (schema, override) => {
+export const importSchema = async (schema, override) => {
   debug('faugra:importSchema')(
     `Pushing the schema to ${graphqlEndpoint.import} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
   )
@@ -135,7 +139,7 @@ const importSchema = async (schema, override) => {
   return message
 }
 
-const pipeData = new Promise((resolve, reject) => {
+export const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
   let data = ''
 
@@ -151,16 +155,3 @@ const pipeData = new Promise((resolve, reject) => {
     resolve(data)
   })
 })
-
-module.exports = {
-  ignored,
-  findBin,
-  graphqlEndpoint,
-  loadSecret,
-  faunaClient,
-  patternMatch,
-  locateCache,
-  runFQL,
-  importSchema,
-  pipeData,
-}

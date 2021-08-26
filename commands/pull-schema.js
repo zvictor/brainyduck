@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const debug = require('debug')('faugra:pull-schema')
-const { performance } = require('perf_hooks')
-const { loadTypedefs, OPERATION_KINDS } = require('@graphql-tools/load')
-const { UrlLoader } = require('@graphql-tools/url-loader')
-const { print } = require('graphql')
-const { mergeTypeDefs } = require('@graphql-tools/merge')
-const { graphqlEndpoint, loadSecret } = require('../utils')
+import fs from 'fs'
+import _debug from 'debug'
+import { print } from 'graphql'
+import { performance } from 'perf_hooks'
+import { fileURLToPath } from 'url'
+import { loadTypedefs, OPERATION_KINDS } from '@graphql-tools/load'
+import { UrlLoader } from '@graphql-tools/url-loader'
+import { mergeTypeDefs } from '@graphql-tools/merge'
+import { graphqlEndpoint, loadSecret } from '../utils.js'
+
+const debug = _debug('faugra:pull-schema')
 
 const options = {
   loaders: [new UrlLoader()],
@@ -42,7 +44,7 @@ const loadSchema = async (url) => {
     : mergedDocuments && print(mergedDocuments)
 }
 
-const main = async (outputPath) => {
+export default async function main(outputPath) {
   debug(`called with:`, { outputPath })
   const t0 = performance.now()
   const schema = await loadSchema(graphqlEndpoint.server)
@@ -56,10 +58,10 @@ const main = async (outputPath) => {
   return schema
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [outputPath] = process.argv.slice(2)
 
-  return main(outputPath && path.resolve(outputPath))
+  main(outputPath && path.resolve(outputPath))
     .then((schema) => {
       if (!outputPath) {
         console.log(schema)
@@ -72,5 +74,3 @@ if (require.main === module) {
       process.exit(1)
     })
 }
-
-module.exports = main

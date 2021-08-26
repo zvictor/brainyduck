@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const debug = require('debug')('faugra:generate-types')
-const { codegen } = require('@graphql-codegen/core')
-const { parse } = require('graphql')
-const { pipeData } = require('../utils')
-const push = require('./push-schema')
-const pull = require('./pull-schema')
+import fs from 'fs'
+import _debug from 'debug'
+import { parse } from 'graphql'
+import { codegen } from '@graphql-codegen/core'
+import { fileURLToPath } from 'url'
+import * as typescriptPlugin from '@graphql-codegen/typescript'
+import { pipeData } from '../utils.js'
+import push from './push-schema.js'
+import pull from './pull-schema.js'
+
+const debug = _debug('faugra:generate-types')
 
 const config = {
   plugins: [
@@ -16,7 +20,7 @@ const config = {
     },
   ],
   pluginMap: {
-    typescript: require('@graphql-codegen/typescript'),
+    typescript: typescriptPlugin,
   },
 }
 
@@ -26,7 +30,7 @@ const generateTypes = (schema) =>
     schema: parse(schema),
   })
 
-const main = async (inputData, outputPath) => {
+export default async function main(inputData, outputPath) {
   debug(`called with:`, { inputData, outputPath })
   debug(`schema needs to be pushed-and-pulled first`)
   await push(await inputData)
@@ -43,7 +47,7 @@ const main = async (inputData, outputPath) => {
   return types
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [inputPath, outputPath] = process.argv.slice(2)
 
   main(inputPath === '-' ? pipeData() : inputPath, outputPath)
@@ -59,5 +63,3 @@ if (require.main === module) {
       process.exit(1)
     })
 }
-
-module.exports = main

@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const execa = require('execa')
-const { parse } = require('graphql')
-const debug = require('debug')('faugra:build-sdk')
-const { codegen } = require('@graphql-codegen/core')
-const { findBin, pipeData, patternMatch, locateCache } = require('../utils')
-const push = require('./push-schema')
-const pull = require('./pull-schema')
+import fs from 'fs'
+import path from 'path'
+import execa from 'execa'
+import _debug from 'debug'
+import { parse } from 'graphql'
+import { fileURLToPath } from 'url'
+import { codegen } from '@graphql-codegen/core'
+import * as typescriptPlugin from '@graphql-codegen/typescript'
+import * as typescriptOperations from '@graphql-codegen/typescript-operations'
+import * as typescriptGraphqlRequest from '@graphql-codegen/typescript-graphql-request'
+import { findBin, pipeData, patternMatch, locateCache } from '../utils.js'
+import push from './push-schema.js'
+import pull from './pull-schema.js'
+
+const debug = _debug('faugra:build-sdk')
 
 const config = {
   filename: 'output.ts',
@@ -23,9 +29,9 @@ const config = {
     },
   ],
   pluginMap: {
-    typescript: require('@graphql-codegen/typescript'),
-    ['typescript-operations']: require('@graphql-codegen/typescript-operations'),
-    ['typescript-graphql-request']: require('@graphql-codegen/typescript-graphql-request'),
+    typescript: typescriptPlugin,
+    ['typescript-operations']: typescriptOperations,
+    ['typescript-graphql-request']: typescriptGraphqlRequest,
   },
 }
 
@@ -48,11 +54,11 @@ const generateSdk = async (schema, documentsPattern) => {
   })
 }
 
-const main = async (
+export default async function main(
   schemaPattern,
   documentsPattern = '**/[a-z]*.(graphql|gql)',
   outputPath = locateCache('sdk.ts')
-) => {
+) {
   debug(`called with:`, { schemaPattern, documentsPattern, outputPath })
 
   await push(await schemaPattern)
@@ -99,7 +105,7 @@ export default function faugra({
   return ouput
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [schemaPattern, documentsPattern, outputPath] = process.argv.slice(2)
 
   main(
@@ -119,5 +125,3 @@ if (require.main === module) {
       process.exit(1)
     })
 }
-
-module.exports = main

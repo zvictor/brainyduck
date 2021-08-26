@@ -1,11 +1,12 @@
-import { resolve } from 'path'
 import execa from 'execa'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
 
 beforeEach(() => reset(), 120000)
 
 test(`complete all 'dev' operations for the 'basic' example`, () => {
-  const cwd = resolve(`${__dirname}/../../examples/basic`)
+  const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },
@@ -32,7 +33,7 @@ test(`complete all 'dev' operations for the 'basic' example`, () => {
 }, 15000)
 
 test(`complete all 'dev' operations for the 'modularized' example`, () => {
-  const cwd = resolve(`${__dirname}/../../examples/modularized`)
+  const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },
@@ -61,7 +62,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, () => {
 }, 15000)
 
 test(`complete all 'dev' operations for the 'with-UDF' example`, () => {
-  const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
+  const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '' },

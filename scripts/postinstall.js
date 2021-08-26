@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // https://npm.community/t/how-can-i-publish-symlink/5599
 
-const fs = require('fs')
-const { locateCache } = require('../utils')
+import fs from 'fs'
+import { locateCache } from '../utils.js'
 
 try {
   fs.unlinkSync('index.d.ts')

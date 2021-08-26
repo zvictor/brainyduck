@@ -1,11 +1,12 @@
-import { resolve } from 'path'
 import execa from 'execa'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
 
 beforeEach(() => reset({ roles: true }), 10000)
 
 test('role definitions should not accept simplified formats', () => {
-  const cwd = resolve(`${__dirname}/../fixtures`)
+  const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
     execa.sync('node', ['../../cli.js', 'define-roles', 'simplified.role'], {
@@ -23,7 +24,7 @@ test('role definitions should not accept simplified formats', () => {
 })
 
 test('role name should match file name', () => {
-  const cwd = resolve(`${__dirname}/../fixtures`)
+  const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
     execa.sync('node', ['../../cli.js', 'define-roles', 'unmatched.role'], {
@@ -41,7 +42,7 @@ test('role name should match file name', () => {
 })
 
 test('upload all roles: publicAccess', () => {
-  const cwd = resolve(`${__dirname}/../../examples/with-UDF`)
+  const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   // the referred functions needs to be defined first
   const functions = execa.sync('node', ['../../cli.js', 'define-functions'], {

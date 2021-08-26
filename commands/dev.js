@@ -11,19 +11,22 @@ const scream = (e) => {
 process.on('unhandledRejection', scream)
 process.on('uncaughtException', scream)
 
-const ora = require('ora')
-const path = require('path')
-const execa = require('execa')
-const debug = require('debug')('faugra:watcher')
-const chokidar = require('chokidar')
-const { default: PQueue } = require('p-queue')
-const defineFunctions = require('./define-functions')
-// const generateTypes = require('./generate-types')
-const defineIndexes = require('./define-indexes')
-const defineRoles = require('./define-roles')
-const pushSchema = require('./push-schema')
-const buildSdk = require('./build-sdk')
-const { ignored } = require('../utils')
+import ora from 'ora'
+import path from 'path'
+import execa from 'execa'
+import _debug from 'debug'
+import PQueue from 'p-queue'
+import chokidar from 'chokidar'
+import { fileURLToPath } from 'url'
+import defineFunctions from './define-functions.js'
+// import generateTypes from './generate-types.js'
+import defineIndexes from './define-indexes.js'
+import defineRoles from './define-roles.js'
+import pushSchema from './push-schema.js'
+import buildSdk from './build-sdk.js'
+import { ignored } from '../utils.js'
+
+const debug = _debug('faugra:watcher')
 
 const PATTERNS = {
   ts: '**/*.(ts|tsx)',
@@ -115,7 +118,7 @@ const watch = (type, pattern, operation, cumulative) =>
       .on('ready', resolve)
   })
 
-const main = async () => {
+export default async function main() {
   const ts = await watch('Typescript', PATTERNS['ts'], null, true)
 
   // const schema = await watch('Schema', PATTERNS['schema'], (file) =>
@@ -177,14 +180,12 @@ const main = async () => {
   queue.start()
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   let startup = Promise.resolve()
 
   if (process.env.FAUGRA_OVERWRITE) {
-    startup = require('./reset')()
+    startup = import('./reset.js').then(({ default: reset }) => reset())
   }
 
   startup.then(main)
 }
-
-module.exports = main

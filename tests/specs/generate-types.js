@@ -1,11 +1,12 @@
-import { resolve } from 'path'
 import execa from 'execa'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
 
 beforeEach(() => reset({ schemas: true }), 120000)
 
 test('generate types for a schema without imports', () => {
-  const cwd = resolve(`${__dirname}/../../examples/basic`)
+  const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync(
     'node',

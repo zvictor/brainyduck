@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const figures = require('figures')
-const logSymbols = require('log-symbols')
-const debug = require('debug')('faugra:define-indexes')
-const { query: q } = require('faunadb')
-const { faunaClient, patternMatch, runFQL } = require('../utils')
+import fs from 'fs'
+import path from 'path'
+import _debug from 'debug'
+import figures from 'figures'
+import faunadb from 'faunadb'
+import logSymbols from 'log-symbols'
+import { fileURLToPath } from 'url'
+import { faunaClient, patternMatch, runFQL } from '../utils.js'
 
-const main = async (pattern = '**/*.index') => {
+const { query: q } = faunadb
+const debug = _debug('faugra:define-indexes')
+
+export default async function main(pattern = '**/*.index') {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 
@@ -48,13 +52,13 @@ const main = async (pattern = '**/*.index') => {
   )
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [pattern] = process.argv.slice(2)
 
   let startup = Promise.resolve()
 
   if (process.env.FAUGRA_OVERWRITE) {
-    startup = require('./reset')({ indexes: true })
+    startup = import('./reset.js').then(({ default: reset }) => reset({ indexes: true }))
   }
 
   startup.then(() =>
@@ -72,5 +76,3 @@ if (require.main === module) {
       })
   )
 }
-
-module.exports = main

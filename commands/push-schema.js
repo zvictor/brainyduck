@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const debug = require('debug')('faugra:push-schema')
-const figures = require('figures')
-const { patternMatch, importSchema } = require('../utils')
+import fs from 'fs'
+import path from 'path'
+import _debug from 'debug'
+import figures from 'figures'
+import { fileURLToPath } from 'url'
+import { patternMatch, importSchema } from '../utils.js'
+
+const debug = _debug('faugra:push-schema')
 
 const extendTypes = (schema) => {
   const regexp = /^[\s]*(?!#)[\s]*extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm
@@ -26,9 +29,9 @@ const extendTypes = (schema) => {
 const loadSchema = async (pattern) => {
   debug(`Looking for schemas matching '${pattern}'`)
 
-  const files = (
-    await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))
-  ).map((x) => path.resolve(x))
+  const files = (await patternMatch(Array.isArray(pattern) ? pattern : pattern.split(','))).map(
+    (x) => path.resolve(x)
+  )
 
   if (!files.length) {
     throw new Error(`no file could be found with pattern '${pattern}'`)
@@ -42,7 +45,7 @@ const loadSchema = async (pattern) => {
   return content.join('\n')
 }
 
-const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
+export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', override) {
   debug(`called with:`, { inputPath, override })
   const schema = extendTypes(await loadSchema(inputPath))
 
@@ -58,13 +61,15 @@ const main = async (inputPath = '**/[A-Z]*.(graphql|gql)', override) => {
   }
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [inputPath] = process.argv.slice(2)
 
   let startup = Promise.resolve()
 
   if (process.env.FAUGRA_OVERWRITE) {
-    startup = require('./reset')({ collections: true, schemas: true })
+    startup = import('./reset.js').then(({ default: reset }) =>
+      reset({ collections: true, schemas: true })
+    )
   }
 
   startup.then(() =>
@@ -79,5 +84,3 @@ if (require.main === module) {
       })
   )
 }
-
-module.exports = main

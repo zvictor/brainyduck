@@ -1,6 +1,8 @@
+import path from 'path'
 import execa from 'execa'
-import { importSchema } from '../../utils'
-import reset from '../../commands/reset'
+import reset from '../../commands/reset.js'
+import { importSchema } from '../../utils.js'
+import { fileURLToPath } from 'url'
 
 beforeEach(() => reset({ schemas: true }), 120000)
 
@@ -15,10 +17,27 @@ test('fetch schema from fauna', async () => {
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'pull-schema'], {
     env: { DEBUG: 'faugra:*' },
-    cwd: __dirname,
+    cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 
-  const expectedSchema = `scalar Date
+  const expectedSchema = `schema {
+  query: Query
+  mutation: Mutation
+}
+
+directive @embedded on OBJECT
+
+directive @collection(name: String!) on OBJECT
+
+directive @index(name: String!) on FIELD_DEFINITION
+
+directive @resolver(name: String, paginated: Boolean! = false) on FIELD_DEFINITION
+
+directive @relation(name: String) on FIELD_DEFINITION
+
+directive @unique(index: String) on FIELD_DEFINITION
+
+scalar Date
 
 type Mutation {
   """Create a new document in the collection of 'User'"""
@@ -65,23 +84,6 @@ type User {
 
 """The \`Long\` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1."""
 scalar Long
-
-directive @embedded on OBJECT
-
-directive @collection(name: String!) on OBJECT
-
-directive @index(name: String!) on FIELD_DEFINITION
-
-directive @resolver(name: String, paginated: Boolean! = false) on FIELD_DEFINITION
-
-directive @relation(name: String) on FIELD_DEFINITION
-
-directive @unique(index: String) on FIELD_DEFINITION
-
-schema {
-  query: Query
-  mutation: Mutation
-}
 `
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))

@@ -14,4 +14,4 @@ if [ -z ${FAUGRA_SECRET+x} ]; then
   exit 1;
 fi
 
-$cmd --runInBand
+NODE_OPTIONS=--experimental-vm-modules $cmd --runInBand

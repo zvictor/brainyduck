@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 
-const path = require('path')
-const { program } = require('commander')
-const { constantCase } = require('constant-case')
-const package = require('./package.json')
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+import { program } from 'commander'
+import { constantCase } from 'constant-case'
+
+const pkg = JSON.parse(
+  await fs.readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)))
+)
 
 const optionParser = (key) => () =>
   (process.env[`FAUGRA_${constantCase(key)}`] = program.opts()[key])
 
 program
-  .version(package.version)
+  .version(pkg.version)
 
   .option(
     '-s, --secret <value>',
@@ -83,7 +87,7 @@ program
     'dev [directory]',
     'watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]',
     {
-      executableFile: path.join(__dirname, './commands/dev.js'),
+      executableFile: fileURLToPath(new URL('./commands/dev.js', import.meta.url)),
       isDefault: true,
     }
   )
@@ -92,7 +96,7 @@ program
     'define-functions [pattern]',
     'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]',
     {
-      executableFile: path.join(__dirname, './commands/define-functions.js'),
+      executableFile: fileURLToPath(new URL('./commands/define-functions.js', import.meta.url)),
     }
   )
 
@@ -100,7 +104,7 @@ program
     'define-indexes [pattern]',
     'upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]',
     {
-      executableFile: path.join(__dirname, './commands/define-indexes.js'),
+      executableFile: fileURLToPath(new URL('./commands/define-indexes.js', import.meta.url)),
     }
   )
 
@@ -108,7 +112,7 @@ program
     'define-roles [pattern]',
     'upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]',
     {
-      executableFile: path.join(__dirname, './commands/define-roles.js'),
+      executableFile: fileURLToPath(new URL('./commands/define-roles.js', import.meta.url)),
     }
   )
 
@@ -116,7 +120,7 @@ program
     'pull-schema [output]',
     'load the schema hosted in faunadb. Defaults: [output: <stdout>]',
     {
-      executableFile: path.join(__dirname, './commands/pull-schema.js'),
+      executableFile: fileURLToPath(new URL('./commands/pull-schema.js', import.meta.url)),
     }
   )
 
@@ -124,7 +128,7 @@ program
     'push-schema [pattern]',
     'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
     {
-      executableFile: path.join(__dirname, './commands/push-schema.js'),
+      executableFile: fileURLToPath(new URL('./commands/push-schema.js', import.meta.url)),
     }
   )
 
@@ -132,7 +136,7 @@ program
     'generate-types [pattern] [output]',
     'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]',
     {
-      executableFile: path.join(__dirname, './commands/generate-types.js'),
+      executableFile: fileURLToPath(new URL('./commands/generate-types.js', import.meta.url)),
     }
   )
 
@@ -140,12 +144,12 @@ program
     'build-sdk [schema-pattern] [documents-pattern] [output]',
     'code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
     {
-      executableFile: path.join(__dirname, './commands/build-sdk.js'),
+      executableFile: fileURLToPath(new URL('./commands/build-sdk.js', import.meta.url)),
     }
   )
 
   .command('reset', 'wipe out all data in the database [Be careful!]', {
-    executableFile: path.join(__dirname, './commands/reset.js'),
+    executableFile: fileURLToPath(new URL('./commands/reset.js', import.meta.url)),
   })
 
 program.parse(process.argv)

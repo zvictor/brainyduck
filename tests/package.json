@@ -3,15 +3,16 @@
   "version": "0.0.2",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "./run-tests.sh",
     "test": "./run-tests.sh"
   },
   "dependencies": {
-    "@babel/core": "7.12.10",
-    "@babel/preset-env": "7.12.11",
-    "babel-jest": "26.6.3",
-    "execa": "5.0.0",
-    "jest": "26.6.3"
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-jest": "^27.0.6",
+    "execa": "^5.1.1",
+    "jest": "27.0.6"
   }
 }

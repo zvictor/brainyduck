@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
@@ -9,7 +9,9 @@
     "serverless"
   ],
   "license": "AGPL-3.0-or-later",
+  "type": "module",
   "bin": "./cli.js",
+  "exports": "./index.cjs",
   "browser": ".cache/sdk.js",
   "files": [
     "/commands",
@@ -24,30 +26,30 @@
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
-    "@graphql-codegen/core": "1.17.9",
-    "@graphql-codegen/typescript": "1.21.0",
-    "@graphql-codegen/typescript-graphql-request": "3.0.2",
-    "@graphql-codegen/typescript-operations": "1.17.14",
-    "@graphql-tools/load": "6.2.7",
-    "@graphql-tools/merge": "6.2.9",
-    "@graphql-tools/url-loader": "6.8.1",
-    "chokidar": "3.5.1",
-    "commander": "7.1.0",
+    "@graphql-codegen/core": "2.1.0",
+    "@graphql-codegen/typescript": "2.1.1",
+    "@graphql-codegen/typescript-graphql-request": "4.1.1",
+    "@graphql-codegen/typescript-operations": "2.1.1",
+    "@graphql-tools/load": "7.1.9",
+    "@graphql-tools/merge": "8.0.3",
+    "@graphql-tools/url-loader": "7.0.12",
+    "chokidar": "3.5.2",
+    "commander": "8.1.0",
     "constant-case": "3.0.4",
-    "debug": "4.3.1",
-    "execa": "5.0.0",
-    "fauna-shell": "0.12.3",
-    "faunadb": "4.1.0",
-    "figures": "3.2.0",
+    "debug": "4.3.2",
+    "execa": "5.1.1",
+    "fauna-shell": "0.12.5",
+    "faunadb": "4.3.0",
+    "figures": "4.0.0",
     "globby": "11.0.2",
-    "graphql": "15.5.0",
-    "graphql-request": "3.4.0",
-    "log-symbols": "4.0.0",
+    "graphql": "15.5.1",
+    "graphql-request": "3.5.0",
+    "log-symbols": "5.0.0",
     "node-fetch": "2.6.1",
     "ora": "5.3.0",
-    "p-queue": "6.6.2",
+    "p-queue": "7.1.0",
     "resolve-as-bin": "2.1.0",
     "tempy": "1.0.0",
-    "typescript": "4.1.5"
+    "typescript": "4.3.5"
   }
 }
