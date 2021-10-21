@@ -42,7 +42,7 @@ export default async function main(pattern = '**/*.role') {
         throw new Error(`File name does not match role name: ${name}`)
       }
 
-      query = !replacing ? `CreateRole(${query})` : `Update(Role('${name}'), ${query})`
+      query = replacing ? `Update(Role('${name}'), ${query})` : `CreateRole(${query})`
 
       const data = await runFQL(query)
       debug(`${logSymbols.success} role has been created/updated: ${data.name}`)

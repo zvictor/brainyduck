@@ -42,7 +42,7 @@ export default async function main(pattern = '**/*.index') {
         throw new Error(`File name does not match index name: ${name}`)
       }
 
-      query = !replacing ? `CreateIndex(${query})` : `Update(Index('${name}'), ${query})`
+      query = replacing ? `Update(Index('${name}'), ${query})` : `CreateIndex(${query})`
 
       const data = await runFQL(query)
       debug(`${logSymbols.success} index has been created/updated: ${data.name}`)
