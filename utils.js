@@ -3,14 +3,18 @@ import path from 'path'
 import debug from 'debug'
 import tempy from 'tempy'
 import execa from 'execa'
-import fetch from 'node-fetch'
 import globby from 'globby'
 import faunadb from 'faunadb'
 import resolve from 'resolve-as-bin'
 import { performance } from 'perf_hooks'
+import fetch, { Headers } from 'node-fetch'
 import { fileURLToPath } from 'url'
 
 const { Client } = faunadb
+const errors = {
+  CACHE_TIMEOUT:
+    'Value is cached. Please wait at least 60 seconds after creating or renaming a collection or index before reusing its name.',
+}
 
 export const ignored = process.env.FAUGRA_IGNORE
   ? process.env.FAUGRA_IGNORE.split(',')
@@ -125,7 +129,7 @@ export const importSchema = async (schema, override) => {
   const response = await fetch(`${graphqlEndpoint.import}${override ? '?mode=override' : ''}`, {
     method: 'POST',
     body: schema,
-    headers: new fetch.Headers({
+    headers: new Headers({
       Authorization: `Bearer ${loadSecret()}`,
     }),
   })
@@ -133,11 +137,21 @@ export const importSchema = async (schema, override) => {
 
   const message = await response.text()
   if (response.status !== 200) {
-    throw new Error(message)
+    if (!message.endsWith(errors.CACHE_TIMEOUT)) {
+      throw new Error(message)
+    }
+
+    console.log(`Wiped data still found in fauna's cache.\nCooling down for 30s...`)
+    await sleep(30000)
+    console.log(`Retrying now...`)
+
+    return importSchema(schema, override)
   }
 
   return message
 }
+
+export const sleep = (timeout) => new Promise((resolve) => setTimeout(() => resolve, timeout))
 
 export const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
