@@ -15,6 +15,7 @@ test('generate types for a schema without imports', () => {
   )
 
   const expectedOutput = `export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -31,13 +32,6 @@ export type Scalars = {
   Long: any;
 };
 
-
-
-
-
-
-
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new document in the collection of 'User' */
@@ -46,6 +40,8 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   /** Delete an existing document in the collection of 'User' */
   deleteUser?: Maybe<User>;
+  /** Partially updates an existing document in the collection of 'User'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'. */
+  partialUpdateUser?: Maybe<User>;
 };
 
 
@@ -64,6 +60,16 @@ export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
+
+export type MutationPartialUpdateUserArgs = {
+  id: Scalars['ID'];
+  data: PartialUpdateUserInput;
+};
+
+/** 'User' input values */
+export type PartialUpdateUserInput = {
+  username?: InputMaybe<Scalars['String']>;
+};
 
 /** 'User' input values */
 export type UserInput = {
@@ -84,8 +90,8 @@ export type QueryFindUserByIdArgs = {
 
 
 export type QueryAllUsersArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']>;
+  _cursor?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -107,7 +113,6 @@ export type UserPage = {
   /** A cursor for elements coming before the current page. */
   before?: Maybe<Scalars['String']>;
 };
-
 `
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))

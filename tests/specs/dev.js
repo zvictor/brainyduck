@@ -9,7 +9,7 @@ test(`complete all 'dev' operations for the 'basic' example`, () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
-    env: { DEBUG: '' },
+    env: { DEBUG: '', NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
 
@@ -36,7 +36,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
-    env: { DEBUG: '' },
+    env: { DEBUG: '', NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
 
@@ -65,7 +65,7 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
-    env: { DEBUG: '' },
+    env: { DEBUG: '', NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
 

@@ -9,10 +9,10 @@
     "test": "./run-tests.sh"
   },
   "dependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "babel-jest": "^27.0.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.5.1",
     "execa": "^5.1.1",
-    "jest": "27.0.6"
+    "jest": "27.5.1"
   }
 }

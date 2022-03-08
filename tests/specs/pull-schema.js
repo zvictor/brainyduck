@@ -57,6 +57,20 @@ type Mutation {
     """The 'User' document's ID"""
     id: ID!
   ): User
+  """
+  Partially updates an existing document in the collection of 'User'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'.
+  """
+  partialUpdateUser(
+    """The 'User' document's ID"""
+    id: ID!
+    """'User' input values"""
+    data: PartialUpdateUserInput!
+  ): User
+}
+
+"""'User' input values"""
+input PartialUpdateUserInput {
+  username: String
 }
 
 scalar Time
@@ -82,9 +96,10 @@ type User {
   username: String!
 }
 
-"""The \`Long\` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1."""
-scalar Long
-`
+"""
+The \`Long\` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long`
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
