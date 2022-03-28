@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
     "outDir": ".cache/",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "inlineSources": true,
   },
   "exclude": ["node_modules"],
 }
