@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": ".cache/",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+  },
+  "exclude": ["node_modules"],
+}

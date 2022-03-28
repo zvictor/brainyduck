@@ -22,7 +22,7 @@ We have built Faugra to help you transition to a top notch serverless environmen
 
 ## Sponsors
 
-<p align="center">Got frustrated with Fauna/Faugra? Consider giving a try to Slash GraphQL from our friends of Dgraph!<br /><a href="https://dgraph.io/slash-graphql"><img width="350px" src="https://cdn.jsdelivr.net/gh/dgraph-io/dgraph@master/logo.png" alt="dgraph's logo" /></a><p>
+<p align="center">Got frustrated with Fauna/Faugra? Consider giving a try to Dgraph!<br /><a href="https://dgraph.io/graphql"><img width="350px" src="https://cdn.jsdelivr.net/gh/dgraph-io/dgraph@master/logo.png" alt="Dgraph's logo" /></a><p>
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 

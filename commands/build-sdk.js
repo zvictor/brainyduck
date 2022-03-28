@@ -14,6 +14,9 @@ import { findBin, pipeData, patternMatch, locateCache } from '../utils.js'
 import push from './push-schema.js'
 import pull from './pull-schema.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 const debug = _debug('faugra:build-sdk')
 
 const config = {
@@ -88,14 +91,20 @@ export default function faugra({
 
   if (outputPath) {
     const dir = path.dirname(outputPath)
+    const tsconfigFile = path.join(dir, 'tsconfig.json')
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true })
     }
 
     fs.writeFileSync(outputPath, ouput)
+    fs.writeFileSync(
+      tsconfigFile,
+      `{"extends": "${path.join(__dirname, '..', 'tsconfig.json')}", "include": ["${outputPath}"] }`
+    )
+
     debug(`The sdk has been saved at '${outputPath}'`)
 
-    execa.sync(findBin(`tsc`), [outputPath, '--declaration', '--declarationMap'], {
+    execa.sync(findBin(`tsc`), ['--project', tsconfigFile], {
       stdio: ['pipe', process.stdout, process.stderr],
       cwd: process.cwd(),
     })
