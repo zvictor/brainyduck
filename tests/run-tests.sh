@@ -9,9 +9,9 @@ if [ !  -f "$cmd" ] ; then
   exit 1
 fi
 
-if [ -z ${FAUGRA_SECRET+x} ]; then
-  echo "ERROR: FAUGRA_SECRET is not defined. Expecting the environment to set the FAUGRA_SECRET variable, ex: 'FAUGRA_SECRET=klJSDojasd8ojasd $0'";
+if [ -z ${MASTER_SECRET+x} ]; then
+  echo "ERROR: MASTER_SECRET is not defined. Expecting the environment to set the MASTER_SECRET variable, ex: 'MASTER_SECRET=klJSDojasd8ojasd $0'";
   exit 1;
 fi
 
-NODE_OPTIONS=--experimental-vm-modules $cmd --runInBand --silent=false $@
+NODE_OPTIONS=--experimental-vm-modules $cmd --silent=false $@

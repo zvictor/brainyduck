@@ -3,7 +3,9 @@ import execa from 'execa'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset.js'
 import { importSchema } from '../../utils.js'
-import { amountOfCollectionsCreated } from '../testUtils.js'
+import { setupEnvironment, amountOfCollectionsCreated } from '../testUtils.js'
+
+setupEnvironment(`pull-schema`)
 
 beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 

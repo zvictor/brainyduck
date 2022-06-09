@@ -2,7 +2,9 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
-import { amountOfFunctionsCreated, amountOfRolesCreated } from '../testUtils.js'
+import { setupEnvironment, amountOfFunctionsCreated, amountOfRolesCreated } from '../testUtils.js'
+
+setupEnvironment(`define-roles`)
 
 beforeEach(() => reset({ functions:true, roles: true }), 10000)
 

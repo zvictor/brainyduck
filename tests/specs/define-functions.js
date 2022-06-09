@@ -2,8 +2,9 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset.js'
-import { amountOfFunctionsCreated } from '../testUtils.js'
+import { setupEnvironment, amountOfFunctionsCreated } from '../testUtils.js'
 
+setupEnvironment(`define-functions`)
 
 beforeEach(() => reset({ functions: true }), 10000)
 

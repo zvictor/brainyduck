@@ -81,14 +81,14 @@ export const patternMatch = (pattern) =>
 export const locateCache = (file) =>
   fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
 
-export const runFQL = (query) => {
+export const runFQL = (query, secret) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
 
   const tmpFile = tempy.file()
   fs.writeFileSync(tmpFile, query, 'utf8')
 
-  const args = [`eval`, `--secret=${loadSecret()}`, `--file=${tmpFile}`]
+  const args = [`eval`, `--secret=${secret || loadSecret()}`, `--file=${tmpFile}`]
 
   if (FAUGRA_DOMAIN) {
     args.push('--domain')

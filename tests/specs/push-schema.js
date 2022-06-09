@@ -2,7 +2,9 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
-import { amountOfCollectionsCreated } from '../testUtils.js'
+import { setupEnvironment, amountOfCollectionsCreated } from '../testUtils.js'
+
+setupEnvironment(`push-schema`)
 
 beforeEach(() => reset({ collections: true }), 240000)
 

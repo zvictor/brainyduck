@@ -3,10 +3,13 @@ import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
 import {
+  setupEnvironment,
   amountOfCollectionsCreated,
   amountOfRolesCreated,
   amountOfFunctionsCreated,
 } from '../testUtils.js'
+
+setupEnvironment(`dev`)
 
 beforeEach(() => reset(), 240000)
 

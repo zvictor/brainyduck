@@ -1,7 +1,38 @@
 import faunadb from 'faunadb'
-import { faunaClient } from '../utils.js'
+import { faunaClient, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
+
+export const createDatabase = (name, secret) =>
+  runFQL(`
+  CreateKey({
+    database: Select('ref', CreateDatabase({ name: '${name}' })),
+    role: 'admin',
+  })
+`, secret)
+
+export const deleteDatabase = (name, secret) => runFQL(`Delete(Database('${name}'))`, secret)
+
+export const setupEnvironment = (name) => {
+  const timestamp = +new Date()
+
+  beforeAll(() => {
+    process.env.FAUGRA_SECRET = createDatabase(
+      `${timestamp}_${name}`,
+      process.env.MASTER_SECRET
+    ).secret
+
+    process.env.FAUGRA_EXCLUSIVE_SECRET = createDatabase(
+      `${timestamp}_${name}_dry-run`,
+      process.env.MASTER_SECRET
+    ).secret
+  })
+
+  afterAll(() => {
+    deleteDatabase(`${timestamp}_${name}`, process.env.MASTER_SECRET)
+    deleteDatabase(`${timestamp}_${name}_dry-run`, process.env.MASTER_SECRET)
+  })
+}
 
 export const amountOfFunctionsCreated = () =>
   faunaClient().query(q.Count(q.Functions()))
