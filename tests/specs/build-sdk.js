@@ -2,8 +2,9 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
+import { amountOfCollectionsCreated } from '../testUtils.js'
 
-beforeEach(() => reset({ schemas: true, collections: true }), 120000)
+beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
 test('build an sdk for a schema without imports', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
@@ -200,4 +201,6 @@ export default function faugra({
       .join('\n')
   ).toEqual(expectedOutput)
   expect(exitCode).toBe(0)
-}, 120000)
+
+  expect(await amountOfCollectionsCreated()).toBe(1)
+}, 240000)

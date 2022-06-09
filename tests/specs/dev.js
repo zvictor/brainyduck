@@ -2,10 +2,15 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
+import {
+  amountOfCollectionsCreated,
+  amountOfRolesCreated,
+  amountOfFunctionsCreated,
+} from '../testUtils.js'
 
-beforeEach(() => reset(), 120000)
+beforeEach(() => reset(), 240000)
 
-test(`complete all 'dev' operations for the 'basic' example`, () => {
+test(`complete all 'dev' operations for the 'basic' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
@@ -30,9 +35,13 @@ test(`complete all 'dev' operations for the 'basic' example`, () => {
 
   expect(stdout).toEqual('All operations complete')
   expect(exitCode).toBe(0)
-}, 15000)
 
-test(`complete all 'dev' operations for the 'modularized' example`, () => {
+  expect(await amountOfRolesCreated()).toBe(0)
+  expect(await amountOfFunctionsCreated()).toBe(0)
+  expect(await amountOfCollectionsCreated()).toBe(1)
+}, 240000)
+
+test(`complete all 'dev' operations for the 'modularized' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
@@ -59,9 +68,13 @@ test(`complete all 'dev' operations for the 'modularized' example`, () => {
 
   expect(stdout).toEqual('All operations complete')
   expect(exitCode).toBe(0)
-}, 15000)
 
-test(`complete all 'dev' operations for the 'with-UDF' example`, () => {
+  expect(await amountOfRolesCreated()).toBe(0)
+  expect(await amountOfFunctionsCreated()).toBe(1)
+  expect(await amountOfCollectionsCreated()).toBe(2)
+}, 240000)
+
+test(`complete all 'dev' operations for the 'with-UDF' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
@@ -92,4 +105,8 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, () => {
 
   expect(stdout).toEqual('All operations complete')
   expect(exitCode).toBe(0)
-}, 15000)
+
+  expect(await amountOfRolesCreated()).toBe(1)
+  expect(await amountOfFunctionsCreated()).toBe(2)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+}, 240000)

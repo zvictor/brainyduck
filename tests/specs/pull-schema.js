@@ -1,10 +1,11 @@
 import path from 'path'
 import execa from 'execa'
+import { fileURLToPath } from 'url'
 import reset from '../../commands/reset.js'
 import { importSchema } from '../../utils.js'
-import { fileURLToPath } from 'url'
+import { amountOfCollectionsCreated } from '../testUtils.js'
 
-beforeEach(() => reset({ schemas: true }), 120000)
+beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
 test('fetch schema from fauna', async () => {
   const schema = `
@@ -106,4 +107,7 @@ scalar Long`
 
   expect(stdout).toEqual(expectedSchema)
   expect(exitCode).toBe(0)
-}, 120000)
+
+  expect(await amountOfCollectionsCreated()).toBe(1)
+}, 240000)
+

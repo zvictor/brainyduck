@@ -2,10 +2,11 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
+import { amountOfCollectionsCreated } from '../testUtils.js'
 
-beforeEach(() => reset({ schemas: true }), 120000)
+beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
-test('generate types for a schema without imports', () => {
+test('generate types for a schema without imports', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync(
@@ -118,6 +119,20 @@ export type UserPage = {
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  expect(stdout).toEqual(expectedOutput)
+  expect(
+    stdout
+      .split('\n')
+      .filter(
+        (x) =>
+          ![
+            `Wiped data still found in fauna's cache.`,
+            `Cooling down for 30s...`,
+            `Retrying now...`,
+          ].includes(x)
+      )
+      .join('\n')
+  ).toEqual(expectedOutput)
   expect(exitCode).toBe(0)
-}, 35000)
+
+  expect(await amountOfCollectionsCreated()).toBe(1)
+}, 240000)

@@ -1,11 +1,12 @@
 import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-// import reset from '../../commands/reset'
+import reset from '../../commands/reset'
+import { amountOfCollectionsCreated } from '../testUtils.js'
 
-// test.beforeEach(() => reset({ schemas: true }), 120000)
+beforeEach(() => reset({ collections: true }), 240000)
 
-test('push a basic schema', () => {
+test('push a basic schema', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'push-schema'], {
@@ -40,7 +41,9 @@ test('push a basic schema', () => {
   ).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
-}, 120000)
+
+  expect(await amountOfCollectionsCreated()).toBe(1)
+}, 240000)
 
 test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
@@ -88,4 +91,4 @@ test('push a modular schema', () => {
   ).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
-}, 120000)
+}, 240000)

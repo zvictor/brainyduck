@@ -2,10 +2,11 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
+import { amountOfFunctionsCreated, amountOfRolesCreated } from '../testUtils.js'
 
-beforeEach(() => reset({ roles: true }), 10000)
+beforeEach(() => reset({ functions:true, roles: true }), 10000)
 
-test('role definitions should not accept simplified formats', () => {
+test('role definitions should not accept simplified formats', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
@@ -21,9 +22,11 @@ test('role definitions should not accept simplified formats', () => {
     )
     expect(error.exitCode).toBe(1)
   }
+
+  expect(await amountOfRolesCreated()).toBe(0)
 })
 
-test('role name should match file name', () => {
+test('role name should match file name', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
@@ -39,9 +42,11 @@ test('role name should match file name', () => {
     )
     expect(error.exitCode).toBe(1)
   }
+
+  expect(await amountOfRolesCreated()).toBe(0)
 })
 
-test('upload all roles: publicAccess', () => {
+test('upload all roles: publicAccess', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   // the referred functions needs to be defined first
@@ -56,6 +61,8 @@ test('upload all roles: publicAccess', () => {
     `User-defined function(s) created or updated: [ 'sayHello', 'sayHi' ]`
   )
 
+  expect(await amountOfFunctionsCreated()).toBe(2)
+
   // ... and only then their access permission can be defined
   const roles = execa.sync('node', ['../../cli.js', 'define-roles'], {
     env: { DEBUG: 'faugra:*' },
@@ -67,4 +74,6 @@ test('upload all roles: publicAccess', () => {
 
   expect(roles.stdout).toBe(`User-defined role(s) created or updated: [ 'publicAccess' ]`)
   expect(roles.exitCode).toBe(0)
+
+  expect(await amountOfRolesCreated()).toBe(1)
 }, 15000)
