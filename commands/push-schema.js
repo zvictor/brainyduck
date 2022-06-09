@@ -62,25 +62,14 @@ export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', overri
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const [inputPath] = process.argv.slice(2)
+  ;(async () => {
+    const [inputPath] = process.argv.slice(2)
 
-  let startup = Promise.resolve()
+    if (process.env.FAUGRA_OVERWRITE) {
+      const { default: reset } = await import('./reset.js')
+      await reset({ collections: true, schemas: true })
+    }
 
-  if (process.env.FAUGRA_OVERWRITE) {
-    startup = import('./reset.js').then(({ default: reset }) =>
-      reset({ collections: true, schemas: true })
-    )
-  }
-
-  startup.then(() =>
-    main(inputPath)
-      .then((message) => {
-        console.log(message)
-        process.exit(0)
-      })
-      .catch((e) => {
-        console.error(e)
-        process.exit(1)
-      })
-  )
+    console.log(await main(inputPath))
+  })()
 }

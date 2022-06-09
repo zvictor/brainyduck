@@ -26,10 +26,21 @@ test('push a basic schema', () => {
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
   expect(stderr).toEqual(expect.stringContaining(mergedSchema))
-  expect(stdout.split('\n')[0]).toBe(`Schema imported successfully.`)
+  expect(
+    stdout
+      .split('\n')
+      .filter(
+        (x) =>
+          ![
+            `Wiped data still found in fauna's cache.`,
+            `Cooling down for 30s...`,
+            `Retrying now...`,
+          ].includes(x)
+      )[0]
+  ).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
-}, 35000)
+}, 120000)
 
 test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
@@ -63,7 +74,18 @@ test('push a modular schema', () => {
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
   expect(stderr).toEqual(expect.stringContaining(mergedSchema))
-  expect(stdout.split('\n')[0]).toBe(`Schema imported successfully.`)
+  expect(
+    stdout
+      .split('\n')
+      .filter(
+        (x) =>
+          ![
+            `Wiped data still found in fauna's cache.`,
+            `Cooling down for 30s...`,
+            `Retrying now...`,
+          ].includes(x)
+      )[0]
+  ).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
-}, 35000)
+}, 120000)

@@ -145,13 +145,13 @@ export const importSchema = async (schema, override) => {
     await sleep(30000)
     console.log(`Retrying now...`)
 
-    return importSchema(schema, override)
+    return await importSchema(schema, override)
   }
 
   return message
 }
 
-export const sleep = (timeout) => new Promise((resolve) => setTimeout(() => resolve, timeout))
+export const sleep = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout))
 
 export const pipeData = new Promise((resolve, reject) => {
   const stdin = process.openStdin()
