@@ -3,6 +3,7 @@
 import fs from 'fs'
 import path from 'path'
 import execa from 'execa'
+import tempy from 'tempy'
 import _debug from 'debug'
 import { parse } from 'graphql'
 import { fileURLToPath } from 'url'
@@ -73,8 +74,8 @@ export default async function main(
   const ouput = `${sdk}
 
 export default function faugra({
-  secret = process.env.FAUGRA_SECRET,
-  endpoint = process.env.FAUGRA_ENDPOINT,
+  secret = process?.env.FAUGRA_SECRET,
+  endpoint = process?.env.FAUGRA_ENDPOINT,
 } = {}) {
   if (!secret) {
     throw new Error('SDK requires a secret to be defined.')
@@ -90,25 +91,45 @@ export default function faugra({
 }`
 
   if (outputPath) {
-    const dir = path.dirname(outputPath)
-    const tsconfigFile = path.join(dir, 'tsconfig.json')
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true })
+    const outputDir = path.dirname(outputPath)
+    const tsconfigFile = process.env.FAUGRA_TSCONFIG || path.join(__dirname, '..', 'tsconfig.json')
+    const tmpDir = tempy.directory()
+    const tmpTsconfigFile = path.join(tmpDir, 'tsconfig.json')
+
+    debug(`Using tsconfig from ${tsconfigFile}`)
+    debug(`Using temporary directory ${tmpDir}`)
+
+    if (!fs.existsSync(tsconfigFile)) {
+      throw new Error(`The tsconfig file you specified does not exist.`)
     }
 
-    fs.writeFileSync(outputPath, ouput)
-    fs.writeFileSync(
-      tsconfigFile,
-      `{"extends": "${path.join(__dirname, '..', 'tsconfig.json')}", "include": ["${outputPath}"] }`
+    fs.writeFileSync(path.join(tmpDir, 'sdk.ts'), ouput)
+    fs.writeFileSync(tmpTsconfigFile, `{"extends": "${tsconfigFile}", "include": ["./sdk.ts"] }`)
+    fs.symlinkSync(
+      path.join(__dirname, '..', 'node_modules'),
+      path.join(tmpDir, 'node_modules'),
+      'dir'
     )
 
-    debug(`The sdk has been saved at '${outputPath}'`)
-
-    execa.sync(findBin(`tsc`), ['--project', tsconfigFile], {
+    execa.sync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
       stdio: ['pipe', process.stdout, process.stderr],
       cwd: process.cwd(),
     })
-    debug(`The sdk has been transpiled in place`)
+
+    fs.rmSync(tmpTsconfigFile)
+    debug(`The sdk has been transpiled`)
+
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true })
+    }
+
+    for (const { name } of fs
+      .readdirSync(tmpDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isFile())) {
+      fs.copyFileSync(path.join(tmpDir, name), path.join(outputDir, name))
+    }
+
+    debug(`The sdk has been copied to ${outputPath}`)
   }
 
   return ouput

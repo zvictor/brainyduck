@@ -68,6 +68,11 @@ program
   )
   .on('option:callback', optionParser('callback'))
 
+  .option('--tsconfig', `use a custom tsconfig file for the sdk transpilation.`)
+  .on('option:tsconfig', function () {
+    process.env.FAUGRA_TSCONFIG = this.tsconfig
+  })
+
   .option('--verbose', `run the command with verbose logging.`)
   .on('option:verbose', function () {
     process.env.DEBUG = 'faugra:*'

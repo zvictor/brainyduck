@@ -168,8 +168,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
 export type Sdk = ReturnType<typeof getSdk>;
 
 export default function faugra({
-  secret = process.env.FAUGRA_SECRET,
-  endpoint = process.env.FAUGRA_ENDPOINT,
+  secret = process?.env.FAUGRA_SECRET,
+  endpoint = process?.env.FAUGRA_ENDPOINT,
 } = {}) {
   if (!secret) {
     throw new Error('SDK requires a secret to be defined.')
