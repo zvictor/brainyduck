@@ -61,16 +61,11 @@ export default async function main(outputPath) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [outputPath] = process.argv.slice(2)
 
-  main(outputPath && path.resolve(outputPath))
-    .then((schema) => {
-      if (!outputPath) {
-        console.log(schema)
-      }
+  ;(async () => {
+    const schema = await main(outputPath && path.resolve(outputPath))
 
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+    if (!outputPath) {
+      console.log(schema)
+    }
+  })()
 }

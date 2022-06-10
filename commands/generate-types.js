@@ -50,16 +50,10 @@ export default async function main(inputData, outputPath) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [inputPath, outputPath] = process.argv.slice(2)
 
-  main(inputPath === '-' ? pipeData() : inputPath, outputPath)
-    .then((types) => {
-      if (!outputPath) {
-        console.log(types)
-      }
-
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+  ;(async () => {
+    const types = await main(inputPath === '-' ? pipeData() : inputPath, outputPath)
+    if (!outputPath) {
+      console.log(types)
+    }
+  })()
 }

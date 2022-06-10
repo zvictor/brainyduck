@@ -151,20 +151,15 @@ export default function faugra({
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [schemaPattern, documentsPattern, outputFile] = process.argv.slice(2)
 
-  main(
-    schemaPattern === '-' ? pipeData() : schemaPattern,
-    documentsPattern === '-' ? pipeData() : documentsPattern,
-    outputFile
-  )
-    .then((sdk) => {
-      if (!outputFile) {
-        console.log(sdk)
-      }
+  ;(async () => {
+    const sdk = await main(
+      schemaPattern === '-' ? pipeData() : schemaPattern,
+      documentsPattern === '-' ? pipeData() : documentsPattern,
+      outputFile
+    )
 
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+    if (!outputFile) {
+      console.log(sdk)
+    }
+  })()
 }

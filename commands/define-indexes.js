@@ -55,24 +55,17 @@ export default async function main(pattern = '**/*.index') {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [pattern] = process.argv.slice(2)
 
-  let startup = Promise.resolve()
+  ;(async () => {
+    if (process.env.FAUGRA_OVERWRITE) {
+      const { default: reset } = await import('./reset.js')
+      await reset({ indexes: true })
+    }
 
-  if (process.env.FAUGRA_OVERWRITE) {
-    startup = import('./reset.js').then(({ default: reset }) => reset({ indexes: true }))
-  }
+    const refs = await main(pattern)
 
-  startup.then(() =>
-    main(pattern)
-      .then((refs) => {
-        console.log(
-          `User-defined index(es) created or updated:`,
-          refs.map((x) => x.name)
-        )
-        process.exit(0)
-      })
-      .catch((e) => {
-        console.error(e)
-        process.exit(1)
-      })
-  )
+    console.log(
+      `User-defined index(es) created or updated:`,
+      refs.map((x) => x.name)
+    )
+  })()
 }

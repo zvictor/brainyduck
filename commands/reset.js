@@ -61,13 +61,9 @@ export default async function main(
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main()
-    .then(() => {
-      console.log(`All reset operations have succeeded.`)
-      process.exit(0)
-    })
-    .catch((e) => {
-      console.error(e)
-      process.exit(1)
-    })
+  ;(async () => {
+    await main()
+
+    console.log(`All reset operations have succeeded.`)
+  })()
 }

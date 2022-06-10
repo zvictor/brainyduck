@@ -181,11 +181,12 @@ export default async function main() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  let startup = Promise.resolve()
+  ;(async () => {
+    if (process.env.FAUGRA_OVERWRITE) {
+      const { default: reset } = await import('./reset.js')
+      await reset()
+    }
 
-  if (process.env.FAUGRA_OVERWRITE) {
-    startup = import('./reset.js').then(({ default: reset }) => reset())
-  }
-
-  startup.then(main)
+    await main()
+  })()
 }
