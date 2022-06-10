@@ -3,7 +3,6 @@
 import fs from 'fs'
 import path from 'path'
 import execa from 'execa'
-import tempy from 'tempy'
 import _debug from 'debug'
 import { parse } from 'graphql'
 import { fileURLToPath } from 'url'
@@ -61,9 +60,10 @@ const generateSdk = async (schema, documentsPattern) => {
 export default async function main(
   schemaPattern,
   documentsPattern = '**/[a-z]*.(graphql|gql)',
-  outputPath = locateCache('sdk.ts')
+  outputFile = locateCache('sdk.ts'),
+  transpile = true
 ) {
-  debug(`called with:`, { schemaPattern, documentsPattern, outputPath })
+  debug(`called with:`, { schemaPattern, documentsPattern, outputFile })
 
   await push(await schemaPattern)
   const schema = await pull()
@@ -90,61 +90,74 @@ export default function faugra({
   )
 }`
 
-  if (outputPath) {
-    const outputDir = path.dirname(outputPath)
-    const tsconfigFile = process.env.FAUGRA_TSCONFIG || path.join(__dirname, '..', 'tsconfig.json')
-    const tmpDir = tempy.directory()
-    const tmpTsconfigFile = path.join(tmpDir, 'tsconfig.json')
-
-    debug(`Using tsconfig from ${tsconfigFile}`)
-    debug(`Using temporary directory ${tmpDir}`)
-
-    if (!fs.existsSync(tsconfigFile)) {
-      throw new Error(`The tsconfig file you specified does not exist.`)
-    }
-
-    fs.writeFileSync(path.join(tmpDir, 'sdk.ts'), ouput)
-    fs.writeFileSync(tmpTsconfigFile, `{"extends": "${tsconfigFile}", "include": ["./sdk.ts"] }`)
-    fs.symlinkSync(
-      path.join(__dirname, '..', 'node_modules'),
-      path.join(tmpDir, 'node_modules'),
-      'dir'
-    )
-
-    execa.sync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
-      stdio: ['pipe', process.stdout, process.stderr],
-      cwd: process.cwd(),
-    })
-
-    fs.rmSync(tmpTsconfigFile)
-    debug(`The sdk has been transpiled`)
-
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true })
-    }
-
-    for (const { name } of fs
-      .readdirSync(tmpDir, { withFileTypes: true })
-      .filter((dirent) => dirent.isFile())) {
-      fs.copyFileSync(path.join(tmpDir, name), path.join(outputDir, name))
-    }
-
-    debug(`The sdk has been copied to ${outputPath}`)
+  if (!outputFile) {
+    return ouput
   }
 
+  const outputDir = path.dirname(outputFile)
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true })
+  }
+
+  fs.writeFileSync(outputFile, ouput)
+  debug(`The sdk has been copied to ${outputFile}`)
+
+  if (!transpile) {
+    return ouput
+  }
+
+  const tsconfigFile = process.env.FAUGRA_TSCONFIG || path.join(__dirname, '..', 'tsconfig.json')
+  const tmpTsconfigFile = locateCache('tsconfig.json')
+
+  debug(`Transpiling sdk with tsconfig at ${tsconfigFile}`)
+  debug(`Caching files at ${locateCache()}`)
+
+  if (!fs.existsSync(tsconfigFile)) {
+    throw new Error(`The tsconfig file you specified does not exist.`)
+  }
+
+  if (!fs.existsSync(locateCache())) {
+    fs.mkdirSync(locateCache(), { recursive: true })
+  }
+
+  // TODO This block would not be necessary if tsconfig allowed for absolute paths.
+  // @see https://github.com/evanw/esbuild/issues/792
+  if (
+    process.env.FAUGRA_CACHE &&
+    !fs.existsSync(path.join(process.env.FAUGRA_CACHE, 'node_modules'))
+  ) {
+    fs.symlinkSync(
+      path.join(__dirname, '..', 'node_modules'),
+      path.join(process.env.FAUGRA_CACHE, 'node_modules'),
+      'dir'
+    )
+  }
+
+  fs.writeFileSync(
+    tmpTsconfigFile,
+    `{"extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {"outDir": "${locateCache()}"}}`
+  )
+
+  execa.sync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
+    stdio: ['pipe', process.stdout, process.stderr],
+    cwd: process.cwd(),
+  })
+
+  debug(`The sdk has been transpiled and cached`)
   return ouput
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const [schemaPattern, documentsPattern, outputPath] = process.argv.slice(2)
+  const [schemaPattern, documentsPattern, outputFile] = process.argv.slice(2)
 
   main(
     schemaPattern === '-' ? pipeData() : schemaPattern,
     documentsPattern === '-' ? pipeData() : documentsPattern,
-    outputPath
+    outputFile
   )
     .then((sdk) => {
-      if (!outputPath) {
+      if (!outputFile) {
         console.log(sdk)
       }
 

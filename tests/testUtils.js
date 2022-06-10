@@ -1,3 +1,5 @@
+import fs from 'fs'
+import tempy from 'tempy'
 import faunadb from 'faunadb'
 import { faunaClient, runFQL } from '../utils.js'
 
@@ -17,6 +19,8 @@ export const setupEnvironment = (name) => {
   const timestamp = +new Date()
 
   beforeAll(() => {
+    process.env.FAUGRA_CACHE = tempy.directory({ prefix: name })
+
     process.env.FAUGRA_SECRET = createDatabase(
       `${timestamp}_${name}`,
       process.env.MASTER_SECRET
@@ -31,6 +35,7 @@ export const setupEnvironment = (name) => {
   afterAll(() => {
     deleteDatabase(`${timestamp}_${name}`, process.env.MASTER_SECRET)
     deleteDatabase(`${timestamp}_${name}_dry-run`, process.env.MASTER_SECRET)
+    delete process.env.FAUGRA_CACHE
   })
 }
 
@@ -42,3 +47,11 @@ export const amountOfRolesCreated = () =>
 
 export const amountOfCollectionsCreated = () =>
   faunaClient().query(q.Count(q.Collections()))
+
+export const listFiles = (directory) =>
+  fs.existsSync(directory)
+    ? fs
+        .readdirSync(directory, { withFileTypes: true })
+        .filter((dirent) => dirent.isFile())
+        .map((x) => x.name)
+    : []

@@ -78,8 +78,10 @@ export const patternMatch = (pattern) =>
     ignore: ignored,
   })
 
-export const locateCache = (file) =>
-  fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
+export const locateCache = (file = '') =>
+  process.env.FAUGRA_CACHE
+    ? path.join(process.env.FAUGRA_CACHE, file)
+    : fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
 
 export const runFQL = (query, secret) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
