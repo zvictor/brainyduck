@@ -19,8 +19,6 @@ export const setupEnvironment = (name) => {
   const timestamp = +new Date()
 
   beforeAll(() => {
-    process.env.FAUGRA_CACHE = tempy.directory({ prefix: name })
-
     process.env.FAUGRA_SECRET = createDatabase(
       `${timestamp}_${name}`,
       process.env.MASTER_SECRET

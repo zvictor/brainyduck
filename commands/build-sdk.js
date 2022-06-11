@@ -145,21 +145,19 @@ export default function faugra({
   })
 
   debug(`The sdk has been transpiled and cached`)
-  return ouput
+  return outputFile
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [schemaPattern, documentsPattern, outputFile] = process.argv.slice(2)
 
   ;(async () => {
-    const sdk = await main(
+    const location = await main(
       schemaPattern === '-' ? pipeData() : schemaPattern,
       documentsPattern === '-' ? pipeData() : documentsPattern,
       outputFile
     )
 
-    if (!outputFile) {
-      console.log(sdk)
-    }
+    console.log(`The sdk has been saved at ${location}`)
   })()
 }
