@@ -24,6 +24,8 @@ const reset = (type) => {
     for (const item of data) {
       console.log(`\tdeleted:`, item['@ref'])
     }
+
+    return data
   } catch (e) {
     spinner.fail(`${type} reset failed`)
     throw e
@@ -46,8 +48,7 @@ export default async function main(
     const spinner = ora(`Wiping out the graphql schema...`).start()
 
     try {
-      // TODO: find a way to reset the graphql schema without creating a new schema.
-      await importSchema(`type Faugra { reseting: Boolean }`, true)
+      await importSchema(`enum Faugra { RESETTING }`)
       spinner.succeed(`Graphql schema has been reset.`)
     } catch (e) {
       spinner.fail()
