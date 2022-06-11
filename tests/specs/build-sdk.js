@@ -5,7 +5,6 @@ import tempy from 'tempy'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
-import { locateCache } from '../../utils'
 import { setupEnvironment, amountOfCollectionsCreated, listFiles } from '../testUtils.js'
 
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }

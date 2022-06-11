@@ -9,6 +9,22 @@ setupEnvironment(`pull-schema`)
 
 beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
+test('fails on empty schema', async () => {
+  try {
+    execa.sync('node', ['../../cli.js', 'pull-schema'], {
+      env: { DEBUG: 'faugra:*' },
+      cwd: path.dirname(fileURLToPath(import.meta.url)),
+    })
+
+    fail('it should not reach here')
+  } catch (error) {
+    expect(error.message).toEqual(
+      expect.stringContaining('Error: Invalid schema retrieved: missing type Query')
+    )
+    expect(error.exitCode).toBe(1)
+  }
+}, 240000)
+
 test('fetch schema from fauna', async () => {
   const schema = `
   type User {

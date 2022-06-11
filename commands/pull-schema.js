@@ -25,7 +25,16 @@ const options = {
 
 const loadSchema = async (url) => {
   debug(`Pulling the schema from '${url}'`)
-  const typeDefs = await loadTypedefs(url, options)
+  const typeDefs = await loadTypedefs(url, options).catch((err) => {
+    if (
+      err.message.includes('Must provide schema definition with query type or a type named Query.')
+    ) {
+      console.warn(`Please make sure you have pushed a valid schema before trying to pull it back.`)
+      throw new Error(`Invalid schema retrieved: missing type Query`)
+    }
+
+    throw err
+  })
   debug(`${typeDefs.length} typeDef(s) found`)
 
   if (!typeDefs || !typeDefs.length) {
