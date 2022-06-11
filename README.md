@@ -22,7 +22,10 @@ We have built Faugra to help you transition to a top notch serverless environmen
 
 ## Sponsors
 
-<p align="center">Got frustrated with Fauna/Faugra? Consider giving a try to Dgraph!<br /><a href="https://dgraph.io/graphql"><img width="350px" src="https://cdn.jsdelivr.net/gh/dgraph-io/dgraph@master/logo.png" alt="Dgraph's logo" /></a><p>
+<p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=zvictor&utm_campaign=zvictor&utm_id=zvictor&utm_term=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
+Feats is a new professional network for people who build products, brands, and businesses.<br />
+Uniting people behind projects to create meaningful opportunities for all.
+<p>
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
