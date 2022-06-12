@@ -72,11 +72,8 @@ export const faunaClient = () => {
   return new Client(options)
 }
 
-export const patternMatch = (pattern) =>
-  globby(pattern, {
-    cwd: process.cwd(),
-    ignore: ignored,
-  })
+export const patternMatch = async (pattern, cwd = process.cwd()) =>
+  (await globby(pattern, { cwd, ignore: ignored })).map((x) => path.join(cwd, x))
 
 export const locateCache = (file = '') =>
   process.env.FAUGRA_CACHE

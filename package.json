@@ -44,6 +44,7 @@
     "faunadb": "4.5.4",
     "figures": "4.0.1",
     "globby": "11.0.4",
+    "gql-generator": "1.0.17",
     "graphql": "16.5.0",
     "graphql-request": "4.3.0",
     "graphql-tag": "2.12.6",

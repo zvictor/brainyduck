@@ -42,6 +42,11 @@ test('build an sdk for a schema without imports', async () => {
     `The sdk has been saved at ${path.join(cache.TEST, 'sdk.ts')}`
   )
 
+  // Uncomment to update fixtures.
+  // await fs.writeFile(
+  //   fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url)),
+  //   await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })
+  // )
   expect(await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url)), {
       encoding: 'utf8',
@@ -74,6 +79,11 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     `The sdk has been saved at ${path.join(cache.DEFAULT, 'sdk.ts')}`
   )
 
+  // Uncomment to update fixtures.
+  // await fs.writeFile(
+  //   fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url)),
+  //   await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })
+  // )
   expect(await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url)), {
       encoding: 'utf8',

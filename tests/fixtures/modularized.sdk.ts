@@ -186,32 +186,233 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: string } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } };
+
+export type CreateUserMutationVariables = Exact<{
+  data: UserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, _ts: any, name: string } };
+
+export type DeletePostMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
+
+export type PartialUpdatePostMutationVariables = Exact<{
+  id: Scalars['ID'];
+  data: PartialUpdatePostInput;
+}>;
+
+
+export type PartialUpdatePostMutation = { __typename?: 'Mutation', partialUpdatePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
+
+export type PartialUpdateUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+  data: PartialUpdateUserInput;
+}>;
+
+
+export type PartialUpdateUserMutation = { __typename?: 'Mutation', partialUpdateUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
+
+export type UpdatePostMutationVariables = Exact<{
+  id: Scalars['ID'];
+  data: PostInput;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+  data: UserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
+
+export type AllPostsQueryVariables = Exact<{
+  _size?: InputMaybe<Scalars['Int']>;
+  _cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type AllPostsQuery = { __typename?: 'Query', allPosts: { __typename?: 'PostPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null> } };
 
 export type FindPostByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type FindPostByIdQuery = { __typename?: 'Query', findPostByID?: { __typename?: 'Post', title: string, content: string, author: { __typename?: 'User', name: string } } | null };
+export type FindPostByIdQuery = { __typename?: 'Query', findPostByID?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
+
+export type FindUserByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
+
+export type SayHelloQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type SayHelloQuery = { __typename?: 'Query', sayHello: string };
 
 
 export const CreatePostDocument = gql`
     mutation createPost($data: PostInput!) {
   createPost(data: $data) {
+    author {
+      _id
+      _ts
+      name
+    }
     _id
+    content
+    title
+    _ts
+  }
+}
+    `;
+export const CreateUserDocument = gql`
+    mutation createUser($data: UserInput!) {
+  createUser(data: $data) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const DeletePostDocument = gql`
+    mutation deletePost($id: ID!) {
+  deletePost(id: $id) {
+    author {
+      _id
+      _ts
+      name
+    }
+    _id
+    content
+    title
+    _ts
+  }
+}
+    `;
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: ID!) {
+  deleteUser(id: $id) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const PartialUpdatePostDocument = gql`
+    mutation partialUpdatePost($id: ID!, $data: PartialUpdatePostInput!) {
+  partialUpdatePost(id: $id, data: $data) {
+    author {
+      _id
+      _ts
+      name
+    }
+    _id
+    content
+    title
+    _ts
+  }
+}
+    `;
+export const PartialUpdateUserDocument = gql`
+    mutation partialUpdateUser($id: ID!, $data: PartialUpdateUserInput!) {
+  partialUpdateUser(id: $id, data: $data) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const UpdatePostDocument = gql`
+    mutation updatePost($id: ID!, $data: PostInput!) {
+  updatePost(id: $id, data: $data) {
+    author {
+      _id
+      _ts
+      name
+    }
+    _id
+    content
+    title
+    _ts
+  }
+}
+    `;
+export const UpdateUserDocument = gql`
+    mutation updateUser($id: ID!, $data: UserInput!) {
+  updateUser(id: $id, data: $data) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const AllPostsDocument = gql`
+    query allPosts($_size: Int, $_cursor: String) {
+  allPosts(_size: $_size, _cursor: $_cursor) {
+    data {
+      author {
+        _id
+        _ts
+        name
+      }
+      _id
+      content
+      title
+      _ts
+    }
+    after
+    before
   }
 }
     `;
 export const FindPostByIdDocument = gql`
     query findPostByID($id: ID!) {
   findPostByID(id: $id) {
-    title
-    content
     author {
+      _id
+      _ts
       name
     }
+    _id
+    content
+    title
+    _ts
   }
+}
+    `;
+export const FindUserByIdDocument = gql`
+    query findUserByID($id: ID!) {
+  findUserByID(id: $id) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const SayHelloDocument = gql`
+    query sayHello($name: String!) {
+  sayHello(name: $name)
 }
     `;
 
@@ -225,8 +426,38 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost', 'mutation');
     },
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
+    },
+    deletePost(variables: DeletePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePostMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeletePostMutation>(DeletePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePost', 'mutation');
+    },
+    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUser', 'mutation');
+    },
+    partialUpdatePost(variables: PartialUpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PartialUpdatePostMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PartialUpdatePostMutation>(PartialUpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'partialUpdatePost', 'mutation');
+    },
+    partialUpdateUser(variables: PartialUpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PartialUpdateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PartialUpdateUserMutation>(PartialUpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'partialUpdateUser', 'mutation');
+    },
+    updatePost(variables: UpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePostMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdatePostMutation>(UpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePost', 'mutation');
+    },
+    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
+    },
+    allPosts(variables?: AllPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllPostsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AllPostsQuery>(AllPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allPosts', 'query');
+    },
     findPostByID(variables: FindPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindPostByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindPostByIdQuery>(FindPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findPostByID', 'query');
+    },
+    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
+    },
+    sayHello(variables: SayHelloQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SayHelloQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SayHelloQuery>(SayHelloDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sayHello', 'query');
     }
   };
 }

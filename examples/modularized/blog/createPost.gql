@@ -1,5 +1,0 @@
-mutation createPost($data: PostInput!) {
-  createPost(data: $data) {
-    _id
-  }
-}

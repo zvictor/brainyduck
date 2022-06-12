@@ -45,6 +45,11 @@ program
   .option('--overwrite', `wipe out data related to the command before its execution`)
   .on('option:overwrite', optionParser('overwrite'))
 
+  .option('--no-operations-generation', `disable the auto-generated operations documents.`)
+  .on('option:no-operations-generation', function () {
+    process.env.FAUGRA_NO_OPERATIONS_GENERATION = !this.operationsGeneration
+  })
+
   .option(
     '-i, --ignore <value>',
     `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`

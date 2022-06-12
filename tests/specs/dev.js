@@ -27,13 +27,7 @@ test(`complete all 'dev' operations for the 'basic' example`, async () => {
 
   expect(new Set(stderr.split('\n').sort())).toEqual(
     new Set(
-      [
-        '- Processing Schema.graphql [Schema]',
-        '✔ Processed Schema.graphql [Schema]',
-        '- Processing queries.gql [Document]',
-        '✔ Processed queries.gql [Document]',
-        '',
-      ].sort()
+      ['- Processing Schema.graphql [Schema]', '✔ Processed Schema.graphql [Schema]', ''].sort()
     )
   )
 
@@ -63,8 +57,6 @@ test(`complete all 'dev' operations for the 'modularized' example`, async () => 
         '✔ Processed accounts/sayHello.udf [UDF]',
         '- Processing Query.gql,blog/Post.gql,accounts/User.gql [Schema]',
         '✔ Processed Query.gql,blog/Post.gql,accounts/User.gql [Schema]',
-        '- Processing blog/createPost.gql,blog/findPostByID.gql [Document]',
-        '✔ Processed blog/createPost.gql,blog/findPostByID.gql [Document]',
         '',
       ].sort()
     )
