@@ -5,7 +5,12 @@ import tempy from 'tempy'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
-import { setupEnvironment, amountOfCollectionsCreated, listFiles } from '../testUtils.js'
+import {
+  setupEnvironment,
+  amountOfCollectionsCreated,
+  listFiles,
+  removeRetryMessages,
+} from '../testUtils.js'
 
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
 setupEnvironment(`build-sdk`)
@@ -33,19 +38,9 @@ test('build an sdk for a schema without imports', async () => {
     expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
   )
 
-  expect(
-    stdout
-      .split('\n')
-      .filter(
-        (x) =>
-          ![
-            `Wiped data still found in fauna's cache.`,
-            `Cooling down for 30s...`,
-            `Retrying now...`,
-          ].includes(x)
-      )
-      .join('\n')
-  ).toEqual(`The sdk has been saved at ${path.join(cache.TEST, 'sdk.ts')}`)
+  expect(removeRetryMessages(stdout)).toEqual(
+    `The sdk has been saved at ${path.join(cache.TEST, 'sdk.ts')}`
+  )
 
   expect(await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url)), {
@@ -75,19 +70,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
   )
 
-  expect(
-    stdout
-      .split('\n')
-      .filter(
-        (x) =>
-          ![
-            `Wiped data still found in fauna's cache.`,
-            `Cooling down for 30s...`,
-            `Retrying now...`,
-          ].includes(x)
-      )
-      .join('\n')
-  ).toEqual(`The sdk has been saved at ${path.join(cache.DEFAULT, 'sdk.ts')}`)
+  expect(removeRetryMessages(stdout)).toEqual(
+    `The sdk has been saved at ${path.join(cache.DEFAULT, 'sdk.ts')}`
+  )
 
   expect(await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url)), {

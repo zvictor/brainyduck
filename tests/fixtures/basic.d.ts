@@ -1,6 +1,3 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
-import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -104,68 +101,3 @@ export type UserPage = {
   /** A cursor for elements coming before the current page. */
   before?: Maybe<Scalars['String']>;
 };
-
-export type CreateUserMutationVariables = Exact<{
-  username: Scalars['String'];
-}>;
-
-
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string } };
-
-export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AllUsersQuery = { __typename?: 'Query', allUsers: { __typename?: 'UserPage', data: Array<{ __typename?: 'User', username: string } | null> } };
-
-
-export const CreateUserDocument = gql`
-    mutation createUser($username: String!) {
-  createUser(data: {username: $username}) {
-    _id
-  }
-}
-    `;
-export const AllUsersDocument = gql`
-    query allUsers {
-  allUsers {
-    data {
-      username
-    }
-  }
-}
-    `;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
-    },
-    allUsers(variables?: AllUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllUsersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllUsersQuery>(AllUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allUsers', 'query');
-    }
-  };
-}
-export type Sdk = ReturnType<typeof getSdk>;
-export { Dom };
-
-export default function faugra({
-  secret = process?.env.FAUGRA_SECRET,
-  endpoint = process?.env.FAUGRA_ENDPOINT,
-} = {}) {
-  if (!secret) {
-    throw new Error('SDK requires a secret to be defined.')
-  }
-
-  return getSdk(
-    new GraphQLClient(endpoint || 'https://graphql.fauna.com/graphql', {
-      headers: {
-        authorization: secret && `Bearer ${secret}`,
-      },
-    })
-  )
-}

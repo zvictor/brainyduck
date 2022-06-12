@@ -2,7 +2,7 @@ import execa from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
-import { setupEnvironment, amountOfCollectionsCreated } from '../testUtils.js'
+import { setupEnvironment, amountOfCollectionsCreated, removeRetryMessages } from '../testUtils.js'
 
 setupEnvironment(`push-schema`)
 
@@ -29,18 +29,7 @@ test('push a basic schema', async () => {
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
   expect(stderr).toEqual(expect.stringContaining(mergedSchema))
-  expect(
-    stdout
-      .split('\n')
-      .filter(
-        (x) =>
-          ![
-            `Wiped data still found in fauna's cache.`,
-            `Cooling down for 30s...`,
-            `Retrying now...`,
-          ].includes(x)
-      )[0]
-  ).toBe(`Schema imported successfully.`)
+  expect(removeRetryMessages(stdout).split('\n')[0]).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
 
@@ -79,18 +68,7 @@ test('push a modular schema', () => {
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
   expect(stderr).toEqual(expect.stringContaining(mergedSchema))
-  expect(
-    stdout
-      .split('\n')
-      .filter(
-        (x) =>
-          ![
-            `Wiped data still found in fauna's cache.`,
-            `Cooling down for 30s...`,
-            `Retrying now...`,
-          ].includes(x)
-      )[0]
-  ).toBe(`Schema imported successfully.`)
+  expect(removeRetryMessages(stdout).split('\n')[0]).toBe(`Schema imported successfully.`)
 
   expect(exitCode).toBe(0)
 }, 240000)

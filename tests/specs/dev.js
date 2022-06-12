@@ -7,6 +7,7 @@ import {
   amountOfCollectionsCreated,
   amountOfRolesCreated,
   amountOfFunctionsCreated,
+  removeRetryMessages,
 } from '../testUtils.js'
 
 setupEnvironment(`dev`)
@@ -69,7 +70,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, async () => 
     )
   )
 
-  expect(stdout).toEqual('All operations complete')
+  expect(removeRetryMessages(stdout)).toEqual('All operations complete')
   expect(exitCode).toBe(0)
 
   expect(await amountOfRolesCreated()).toBe(0)
@@ -106,7 +107,7 @@ test(`complete all 'dev' operations for the 'with-UDF' example`, async () => {
     )
   )
 
-  expect(stdout).toEqual('All operations complete')
+  expect(removeRetryMessages(stdout)).toEqual('All operations complete')
   expect(exitCode).toBe(0)
 
   expect(await amountOfRolesCreated()).toBe(1)

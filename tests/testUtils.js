@@ -1,5 +1,4 @@
 import fs from 'fs'
-import tempy from 'tempy'
 import faunadb from 'faunadb'
 import { faunaClient, runFQL } from '../utils.js'
 
@@ -53,3 +52,16 @@ export const listFiles = (directory) =>
         .filter((dirent) => dirent.isFile())
         .map((x) => x.name)
     : []
+
+export const removeRetryMessages = (stdout) =>
+  stdout
+    .split('\n')
+    .filter(
+      (x) =>
+        ![
+          `Wiped data still found in fauna's cache.`,
+          `Cooling down for 30s...`,
+          `Retrying now...`,
+        ].includes(x)
+    )
+    .join('\n')
