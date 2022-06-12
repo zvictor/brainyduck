@@ -118,7 +118,7 @@ query allUsers {
 
 Faugra will give you:
 
-1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) in which your original schema will be expanded to provide basic CRUD out of the box (i.e. no need to define resolvers for basic operations!). Expect it to look like this:
+1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) in which your original schema will be [expanded to provide basic CRUD out of the box](https://docs.fauna.com/fauna/current/api/graphql/schemas) (i.e. no need to define resolvers for basic operations!). Expect it to look like this:
 
    <details>
       <summary>auto-expanded schema</summary>
@@ -255,7 +255,7 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ## Sponsors
 
-<p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=zvictor&utm_campaign=zvictor&utm_id=zvictor&utm_term=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
+<p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=sponsorship&utm_campaign=zvictor&utm_id=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
 Feats is a new professional network for people who build products, brands, and businesses.<br />
 Uniting people behind projects to create meaningful opportunities for all.
 <p>
