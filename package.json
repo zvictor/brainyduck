@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "postinstall": "./scripts/postinstall.js",
+    "prepublishOnly": "rm -Rf .cache",
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
