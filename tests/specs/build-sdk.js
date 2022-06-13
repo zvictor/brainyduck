@@ -5,6 +5,7 @@ import tempy from 'tempy'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
+import { findBin } from '../../utils'
 import {
   setupEnvironment,
   amountOfCollectionsCreated,
@@ -24,7 +25,7 @@ beforeEach(() => {
   ])
 }, 240000)
 
-test('build an sdk for a schema without imports', async () => {
+test('build an sdk for a schema without imports and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync(
@@ -60,6 +61,14 @@ test('build an sdk for a schema without imports', async () => {
 
   expect(exitCode).toBe(0)
   expect(await amountOfCollectionsCreated()).toBe(1)
+
+  expect(() =>
+    // When we use a non-standard cache we can't build in strict mode
+    execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    })
+  ).not.toThrow()
 }, 240000)
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
@@ -97,4 +106,10 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   expect(exitCode).toBe(0)
   expect(await amountOfCollectionsCreated()).toBe(2)
+
+  expect(() =>
+    execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {
+      cwd,
+    })
+  ).not.toThrow()
 }, 240000)

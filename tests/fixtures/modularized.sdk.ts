@@ -462,7 +462,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
-export { Dom };
+export type { Dom };
 
 export default function faugra({
   secret = process?.env.FAUGRA_SECRET,

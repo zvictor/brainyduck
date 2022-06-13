@@ -102,7 +102,7 @@ export default async function main(
   const sdk = await generateSdk(schema, await documentsPattern)
 
   const ouput = `${sdk}
-export { Dom };
+export type { Dom };
 
 export default function faugra({
   secret = process?.env.FAUGRA_SECRET,
