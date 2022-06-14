@@ -7,7 +7,14 @@ import { setupEnvironment, amountOfCollectionsCreated, removeRetryMessages } fro
 
 setupEnvironment(`generate-types`)
 
-beforeEach(() => reset({ schemas: true, collections: true }), 240000)
+beforeEach(
+  () =>
+    Promise.all([
+      reset({ schemas: true, collections: true }),
+      reset({ schemas: true, collections: true }, true),
+    ]),
+  240000
+)
 
 test('generate types for a schema without imports', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
@@ -28,5 +35,6 @@ test('generate types for a schema without imports', async () => {
   )
   expect(exitCode).toBe(0)
 
-  expect(await amountOfCollectionsCreated()).toBe(1)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+  expect(await amountOfCollectionsCreated(true)).toBe(1)
 }, 240000)

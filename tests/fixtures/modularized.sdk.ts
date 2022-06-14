@@ -19,10 +19,6 @@ export type Scalars = {
   Long: any;
 };
 
-export enum Faugra {
-  Resetting = 'RESETTING'
-}
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Update an existing document in the collection of 'User' */

@@ -9,11 +9,17 @@ import { runFQL, importSchema } from '../utils.js'
 const readScript = (name) =>
   fs.readFileSync(new URL(path.join(`../scripts/`, name), import.meta.url), { encoding: 'utf8' })
 
-const reset = (type) => {
+const reset = (
+  type,
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) => {
   const spinner = ora(`Wiping out ${type}...`).start()
 
   try {
-    const { data } = runFQL(readScript(`reset.${type}.fql`))
+    const { data } = runFQL(
+      readScript(`reset.${type}.fql`),
+      ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
 
     if (!data || !data.length) {
       return spinner.succeed(`No data was deleted of type '${type}'`)
@@ -39,7 +45,8 @@ export default async function main(
     roles: true,
     collections: true,
     schemas: true,
-  }
+  },
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
 ) {
   const _types = Object.keys(types).filter((key) => types[key])
   console.log(`The following types are about to be deleted:`, _types)
@@ -48,7 +55,11 @@ export default async function main(
     const spinner = ora(`Wiping out the graphql schema...`).start()
 
     try {
-      await importSchema(`enum Faugra { RESETTING }`)
+      await importSchema(
+        `enum Faugra { RESETTING }`,
+        true,
+        types.ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )
       spinner.succeed(`Graphql schema has been reset.`)
     } catch (e) {
       spinner.fail()
@@ -57,13 +68,15 @@ export default async function main(
   }
 
   for (const type of _types) {
-    reset(type)
+    reset(type, ephemeralDB)
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   ;(async () => {
-    await main()
+    await main(
+      process.env.FAUGRA_USE_EPHEMERAL_DB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
 
     console.log(`All reset operations have succeeded.`)
   })()

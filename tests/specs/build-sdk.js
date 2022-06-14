@@ -22,6 +22,7 @@ beforeEach(() => {
   return Promise.all([
     fs.rm(cache.DEFAULT, { recursive: true, force: true }),
     reset({ schemas: true, collections: true }),
+    reset({ schemas: true, collections: true }, true),
   ])
 }, 240000)
 
@@ -60,7 +61,8 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   )
 
   expect(exitCode).toBe(0)
-  expect(await amountOfCollectionsCreated()).toBe(1)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+  expect(await amountOfCollectionsCreated(true)).toBe(1)
 
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
@@ -112,7 +114,8 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   )
 
   expect(exitCode).toBe(0)
-  expect(await amountOfCollectionsCreated()).toBe(2)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+  expect(await amountOfCollectionsCreated(true)).toBe(2)
 
   expect(() =>
     execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {

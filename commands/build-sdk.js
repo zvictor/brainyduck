@@ -95,8 +95,8 @@ export default async function main(
 ) {
   debug(`called with:`, { schemaPattern, documentsPattern, outputFile })
 
-  await push(await schemaPattern)
-  const schema = await pull()
+  await push(await schemaPattern, true, true)
+  const schema = await pull(null, true)
 
   debug(`Generating TypeScript SDK`)
   const sdk = await generateSdk(schema, await documentsPattern)

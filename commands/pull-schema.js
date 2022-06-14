@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import fs from 'fs'
 import _debug from 'debug'
 import { print } from 'graphql'
@@ -12,19 +11,24 @@ import { graphqlEndpoint, loadSecret } from '../utils.js'
 
 const debug = _debug('faugra:pull-schema')
 
-const options = {
-  loaders: [new UrlLoader()],
-  filterKinds: OPERATION_KINDS,
-  sort: false,
-  forceGraphQLImport: true,
-  useSchemaDefinition: false,
-  headers: {
-    Authorization: `Bearer ${loadSecret()}`,
-  },
-}
-
-const loadSchema = async (url) => {
+const loadSchema = async (
+  url,
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) => {
   debug(`Pulling the schema from '${url}'`)
+  const options = {
+    loaders: [new UrlLoader()],
+    filterKinds: OPERATION_KINDS,
+    sort: false,
+    forceGraphQLImport: true,
+    useSchemaDefinition: false,
+    headers: {
+      Authorization: `Bearer ${loadSecret(
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )}`,
+    },
+  }
+
   const typeDefs = await loadTypedefs(url, options).catch((err) => {
     if (
       err.message.includes('Must provide schema definition with query type or a type named Query.')
@@ -53,10 +57,13 @@ const loadSchema = async (url) => {
     : mergedDocuments && print(mergedDocuments)
 }
 
-export default async function main(outputPath) {
-  debug(`called with:`, { outputPath })
+export default async function main(
+  outputPath,
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) {
+  debug(`called with:`, { outputPath, ephemeralDB })
   const t0 = performance.now()
-  const schema = await loadSchema(graphqlEndpoint.server)
+  const schema = await loadSchema(graphqlEndpoint.server, ephemeralDB)
   debug(`The call to fauna took ${performance.now() - t0} milliseconds.`)
 
   if (outputPath) {
@@ -71,7 +78,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [outputPath] = process.argv.slice(2)
 
   ;(async () => {
-    const schema = await main(outputPath && path.resolve(outputPath))
+    const schema = await main(
+      outputPath && path.resolve(outputPath),
+      process.env.FAUGRA_USE_EPHEMERAL_DB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
 
     if (!outputPath) {
       console.log(schema)

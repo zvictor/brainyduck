@@ -12,7 +12,10 @@ import { faunaClient, patternMatch, runFQL } from '../utils.js'
 const { query: q } = faunadb
 const debug = _debug('faugra:define-functions')
 
-export default async function main(pattern = '**/*.udf') {
+export default async function main(
+  pattern = '**/*.udf',
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 
@@ -21,7 +24,9 @@ export default async function main(pattern = '**/*.udf') {
       debug(`\t${figures.pointer} found ${file}`)
       const name = path.basename(file, path.extname(file))
       const content = fs.readFileSync(file).toString('utf8')
-      const replacing = await faunaClient().query(q.IsFunction(q.Function(name)))
+      const replacing = await faunaClient(
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      ).query(q.IsFunction(q.Function(name)))
 
       debug(`${replacing ? 'Replacing' : 'Creating'} function '${name}' from file ${file}:`)
 
@@ -50,7 +55,10 @@ export default async function main(pattern = '**/*.udf') {
 
       query = replacing ? `Update(Function('${name}'), ${query})` : `CreateFunction(${query})`
 
-      const data = await runFQL(query)
+      const data = await runFQL(
+        query,
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )
       debug(`${logSymbols.success} function has been created/updated: ${data.name}`)
 
       return data
@@ -67,7 +75,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       await reset({ functions: true })
     }
 
-    const refs = await main(pattern)
+    const refs = await main(
+      pattern,
+      process.env.FAUGRA_USE_EPHEMERAL_DB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
 
     console.log(
       `User-defined function(s) created or updated:`,

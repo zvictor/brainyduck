@@ -41,23 +41,33 @@ export const findBin = (name) => {
   return fs.existsSync(local) ? local : resolve(name)
 }
 
-export const loadSecret = () => {
-  const secret = process.env.FAUGRA_SECRET
+export const loadSecret = (
+  exclusive // temporary @see https://github.com/zvictor/faugra/issues/1
+) => {
+  const secret = exclusive ? process.env.FAUGRA_EXCLUSIVE_SECRET : process.env.FAUGRA_SECRET
 
   if (!secret) {
     console.error(
-      `The faugra secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Faugra-secret\n`
+      `Faugra's ${exclusive ? 'exclusive ' : ''}secret is missing! 🤷‍🥚\n\nPlease define a ${
+        exclusive ? 'exclusive ' : ''
+      }secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Faugra-secret\n`
     )
 
-    throw new Error(`missing faugra's secret`)
+    throw new Error(`missing faugra's ${exclusive ? 'exclusive ' : ''}secret`)
   }
 
   return secret
 }
 
-export const faunaClient = () => {
+export const faunaClient = (
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) => {
   const { FAUGRA_DOMAIN, FAUGRA_SCHEME, FAUGRA_PORT } = process.env
-  const options = { secret: loadSecret() }
+  const options = {
+    secret: loadSecret(
+      ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+    ),
+  }
 
   if (FAUGRA_DOMAIN) {
     options.domain = process.env.FAUGRA_DOMAIN
@@ -77,19 +87,27 @@ export const faunaClient = () => {
 export const patternMatch = async (pattern, cwd = process.cwd()) =>
   (await globby(pattern, { cwd, ignore: ignored })).map((x) => path.join(cwd, x))
 
-export const locateCache = (file = '') =>
-  process.env.FAUGRA_CACHE
-    ? path.join(process.env.FAUGRA_CACHE, file)
-    : fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
-
-export const runFQL = (query, secret) => {
+export const runFQL = (
+  query,
+  ephemeralDB, // temporary @see https://github.com/zvictor/faugra/issues/1
+  secret
+) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
 
   const tmpFile = tempy.file()
   fs.writeFileSync(tmpFile, query, 'utf8')
 
-  const args = [`eval`, `--secret=${secret || loadSecret()}`, `--file=${tmpFile}`]
+  const args = [
+    `eval`,
+    `--secret=${
+      secret ||
+      loadSecret(
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )
+    }`,
+    `--file=${tmpFile}`,
+  ]
 
   if (FAUGRA_DOMAIN) {
     args.push('--domain')
@@ -121,7 +139,11 @@ export const runFQL = (query, secret) => {
   return JSON.parse(stdout)
 }
 
-export const importSchema = async (schema, override) => {
+export const importSchema = async (
+  schema,
+  override,
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) => {
   debug('faugra:importSchema')(
     `Pushing the schema to ${graphqlEndpoint.import} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
   )
@@ -131,7 +153,9 @@ export const importSchema = async (schema, override) => {
     method: 'POST',
     body: schema,
     headers: new Headers({
-      Authorization: `Bearer ${loadSecret()}`,
+      Authorization: `Bearer ${loadSecret(
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )}`,
     }),
   })
   debug('faugra:importSchema')(`The call to fauna took ${performance.now() - t0} milliseconds.`)
@@ -146,7 +170,11 @@ export const importSchema = async (schema, override) => {
     await sleep(30000)
     console.log(`Retrying now...`)
 
-    return await importSchema(schema, override)
+    return await importSchema(
+      schema,
+      override,
+      ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
   }
 
   return message

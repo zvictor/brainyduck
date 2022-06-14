@@ -12,7 +12,10 @@ import { faunaClient, patternMatch, runFQL } from '../utils.js'
 const { query: q } = faunadb
 const debug = _debug('faugra:define-roles')
 
-export default async function main(pattern = '**/*.role') {
+export default async function main(
+  pattern = '**/*.role',
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 
@@ -21,7 +24,9 @@ export default async function main(pattern = '**/*.role') {
       debug(`\t${figures.pointer} found ${file}`)
       const name = path.basename(file, path.extname(file))
       const content = fs.readFileSync(file).toString('utf8')
-      const replacing = await faunaClient().query(q.IsRole(q.Role(name)))
+      const replacing = await faunaClient(
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      ).query(q.IsRole(q.Role(name)))
 
       debug(`${replacing ? 'Replacing' : 'Creating'} role '${name}' from file ${file}:`)
 
@@ -44,7 +49,10 @@ export default async function main(pattern = '**/*.role') {
 
       query = replacing ? `Update(Role('${name}'), ${query})` : `CreateRole(${query})`
 
-      const data = await runFQL(query)
+      const data = await runFQL(
+        query,
+        ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )
       debug(`${logSymbols.success} role has been created/updated: ${data.name}`)
 
       return data
@@ -61,7 +69,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       await reset({ roles: true })
     }
 
-    const refs = await main(pattern)
+    const refs = await main(
+      pattern,
+      process.env.FAUGRA_USE_EPHEMERAL_DB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
 
     console.log(
       `User-defined role(s) created or updated:`,

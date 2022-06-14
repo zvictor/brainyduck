@@ -5,14 +5,17 @@ import { faunaClient, runFQL } from '../utils.js'
 const { query: q } = faunadb
 
 export const createDatabase = (name, secret) =>
-  runFQL(`
+  runFQL(
+    `
   CreateKey({
     database: Select('ref', CreateDatabase({ name: '${name}' })),
     role: 'admin',
   })
-`, secret)
-
-export const deleteDatabase = (name, secret) => runFQL(`Delete(Database('${name}'))`, secret)
+`,
+    null,
+    secret
+  )
+export const deleteDatabase = (name, secret) => runFQL(`Delete(Database('${name}'))`, null, secret)
 
 export const setupEnvironment = (name) => {
   const timestamp = +new Date()
@@ -36,14 +39,26 @@ export const setupEnvironment = (name) => {
   })
 }
 
-export const amountOfFunctionsCreated = () =>
-  faunaClient().query(q.Count(q.Functions()))
+export const amountOfFunctionsCreated = (
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) =>
+  faunaClient(
+    ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+  ).query(q.Count(q.Functions()))
 
-export const amountOfRolesCreated = () =>
-  faunaClient().query(q.Count(q.Roles()))
+export const amountOfRolesCreated = (
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) =>
+  faunaClient(
+    ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+  ).query(q.Count(q.Roles()))
 
-export const amountOfCollectionsCreated = () =>
-  faunaClient().query(q.Count(q.Collections()))
+export const amountOfCollectionsCreated = (
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) =>
+  faunaClient(
+    ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+  ).query(q.Count(q.Collections()))
 
 export const listFiles = (directory) =>
   fs.existsSync(directory)

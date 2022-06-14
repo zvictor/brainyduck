@@ -16,6 +16,7 @@ Execute `faugra` inside the domain folder and then start next.js as usual.
 
 ```bash
 export FAUGRA_SECRET=<your-secret>
+export FAUGRA_EXCLUSIVE_SECRET=<your-secret>
 
 $ npx faugra dev ./domain --no-watch
 $ npx next dev

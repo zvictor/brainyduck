@@ -33,8 +33,9 @@ const generateTypes = (schema) =>
 export default async function main(inputData, outputPath) {
   debug(`called with:`, { inputData, outputPath })
   debug(`schema needs to be pushed-and-pulled first`)
-  await push(await inputData)
-  const schema = await pull()
+  // 👇👇 temporary @see https://github.com/zvictor/faugra/issues/1
+  await push(await inputData, true, true)
+  const schema = await pull(null, true)
 
   debug(`Generating TypeScript types`)
   const types = await generateTypes(schema, outputPath)

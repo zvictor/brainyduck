@@ -45,7 +45,11 @@ const loadSchema = async (pattern) => {
   return content.join('\n')
 }
 
-export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', override) {
+export default async function main(
+  inputPath = '**/[A-Z]*.(graphql|gql)',
+  override,
+  ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+) {
   debug(`called with:`, { inputPath, override })
   const schema = extendTypes(await loadSchema(inputPath))
 
@@ -53,7 +57,11 @@ export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', overri
   debug(`The resulting merged schema:\n${prettySchema}`)
 
   try {
-    return await importSchema(schema, override)
+    return await importSchema(
+      schema,
+      override,
+      ephemeralDB // temporary @see https://github.com/zvictor/faugra/issues/1
+    )
   } catch (error) {
     console.error(`The schema below could not be pushed to fauna:\n\n${prettySchema}`)
 
@@ -70,6 +78,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       await reset({ collections: true, schemas: true })
     }
 
-    console.log(await main(inputPath))
+    console.log(
+      await main(
+        inputPath,
+        false,
+        process.env.FAUGRA_USE_EPHEMERAL_DB // temporary @see https://github.com/zvictor/faugra/issues/1
+      )
+    )
   })()
 }

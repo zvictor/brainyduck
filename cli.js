@@ -17,9 +17,15 @@ program
 
   .option(
     '-s, --secret <value>',
-    `set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).`
+    `set the secret key for your actual database, where you do store the data (defaults to <FAUGRA_SECRET>).`
   )
   .on('option:secret', optionParser('secret'))
+
+  .option(
+    '-e, --exclusive-secret <value>',
+    `set the secret key exclusive to Faugra, used to push/pull schemas as dry-run (defaults to <FAUGRA_EXCLUSIVE_SECRET>).`
+  )
+  .on('option:exclusive-secret', optionParser('exclusiveSecret'))
 
   .option(
     '--domain <value>',
