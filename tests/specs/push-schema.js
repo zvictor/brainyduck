@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
@@ -11,7 +11,7 @@ beforeEach(() => reset({ collections: true }), 240000)
 test('push a basic schema', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'push-schema'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'push-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -39,7 +39,7 @@ test('push a basic schema', async () => {
 test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'push-schema'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'push-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })

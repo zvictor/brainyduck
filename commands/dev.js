@@ -13,10 +13,10 @@ process.on('uncaughtException', scream)
 
 import ora from 'ora'
 import path from 'path'
-import execa from 'execa'
 import _debug from 'debug'
 import PQueue from 'p-queue'
 import chokidar from 'chokidar'
+import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import defineFunctions from './define-functions.js'
 // import generateTypes from './generate-types.js'
@@ -56,7 +56,7 @@ const runCallback = () => {
   console.log(`Running callback '${process.env.CALLBACK}':`)
   const cmd = process.env.CALLBACK.split(' ')
 
-  execa.sync(cmd.shift(), cmd, {
+  execaSync(cmd.shift(), cmd, {
     stdio: ['pipe', process.stdout, process.stderr],
     cwd: process.cwd(),
   })

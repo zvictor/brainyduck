@@ -1,5 +1,5 @@
 import path from 'path'
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset.js'
 import { importSchema } from '../../utils.js'
@@ -11,7 +11,7 @@ beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
 test('fails on empty schema', async () => {
   try {
-    execa.sync('node', ['../../cli.js', 'pull-schema'], {
+    execaSync('node', ['../../cli.js', 'pull-schema'], {
       env: { DEBUG: 'faugra:*' },
       cwd: path.dirname(fileURLToPath(import.meta.url)),
     })
@@ -34,7 +34,7 @@ test('fetch schema from fauna', async () => {
   // The schema needs to be pre-populated/reset before we can pull it again
   await importSchema(schema, true)
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'pull-schema'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pull-schema'], {
     env: { DEBUG: 'faugra:*' },
     cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
@@ -128,4 +128,3 @@ scalar Long`
 
   expect(await amountOfCollectionsCreated()).toBe(1)
 }, 240000)
-

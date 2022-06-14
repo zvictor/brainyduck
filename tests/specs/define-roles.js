@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
@@ -6,13 +6,13 @@ import { setupEnvironment, amountOfFunctionsCreated, amountOfRolesCreated } from
 
 setupEnvironment(`define-roles`)
 
-beforeEach(() => reset({ functions:true, roles: true }), 10000)
+beforeEach(() => reset({ functions: true, roles: true }), 10000)
 
 test('role definitions should not accept simplified formats', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
-    execa.sync('node', ['../../cli.js', 'define-roles', 'simplified.role'], {
+    execaSync('node', ['../../cli.js', 'define-roles', 'simplified.role'], {
       env: { DEBUG: 'faugra:*' },
       cwd,
     })
@@ -32,7 +32,7 @@ test('role name should match file name', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
-    execa.sync('node', ['../../cli.js', 'define-roles', 'unmatched.role'], {
+    execaSync('node', ['../../cli.js', 'define-roles', 'unmatched.role'], {
       env: { DEBUG: 'faugra:*' },
       cwd,
     })
@@ -52,7 +52,7 @@ test('upload all roles: publicAccess', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   // the referred functions needs to be defined first
-  const functions = execa.sync('node', ['../../cli.js', 'define-functions'], {
+  const functions = execaSync('node', ['../../cli.js', 'define-functions'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -66,7 +66,7 @@ test('upload all roles: publicAccess', async () => {
   expect(await amountOfFunctionsCreated()).toBe(2)
 
   // ... and only then their access permission can be defined
-  const roles = execa.sync('node', ['../../cli.js', 'define-roles'], {
+  const roles = execaSync('node', ['../../cli.js', 'define-roles'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })

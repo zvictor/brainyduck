@@ -1,14 +1,14 @@
 import fs from 'fs'
 import path from 'path'
 import debug from 'debug'
-import tempy from 'tempy'
-import execa from 'execa'
-import globby from 'globby'
 import faunadb from 'faunadb'
 import resolve from 'resolve-as-bin'
+import { execaSync } from 'execa'
+import { globby } from 'globby'
 import { performance } from 'perf_hooks'
-import fetch, { Headers } from 'node-fetch'
 import { fileURLToPath } from 'url'
+import { temporaryFile } from 'tempy'
+import fetch, { Headers } from 'node-fetch'
 
 export { default as locateCache } from './locateCache.cjs'
 
@@ -81,7 +81,7 @@ export const runFQL = (query, secret) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
 
-  const tmpFile = tempy.file()
+  const tmpFile = temporaryFile()
   fs.writeFileSync(tmpFile, query, 'utf8')
 
   const args = [`eval`, `--secret=${secret || loadSecret()}`, `--file=${tmpFile}`]
@@ -101,7 +101,7 @@ export const runFQL = (query, secret) => {
     args.push(FAUGRA_SCHEME)
   }
 
-  const { stdout, stderr, exitCode } = execa.sync(findBin(`fauna`), args, {
+  const { stdout, stderr, exitCode } = execaSync(findBin(`fauna`), args, {
     cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 

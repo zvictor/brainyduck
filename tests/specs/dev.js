@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
@@ -17,7 +17,7 @@ beforeEach(() => reset(), 240000)
 test(`complete all 'dev' operations for the 'basic' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
@@ -42,7 +42,7 @@ test(`complete all 'dev' operations for the 'basic' example`, async () => {
 test(`complete all 'dev' operations for the 'modularized' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
@@ -73,7 +73,7 @@ test(`complete all 'dev' operations for the 'modularized' example`, async () => 
 test(`complete all 'dev' operations for the 'with-UDF' example`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'dev', '--no-watch'], {
     env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
     cwd,
   })

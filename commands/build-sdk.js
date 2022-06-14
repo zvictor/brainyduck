@@ -2,15 +2,15 @@
 
 import fs from 'fs'
 import path from 'path'
-import execa from 'execa'
-import tempy from 'tempy'
 import _debug from 'debug'
+import { execaSync } from 'execa'
 import { parse } from 'graphql'
-import { fileURLToPath } from 'url'
 import { codegen } from '@graphql-codegen/core'
+import { fileURLToPath } from 'url'
 import * as typescriptPlugin from '@graphql-codegen/typescript'
 import * as typescriptOperations from '@graphql-codegen/typescript-operations'
 import * as typescriptGraphqlRequest from '@graphql-codegen/typescript-graphql-request'
+import { temporaryFile, temporaryDirectory } from 'tempy'
 import { findBin, pipeData, patternMatch, locateCache } from '../utils.js'
 import push from './push-schema.js'
 import pull from './pull-schema.js'
@@ -41,11 +41,11 @@ const config = {
 
 const generateOperations = async (schema) => {
   debug(`generating operations documents`)
-  const schemaFile = tempy.file()
-  let operationsDir = tempy.directory()
+  const schemaFile = temporaryFile()
+  let operationsDir = temporaryDirectory()
 
   fs.writeFileSync(schemaFile, schema)
-  const { stdout, stderr, exitCode } = execa.sync(
+  const { stdout, stderr, exitCode } = execaSync(
     findBin(`gqlg`),
     [`--schemaFilePath`, schemaFile, `--destDirPath`, `./output`],
     { cwd: operationsDir }
@@ -170,7 +170,7 @@ export default function faugra({
     `{"extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {"outDir": "${locateCache()}"}}`
   )
 
-  execa.sync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
+  execaSync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
     stdio: ['pipe', process.stdout, process.stderr],
     cwd: process.cwd(),
   })

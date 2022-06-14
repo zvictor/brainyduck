@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset.js'
@@ -12,7 +12,7 @@ test('UDF name should match file name', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
-    execa.sync('node', ['../../cli.js', 'define-functions', 'unmatched.udf'], {
+    execaSync('node', ['../../cli.js', 'define-functions', 'unmatched.udf'], {
       env: { DEBUG: 'faugra:*' },
       cwd,
     })
@@ -31,7 +31,7 @@ test('UDF name should match file name', async () => {
 test('upload simplified and extended UDFs: sayHi, sayHello', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'define-functions'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'define-functions'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -44,4 +44,3 @@ test('upload simplified and extended UDFs: sayHi, sayHello', async () => {
 
   expect(await amountOfFunctionsCreated()).toBe(2)
 }, 15000)
-

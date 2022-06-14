@@ -1,5 +1,5 @@
 import fs from 'fs/promises'
-import execa from 'execa'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
@@ -12,7 +12,7 @@ beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 test('generate types for a schema without imports', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync(
+  const { stdout, stderr, exitCode } = execaSync(
     'node',
     ['../../cli.js', 'generate-types', 'Schema.graphql'],
     { env: { DEBUG: 'faugra:*' }, cwd }

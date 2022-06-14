@@ -1,9 +1,9 @@
 import fs from 'fs/promises'
 import path from 'path'
-import execa from 'execa'
-import tempy from 'tempy'
+import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { temporaryDirectory } from 'tempy'
 import reset from '../../commands/reset'
 import { findBin } from '../../utils'
 import {
@@ -17,7 +17,7 @@ const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url))
 setupEnvironment(`build-sdk`)
 
 beforeEach(() => {
-  cache.TEST = tempy.directory()
+  cache.TEST = temporaryDirectory()
 
   return Promise.all([
     fs.rm(cache.DEFAULT, { recursive: true, force: true }),
@@ -28,7 +28,7 @@ beforeEach(() => {
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync(
+  const { stdout, stderr, exitCode } = execaSync(
     'node',
     ['../../cli.js', 'build-sdk', 'Schema.graphql'],
     { env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache.TEST }, cwd }
@@ -64,13 +64,13 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
-    execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration'], {
+    execaSync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
     })
   ).not.toThrow()
 
-  const { stdout: results } = execa.sync(findBin('ts-node'), ['index.ts'], {
+  const { stdout: results } = execaSync(findBin('ts-node'), ['index.ts'], {
     env: { FAUGRA_CACHE: cache.TEST },
     cwd,
   })
@@ -116,7 +116,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execa.sync('node', ['../../cli.js', 'build-sdk'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build-sdk'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -150,12 +150,12 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   expect(await amountOfCollectionsCreated()).toBe(2)
 
   expect(() =>
-    execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {
+    execaSync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {
       cwd,
     })
   ).not.toThrow()
 
-  const { stdout: results } = execa.sync(findBin('ts-node'), ['index.ts'], {
+  const { stdout: results } = execaSync(findBin('ts-node'), ['index.ts'], {
     env: {},
     cwd,
   })
