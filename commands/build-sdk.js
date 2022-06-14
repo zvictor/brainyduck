@@ -175,6 +175,9 @@ export default function faugra({
     cwd: process.cwd(),
   })
 
+  fs.renameSync(locateCache(`sdk.js`), locateCache(`sdk.cjs`))
+  fs.renameSync(locateCache(`sdk.js.map`), locateCache(`sdk.cjs.map`))
+
   debug(`The sdk has been transpiled and cached`)
   return outputFile
 }

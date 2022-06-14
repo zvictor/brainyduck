@@ -25,7 +25,7 @@ beforeEach(() => {
   ])
 }, 240000)
 
-test('build an sdk for a schema without imports and non-standard cache', async () => {
+test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execa.sync(
@@ -56,7 +56,7 @@ test('build an sdk for a schema without imports and non-standard cache', async (
 
   expect(listFiles(cache.DEFAULT)).toEqual([].sort())
   expect(listFiles(cache.TEST)).toEqual(
-    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.js', 'sdk.js.map', 'sdk.ts', 'tsconfig.json'].sort()
+    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.cjs', 'sdk.cjs.map', 'sdk.ts', 'tsconfig.json'].sort()
   )
 
   expect(exitCode).toBe(0)
@@ -65,6 +65,13 @@ test('build an sdk for a schema without imports and non-standard cache', async (
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
     execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    })
+  ).not.toThrow()
+
+  expect(() =>
+    execa.sync(findBin('ts-node'), ['index.ts'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
     })
@@ -101,7 +108,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   expect(listFiles(cache.TEST)).toEqual([].sort())
   expect(listFiles(cache.DEFAULT)).toEqual(
-    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.js', 'sdk.js.map', 'sdk.ts', 'tsconfig.json'].sort()
+    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.cjs', 'sdk.cjs.map', 'sdk.ts', 'tsconfig.json'].sort()
   )
 
   expect(exitCode).toBe(0)
@@ -109,6 +116,13 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   expect(() =>
     execa.sync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {
+      cwd,
+    })
+  ).not.toThrow()
+
+  expect(() =>
+    execa.sync(findBin('ts-node'), ['index.ts'], {
+      env: {},
       cwd,
     })
   ).not.toThrow()

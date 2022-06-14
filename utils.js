@@ -10,6 +10,8 @@ import { performance } from 'perf_hooks'
 import fetch, { Headers } from 'node-fetch'
 import { fileURLToPath } from 'url'
 
+export { default as locateCache } from './locateCache.cjs'
+
 const { Client } = faunadb
 const errors = {
   CACHE_TIMEOUT:

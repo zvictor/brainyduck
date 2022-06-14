@@ -1,7 +1,7 @@
 const fs = require('fs')
-const { locateCache } = require('./utils')
+const locateCache = require('./locateCache.cjs')
 
-const filePath = locateCache('sdk.js')
+const filePath = locateCache('sdk.cjs')
 
 if (!fs.existsSync(filePath)) {
   console.error(
