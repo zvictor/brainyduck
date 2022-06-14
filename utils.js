@@ -77,11 +77,6 @@ export const faunaClient = () => {
 export const patternMatch = async (pattern, cwd = process.cwd()) =>
   (await globby(pattern, { cwd, ignore: ignored })).map((x) => path.join(cwd, x))
 
-export const locateCache = (file = '') =>
-  process.env.FAUGRA_CACHE
-    ? path.join(process.env.FAUGRA_CACHE, file)
-    : fileURLToPath(new URL(path.join(`.cache/`, file), import.meta.url))
-
 export const runFQL = (query, secret) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
   const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
