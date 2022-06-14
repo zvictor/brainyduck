@@ -70,12 +70,47 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     })
   ).not.toThrow()
 
-  expect(() =>
-    execa.sync(findBin('ts-node'), ['index.ts'], {
-      env: { FAUGRA_CACHE: cache.TEST },
-      cwd,
-    })
-  ).not.toThrow()
+  const { stdout: results } = execa.sync(findBin('ts-node'), ['index.ts'], {
+    env: { FAUGRA_CACHE: cache.TEST },
+    cwd,
+  })
+
+  console.log(`Basic example run:\n`, results)
+
+  const parsedResults = JSON.parse(
+    `[${results
+      .replaceAll(`'`, `"`)
+      .replace(/([\w]+):/gm, `"$1":`)
+      .replace(/}[\s]*{/gm, '},{')}]`
+  )
+
+  expect(parsedResults.length).toBe(4)
+
+  expect(parsedResults[0]).toEqual({
+    createUser: {
+      _id: expect.any(String),
+      _ts: expect.any(Number),
+      username: expect.stringContaining('rick-sanchez-'),
+    },
+  })
+
+  expect(parsedResults[1]).toEqual({
+    createUser: {
+      _id: expect.any(String),
+      _ts: expect.any(Number),
+      username: expect.stringContaining('morty-smith-'),
+    },
+  })
+  expect(parsedResults[2]).toEqual({
+    _id: expect.any(String),
+    _ts: expect.any(Number),
+    username: expect.stringContaining('rick-sanchez-'),
+  })
+  expect(parsedResults[3]).toEqual({
+    _id: expect.any(String),
+    _ts: expect.any(Number),
+    username: expect.stringContaining('morty-smith-'),
+  })
 }, 240000)
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
@@ -120,10 +155,34 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     })
   ).not.toThrow()
 
-  expect(() =>
-    execa.sync(findBin('ts-node'), ['index.ts'], {
-      env: {},
-      cwd,
-    })
-  ).not.toThrow()
+  const { stdout: results } = execa.sync(findBin('ts-node'), ['index.ts'], {
+    env: {},
+    cwd,
+  })
+
+  console.log(`Modularized example run:\n`, results)
+
+  const parsedResults = JSON.parse(
+    results
+      .split('\n')
+      .slice(1)
+      .join('\n')
+      .replaceAll(`'`, `"`)
+      .replace(/([\w]+):/gm, `"$1":`)
+      .replace(/}[\s]*{/gm, '},{')
+  )
+
+  expect(parsedResults).toEqual({
+    findPostByID: {
+      author: {
+        _id: expect.any(String),
+        _ts: expect.any(Number),
+        name: 'Whatever Name',
+      },
+      _id: expect.any(String),
+      _ts: expect.any(Number),
+      content: 'some post content',
+      title: 'a post title',
+    },
+  })
 }, 240000)
