@@ -8,7 +8,7 @@ import { globby } from 'globby'
 import { performance } from 'perf_hooks'
 import { fileURLToPath } from 'url'
 import { temporaryFile } from 'tempy'
-import fetch, { Headers } from 'node-fetch'
+import fetch, { Headers } from './fetch-ponyfill.cjs'
 
 export { default as locateCache } from './locateCache.cjs'
 

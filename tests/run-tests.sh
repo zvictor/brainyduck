@@ -14,4 +14,4 @@ if [ -z ${MASTER_SECRET+x} ]; then
   exit 1;
 fi
 
-NODE_OPTIONS=--experimental-vm-modules $cmd --silent=false $@
+NODE_OPTIONS=--experimental-vm-modules $cmd --silent=false --detectOpenHandles $@
