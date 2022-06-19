@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.45",
+  "version": "0.0.47",
   "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
@@ -18,13 +18,12 @@
   "files": [
     "/commands",
     "/scripts",
-    "cli.js",
-    "index.js",
-    "README.md",
-    "utils.js"
+    "*.cjs",
+    "*.js",
+    "tsconfig.json",
+    "README.md"
   ],
   "scripts": {
-    "postinstall": "./scripts/postinstall.js",
     "prepublishOnly": "rm -Rf .cache",
     "test": "./tests/run-tests.sh"
   },
