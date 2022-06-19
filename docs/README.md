@@ -253,6 +253,30 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
 
+## Contributing
+
+1. When debugging Faugra, it's always a good idea to run the commands using the `--verbose` (or `DEBUG=faugra:*`) flag.
+Please make sure you have that included in your logs before you report any bug.
+
+2. The tests are easy to run and are an important diagnosis tool to understand what could be going on in your environment.
+Clone Faugra's repository and then run the tests in one of the possible ways:
+
+**Note: Make sure you use a secret of a DB you create exclusivily for these tests, as Faugra will potentially wipe all its data out!**
+
+```haskell
+-- Run all tests:
+MASTER_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh
+```
+
+```haskell
+-- Run only tests of a specific command:
+MASTER_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh specs/<command-name>.js
+```
+
+You can also set `DEBUG=faugra:*` when running tests to get deeper insights.
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+
 ## Sponsors
 
 <p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=sponsorship&utm_campaign=zvictor&utm_id=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
