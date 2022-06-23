@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill'
 import faugra from 'faugra'
 
 faugra().sayHi({ name: 'dimension C-137' }).then(console.log)

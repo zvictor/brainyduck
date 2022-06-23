@@ -24,6 +24,16 @@ beforeEach(() => {
   ])
 }, 240000)
 
+const resetBuild = (cwd, ...extra) =>
+  Promise.all([
+    reset({ documents: true }),
+    fs.rm(path.join(cwd, 'build'), {
+      recursive: true,
+      force: true,
+    }),
+    ...extra,
+  ])
+
 const outputCheck = {
   basic: (results, name) => {
     console.log(`Basic example ${name ? `- ${name} ` : ''}run:\n`, results)
@@ -67,7 +77,7 @@ const outputCheck = {
 
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
-  const build = path.join(cwd, 'build')
+  const tsconfig = temporaryFile({ name: 'tsconfig.json' })
 
   const { stdout, stderr, exitCode } = execaSync(
     'node',
@@ -103,6 +113,8 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(exitCode).toBe(0)
   expect(await amountOfCollectionsCreated()).toBe(1)
 
+  await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
+
   // ts-node tests
   outputCheck.basic(
     execaSync(findBin('ts-node'), ['index.ts'], {
@@ -113,13 +125,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   )
 
   // tsc tests
-  await Promise.all([
-    reset({ documents: true }),
-    fs.rm(build, {
-      recursive: true,
-      force: true,
-    }),
-  ])
+  await resetBuild(cwd)
 
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
@@ -137,21 +143,35 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     'tsc'
   )
 
-  // tsup tests
-  const tsconfig = temporaryFile({ name: 'tsconfig.json' })
-  await Promise.all([
-    reset({ documents: true }),
-    fs.rm(build, {
-      recursive: true,
-      force: true,
-    }),
-    fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } })),
-  ])
+  // tsup tests (ESM)
+  await resetBuild(cwd)
 
   expect(() =>
     execaSync(
       findBin('tsup'),
-      ['index.ts', '--dts', '--out-dir', './build', '--tsconfig', tsconfig],
+      ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm', '--tsconfig', tsconfig],
+      {
+        env: { FAUGRA_CACHE: cache.TEST },
+        cwd,
+      }
+    )
+  ).not.toThrow()
+
+  outputCheck.basic(
+    execaSync('node', ['./build/index.mjs'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'tsup (ESM)'
+  )
+
+  // tsup tests (CJS)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(
+      findBin('tsup'),
+      ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs', '--tsconfig', tsconfig],
       {
         env: { FAUGRA_CACHE: cache.TEST },
         cwd,
@@ -164,7 +184,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
     }).stdout,
-    'tsup'
+    'tsup (CJS)'
   )
 }, 240000)
 

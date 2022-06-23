@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": false,
     "preserveSymlinks": true,
     "skipLibCheck": true,
     "outDir": ".cache/",
@@ -7,6 +9,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
+    "isolatedModules": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

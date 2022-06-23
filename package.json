@@ -11,7 +11,13 @@
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "bin": "./cli.js",
-  "exports": "./index.cjs",
+  "exports": {
+    ".": {
+      "types": "./.cache/sdk.d.ts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
   "main": "./index.cjs",
   "types": "./.cache/sdk.d.ts",
   "browser": ".cache/sdk.js",

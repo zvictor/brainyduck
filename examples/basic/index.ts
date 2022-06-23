@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill'
 import sdk from 'faugra'
 
 const random = () => Math.random().toString(36).substring(7)

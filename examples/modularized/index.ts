@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill'
 import faugra from 'faugra'
 const { log } = console
 
