@@ -73,6 +73,33 @@ const outputCheck = {
       username: expect.stringContaining('morty-smith-'),
     })
   },
+  modularized: (results, name) => {
+    console.log(`Modularized example ${name ? `- ${name} ` : ''}run:\n`, results)
+
+    const parsedResults = JSON.parse(
+      results
+        .split('\n')
+        .slice(1)
+        .join('\n')
+        .replaceAll(`'`, `"`)
+        .replace(/([\w]+):/gm, `"$1":`)
+        .replace(/}[\s]*{/gm, '},{')
+    )
+
+    expect(parsedResults).toEqual({
+      findPostByID: {
+        author: {
+          _id: expect.any(String),
+          _ts: expect.any(Number),
+          name: 'Whatever Name',
+        },
+        _id: expect.any(String),
+        _ts: expect.any(Number),
+        content: 'some post content',
+        title: 'a post title',
+      },
+    })
+  },
 }
 
 test('build an sdk for basic schema and non-standard cache', async () => {
@@ -224,40 +251,73 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   expect(exitCode).toBe(0)
   expect(await amountOfCollectionsCreated()).toBe(2)
 
+  // ts-node tests
+  outputCheck.modularized(
+    execaSync(`node`, [`--loader`, `ts-node/esm`, 'index.ts'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'ts-node'
+  )
+
+  // tsc tests
+  await resetBuild(cwd)
+
   expect(() =>
-    execaSync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration', '--strict'], {
+    execaSync(findBin('tsc'), ['--declaration', '--strict'], {
+      env: {},
       cwd,
     })
   ).not.toThrow()
 
-  const { stdout: results } = execaSync(findBin('ts-node'), ['index.ts'], {
-    env: {},
-    cwd,
-  })
-
-  console.log(`Modularized example run:\n`, results)
-
-  const parsedResults = JSON.parse(
-    results
-      .split('\n')
-      .slice(1)
-      .join('\n')
-      .replaceAll(`'`, `"`)
-      .replace(/([\w]+):/gm, `"$1":`)
-      .replace(/}[\s]*{/gm, '},{')
+  outputCheck.modularized(
+    execaSync('node', ['./build/index.js'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'tsc'
   )
 
-  expect(parsedResults).toEqual({
-    findPostByID: {
-      author: {
-        _id: expect.any(String),
-        _ts: expect.any(Number),
-        name: 'Whatever Name',
-      },
-      _id: expect.any(String),
-      _ts: expect.any(Number),
-      content: 'some post content',
-      title: 'a post title',
-    },
-  })
+  // tsup tests (ESM)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm'], {
+      env: {},
+      cwd,
+    })
+  ).not.toThrow()
+
+  outputCheck.modularized(
+    execaSync('node', ['./build/index.js'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'tsup (ESM)'
+  )
+
+  // tsup tests (CJS)
+  // TODO: Running tsup with the --format cjs option fails with an error: (@see https://github.com/zvictor/faugra/issues/27)
+  // "TypeError: (0 , import_faugra.default) is not a function"
+  //
+  // These 2 issues seem to be related to it:
+  // * https://github.com/evanw/esbuild/issues/1856
+  // * https://github.com/evanw/esbuild/issues/2023
+
+  // await resetBuild(cwd)
+
+  // expect(() =>
+  //   execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs'], {
+  //     env: {},
+  //     cwd,
+  //   })
+  // ).not.toThrow()
+
+  // outputCheck.modularized(
+  //   execaSync('node', ['./build/index.cjs'], {
+  //     env: {},
+  //     cwd,
+  //   }).stdout,
+  //   'tsup (CJS)'
+  // )
 }, 240000)

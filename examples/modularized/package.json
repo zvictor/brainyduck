@@ -1,8 +1,9 @@
 {
   "name": "faugra-example-modularized",
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx ts-node index.ts"
+    "start": "node --loader ts-node/esm index.ts"
   },
   "dependencies": {
     "faugra": "../..",
