@@ -22,16 +22,10 @@ export const setupEnvironment = (name) => {
       `${timestamp}_${name}`,
       process.env.MASTER_SECRET
     ).secret
-
-    process.env.FAUGRA_EXCLUSIVE_SECRET = createDatabase(
-      `${timestamp}_${name}_dry-run`,
-      process.env.MASTER_SECRET
-    ).secret
   })
 
   afterAll(() => {
     deleteDatabase(`${timestamp}_${name}`, process.env.MASTER_SECRET)
-    deleteDatabase(`${timestamp}_${name}_dry-run`, process.env.MASTER_SECRET)
     delete process.env.FAUGRA_CACHE
   })
 }
