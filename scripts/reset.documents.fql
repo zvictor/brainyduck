@@ -1,0 +1,12 @@
+// Delete all Documents
+Map(
+  Paginate(Collections()),
+  Lambda(col =>
+    Map(
+      Paginate(Documents(col)),
+      Lambda(doc =>
+        Delete(doc)
+      )
+    )
+  )
+)

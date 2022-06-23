@@ -12,7 +12,9 @@ const ALL_TYPES = {
   functions: true,
   indexes: true,
   roles: true,
+  documents: true,
   collections: true,
+  databases: true,
   schemas: true,
 }
 
