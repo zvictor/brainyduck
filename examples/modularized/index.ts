@@ -1,4 +1,4 @@
-import faugra from 'faugra'
+import { faugra } from 'faugra'
 const { log } = console
 
 async function main() {

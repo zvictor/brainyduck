@@ -256,3 +256,5 @@ export default function faugra({
     })
   )
 }
+
+export { faugra }

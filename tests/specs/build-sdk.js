@@ -304,20 +304,20 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   // * https://github.com/evanw/esbuild/issues/1856
   // * https://github.com/evanw/esbuild/issues/2023
 
-  // await resetBuild(cwd)
+  await resetBuild(cwd)
 
-  // expect(() =>
-  //   execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs'], {
-  //     env: {},
-  //     cwd,
-  //   })
-  // ).not.toThrow()
+  expect(() =>
+    execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs'], {
+      env: {},
+      cwd,
+    })
+  ).not.toThrow()
 
-  // outputCheck.modularized(
-  //   execaSync('node', ['./build/index.cjs'], {
-  //     env: {},
-  //     cwd,
-  //   }).stdout,
-  //   'tsup (CJS)'
-  // )
+  outputCheck.modularized(
+    execaSync('node', ['./build/index.cjs'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'tsup (CJS)'
+  )
 }, 240000)

@@ -119,7 +119,9 @@ export default function faugra({
       },
     })
   )
-}`
+}
+
+export { faugra }`
 
   if (!outputFile) {
     return ouput
