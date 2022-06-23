@@ -44,7 +44,7 @@ export default async function main(pattern = '**/*.role') {
 
       query = replacing ? `Update(Role('${name}'), ${query})` : `CreateRole(${query})`
 
-      const data = await runFQL(query)
+      const data = runFQL(query)
       debug(`${logSymbols.success} role has been created/updated: ${data.name}`)
 
       return data

@@ -1,7 +1,11 @@
+const debug = require('debug')
+
 if (!globalThis.fetch) {
+  debug('faugra:fetch')(`Native fetch not found. Using node-fetch`)
   return (exports = require('node-fetch'))
 }
 
+debug('faugra:fetch')(`Using native fetch`)
 Object.defineProperty(exports, '__esModule', { value: true })
 
 module.exports = globalThis.fetch

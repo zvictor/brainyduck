@@ -50,7 +50,7 @@ export default async function main(pattern = '**/*.udf') {
 
       query = replacing ? `Update(Function('${name}'), ${query})` : `CreateFunction(${query})`
 
-      const data = await runFQL(query)
+      const data = runFQL(query)
       debug(`${logSymbols.success} function has been created/updated: ${data.name}`)
 
       return data

@@ -16,8 +16,8 @@ const random = () => Math.random().toString(36).substring(7)
 
 // Expected output of this script:
 
-// { createUser: { _id: 'xyz' } }
-// { createUser: { _id: 'xyz' } }
+// { createUser: { _id: 'xyz', ... } }
+// { createUser: { _id: 'xyz', ... } }
 
-// { username: 'rick-sanchez-xyz' }
-// { username: 'morty-smith-xyz' }
+// { username: 'rick-sanchez-xyz', ... }
+// { username: 'morty-smith-xyz', ... }

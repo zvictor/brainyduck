@@ -8,6 +8,7 @@ if (!fs.existsSync(filePath)) {
     `Project is missing SDK! 🤷‍🐣\n\nPlease run 'npx faugra dev' (or 'npx faugra build-sdk') in your project diretory to get started. 💁🐥\n ↳ read more on https://github.com/zvictor/faugra/wiki/Missing-sdk\n`
   )
 
+  console.error(`Debug info: no file could be found at\n ↳ ${filePath}\n`)
   throw new Error('SDK could not be found.')
 }
 

@@ -44,7 +44,7 @@ export default async function main(pattern = '**/*.index') {
 
       query = replacing ? `Update(Index('${name}'), ${query})` : `CreateIndex(${query})`
 
-      const data = await runFQL(query)
+      const data = runFQL(query)
       debug(`${logSymbols.success} index has been created/updated: ${data.name}`)
 
       return data

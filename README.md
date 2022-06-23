@@ -20,6 +20,12 @@ We have built Faugra to help you transition to a top notch serverless environmen
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
 
+## Documentation
+
+Please refer to the [documentation](https://zvictor.github.io/faugra/#/?id=why) in order to [get started](https://zvictor.github.io/faugra/#/?id=getting-started) 🐣.
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)
+
 ## Sponsors
 
 <p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=sponsorship&utm_campaign=zvictor&utm_id=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
