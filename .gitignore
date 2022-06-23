@@ -1,5 +1,7 @@
 .cache
 index.d.ts
+examples/**/build
+examples/**/dist
 
 ##############################################################################################
 ## From https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore          ↓ ##

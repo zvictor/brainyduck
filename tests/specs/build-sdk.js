@@ -1,9 +1,8 @@
 import fs from 'fs/promises'
-import path from 'path'
 import { execaSync } from 'execa'
-import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { temporaryDirectory } from 'tempy'
+import path, { resolve } from 'path'
+import { temporaryDirectory, temporaryFile } from 'tempy'
 import reset from '../../commands/reset'
 import { findBin } from '../../utils'
 import {
@@ -25,8 +24,50 @@ beforeEach(() => {
   ])
 }, 240000)
 
+const outputCheck = {
+  basic: (results, name) => {
+    console.log(`Basic example ${name ? `- ${name} ` : ''}run:\n`, results)
+
+    const parsedResults = JSON.parse(
+      `[${results
+        .replaceAll(`'`, `"`)
+        .replace(/([\w]+):/gm, `"$1":`)
+        .replace(/}[\s]*{/gm, '},{')}]`
+    )
+
+    expect(parsedResults.length).toBe(4)
+
+    expect(parsedResults[0]).toEqual({
+      createUser: {
+        _id: expect.any(String),
+        _ts: expect.any(Number),
+        username: expect.stringContaining('rick-sanchez-'),
+      },
+    })
+
+    expect(parsedResults[1]).toEqual({
+      createUser: {
+        _id: expect.any(String),
+        _ts: expect.any(Number),
+        username: expect.stringContaining('morty-smith-'),
+      },
+    })
+    expect(parsedResults[2]).toEqual({
+      _id: expect.any(String),
+      _ts: expect.any(Number),
+      username: expect.stringContaining('rick-sanchez-'),
+    })
+    expect(parsedResults[3]).toEqual({
+      _id: expect.any(String),
+      _ts: expect.any(Number),
+      username: expect.stringContaining('morty-smith-'),
+    })
+  },
+}
+
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
+  const build = path.join(cwd, 'build')
 
   const { stdout, stderr, exitCode } = execaSync(
     'node',
@@ -62,55 +103,69 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(exitCode).toBe(0)
   expect(await amountOfCollectionsCreated()).toBe(1)
 
+  // ts-node tests
+  outputCheck.basic(
+    execaSync(findBin('ts-node'), ['index.ts'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'ts-node'
+  )
+
+  // tsc tests
+  await Promise.all([
+    reset({ documents: true }),
+    fs.rm(build, {
+      recursive: true,
+      force: true,
+    }),
+  ])
+
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
-    execaSync(findBin('tsc'), ['index.ts', '--noEmit', '--declaration'], {
+    execaSync(findBin('tsc'), ['index.ts', '--declaration', '--outDir', './build'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
     })
   ).not.toThrow()
 
-  const { stdout: results } = execaSync(findBin('ts-node'), ['index.ts'], {
-    env: { FAUGRA_CACHE: cache.TEST },
-    cwd,
-  })
-
-  console.log(`Basic example run:\n`, results)
-
-  const parsedResults = JSON.parse(
-    `[${results
-      .replaceAll(`'`, `"`)
-      .replace(/([\w]+):/gm, `"$1":`)
-      .replace(/}[\s]*{/gm, '},{')}]`
+  outputCheck.basic(
+    execaSync('node', ['./build/index.js'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'tsc'
   )
 
-  expect(parsedResults.length).toBe(4)
+  // tsup tests
+  const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+  await Promise.all([
+    reset({ documents: true }),
+    fs.rm(build, {
+      recursive: true,
+      force: true,
+    }),
+    fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } })),
+  ])
 
-  expect(parsedResults[0]).toEqual({
-    createUser: {
-      _id: expect.any(String),
-      _ts: expect.any(Number),
-      username: expect.stringContaining('rick-sanchez-'),
-    },
-  })
+  expect(() =>
+    execaSync(
+      findBin('tsup'),
+      ['index.ts', '--dts', '--out-dir', './build', '--tsconfig', tsconfig],
+      {
+        env: { FAUGRA_CACHE: cache.TEST },
+        cwd,
+      }
+    )
+  ).not.toThrow()
 
-  expect(parsedResults[1]).toEqual({
-    createUser: {
-      _id: expect.any(String),
-      _ts: expect.any(Number),
-      username: expect.stringContaining('morty-smith-'),
-    },
-  })
-  expect(parsedResults[2]).toEqual({
-    _id: expect.any(String),
-    _ts: expect.any(Number),
-    username: expect.stringContaining('rick-sanchez-'),
-  })
-  expect(parsedResults[3]).toEqual({
-    _id: expect.any(String),
-    _ts: expect.any(Number),
-    username: expect.stringContaining('morty-smith-'),
-  })
+  outputCheck.basic(
+    execaSync('node', ['./build/index.js'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'tsup'
+  )
 }, 240000)
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
