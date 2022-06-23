@@ -37,6 +37,7 @@
     "@graphql-tools/url-loader": "7.9.24",
     "@types/node": "^17.0.42",
     "@types/react": "18.0.12",
+    "chalk": "4.1.2",
     "chokidar": "3.5.3",
     "commander": "9.3.0",
     "constant-case": "3.0.4",
