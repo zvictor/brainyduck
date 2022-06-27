@@ -57,7 +57,10 @@ const reset = (type) => {
     spinner.succeed(`${type} cleared out`)
 
     for (const item of data) {
-      console.log(`\tdeleted:`, item.data ? item.data.map((i) => i.ref['@ref']) : item['@ref'])
+      console.log(
+        `\tdeleted:`,
+        item.data && item.data.length ? item.data.map((i) => i.ref['@ref']) : item['@ref'] || item
+      )
     }
 
     return data

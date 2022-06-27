@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="/faugra/#/?id=getting-started">Getting started 🐣</a> | <a href="/faugra/#/?id=installation">Installation 💾</a> | <a href="/faugra/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a>
+  <a href="/faugra/#/?id=getting-started">Getting started 🐣</a> | <a href="/faugra/#/?id=installation">Installation 🚜</a> | <a href="/faugra/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a>
 </p>
 <br />
 
