@@ -1,8 +1,10 @@
 import fs from 'fs'
+import _debug from 'debug'
 import faunadb from 'faunadb'
 import { faunaClient, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
+const debug = _debug('faugra:test')
 
 export const createDatabase = (name, secret) =>
   runFQL(`
@@ -22,12 +24,14 @@ export const setupEnvironment = (name) => {
       `${timestamp}_${name}`,
       process.env.MASTER_SECRET
     ).secret
+    debug(`Using database ${timestamp}_${name}`)
   })
 
   afterAll(() => {
     deleteDatabase(`${timestamp}_${name}`, process.env.MASTER_SECRET)
     delete process.env.FAUGRA_CACHE
   })
+  debug(`Deleted database ${timestamp}_${name}`)
 }
 
 export const amountOfFunctionsCreated = () =>

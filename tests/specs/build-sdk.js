@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import _debug from 'debug'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import path, { resolve } from 'path'
@@ -12,11 +13,13 @@ import {
   removeRetryMessages,
 } from '../testUtils.js'
 
+const debug = _debug('faugra:test:build-sdk')
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
 setupEnvironment(`build-sdk`)
 
 beforeEach(() => {
   cache.TEST = temporaryDirectory()
+  debug(`Using cache directory ${cache.TEST}`)
 
   return Promise.all([
     fs.rm(cache.DEFAULT, { recursive: true, force: true }),
@@ -213,6 +216,57 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     }).stdout,
     'tsup (CJS)'
   )
+
+  // esbuild tests (ESM)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(
+      findBin('esbuild'),
+      [
+        '--sourcemap',
+        '--outdir=./build',
+        '--format=esm',
+        `--tsconfig=${tsconfig}`,
+        '--out-extension:.js=.mjs',
+        'index.ts',
+      ],
+      {
+        env: { FAUGRA_CACHE: cache.TEST },
+        cwd,
+      }
+    )
+  ).not.toThrow()
+
+  outputCheck.basic(
+    execaSync('node', ['./build/index.mjs'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'esbuild (ESM)'
+  )
+
+  // esbuild tests (CJS)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(
+      findBin('esbuild'),
+      ['--sourcemap', '--outdir=./build', '--format=cjs', `--tsconfig=${tsconfig}`, 'index.ts'],
+      {
+        env: { FAUGRA_CACHE: cache.TEST },
+        cwd,
+      }
+    )
+  ).not.toThrow()
+
+  outputCheck.basic(
+    execaSync('node', ['./build/index.js'], {
+      env: { FAUGRA_CACHE: cache.TEST },
+      cwd,
+    }).stdout,
+    'esbuild (CJS)'
+  )
 }, 240000)
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
@@ -297,13 +351,6 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   )
 
   // tsup tests (CJS)
-  // TODO: Running tsup with the --format cjs option fails with an error: (@see https://github.com/zvictor/faugra/issues/27)
-  // "TypeError: (0 , import_faugra.default) is not a function"
-  //
-  // These 2 issues seem to be related to it:
-  // * https://github.com/evanw/esbuild/issues/1856
-  // * https://github.com/evanw/esbuild/issues/2023
-
   await resetBuild(cwd)
 
   expect(() =>
@@ -319,5 +366,56 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
       cwd,
     }).stdout,
     'tsup (CJS)'
+  )
+
+  // esbuild tests (ESM)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(
+      findBin('esbuild'),
+      ['--sourcemap', '--outdir=./build', '--format=esm', '--target=es6', 'index.ts'],
+      {
+        env: {},
+        cwd,
+      }
+    )
+  ).not.toThrow()
+
+  outputCheck.modularized(
+    execaSync('node', ['./build/index.js'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'esbuild (ESM)'
+  )
+
+  // esbuild tests (CJS)
+  await resetBuild(cwd)
+
+  expect(() =>
+    execaSync(
+      findBin('esbuild'),
+      [
+        '--sourcemap',
+        '--outdir=./build',
+        '--format=cjs',
+        '--target=es6',
+        '--out-extension:.js=.cjs',
+        'index.ts',
+      ],
+      {
+        env: {},
+        cwd,
+      }
+    )
+  ).not.toThrow()
+
+  outputCheck.modularized(
+    execaSync('node', ['./build/index.cjs'], {
+      env: {},
+      cwd,
+    }).stdout,
+    'esbuild (CJS)'
   )
 }, 240000)
