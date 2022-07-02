@@ -137,7 +137,15 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(listFiles(cache.DEFAULT)).toEqual([].sort())
   expect(listFiles(cache.TEST)).toEqual(
-    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.cjs', 'sdk.cjs.map', 'sdk.ts', 'tsconfig.json'].sort()
+    [
+      'sdk.d.ts',
+      'sdk.mjs',
+      'sdk.mjs.map',
+      'sdk.cjs',
+      'sdk.cjs.map',
+      'sdk.ts',
+      'tsconfig.json',
+    ].sort()
   )
 
   expect(exitCode).toBe(0)
@@ -161,6 +169,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     // When we use a non-standard cache we can't build in strict mode
     execaSync(findBin('tsc'), ['index.ts', '--declaration', '--outDir', './build'], {
       env: { FAUGRA_CACHE: cache.TEST },
+      stdio: ['ignore', process.stdout, process.stderr],
       cwd,
     })
   ).not.toThrow()
@@ -179,9 +188,20 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(() =>
     execaSync(
       findBin('tsup'),
-      ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm', '--tsconfig', tsconfig],
+      [
+        'index.ts',
+        '--dts',
+        '--out-dir',
+        './build',
+        '--format',
+        'esm',
+        '--no-config',
+        '--tsconfig',
+        tsconfig,
+      ],
       {
         env: { FAUGRA_CACHE: cache.TEST },
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )
@@ -201,9 +221,20 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(() =>
     execaSync(
       findBin('tsup'),
-      ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs', '--tsconfig', tsconfig],
+      [
+        'index.ts',
+        '--dts',
+        '--out-dir',
+        './build',
+        '--format',
+        'cjs',
+        '--no-config',
+        '--tsconfig',
+        tsconfig,
+      ],
       {
         env: { FAUGRA_CACHE: cache.TEST },
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )
@@ -233,6 +264,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       ],
       {
         env: { FAUGRA_CACHE: cache.TEST },
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )
@@ -255,6 +287,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       ['--sourcemap', '--outdir=./build', '--format=cjs', `--tsconfig=${tsconfig}`, 'index.ts'],
       {
         env: { FAUGRA_CACHE: cache.TEST },
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )
@@ -299,7 +332,15 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   expect(listFiles(cache.TEST)).toEqual([].sort())
   expect(listFiles(cache.DEFAULT)).toEqual(
-    ['sdk.d.ts', 'sdk.d.ts.map', 'sdk.cjs', 'sdk.cjs.map', 'sdk.ts', 'tsconfig.json'].sort()
+    [
+      'sdk.d.ts',
+      'sdk.mjs',
+      'sdk.mjs.map',
+      'sdk.cjs',
+      'sdk.cjs.map',
+      'sdk.ts',
+      'tsconfig.json',
+    ].sort()
   )
 
   expect(exitCode).toBe(0)
@@ -320,6 +361,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   expect(() =>
     execaSync(findBin('tsc'), ['--declaration', '--strict'], {
       env: {},
+      stdio: ['ignore', process.stdout, process.stderr],
       cwd,
     })
   ).not.toThrow()
@@ -336,10 +378,15 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   await resetBuild(cwd)
 
   expect(() =>
-    execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm'], {
-      env: {},
-      cwd,
-    })
+    execaSync(
+      findBin('tsup'),
+      ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm', '--no-config'],
+      {
+        env: {},
+        stdio: ['ignore', process.stdout, process.stderr],
+        cwd,
+      }
+    )
   ).not.toThrow()
 
   outputCheck.modularized(
@@ -354,10 +401,15 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   await resetBuild(cwd)
 
   expect(() =>
-    execaSync(findBin('tsup'), ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs'], {
-      env: {},
-      cwd,
-    })
+    execaSync(
+      findBin('tsup'),
+      ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs', '--no-config'],
+      {
+        env: {},
+        stdio: ['ignore', process.stdout, process.stderr],
+        cwd,
+      }
+    )
   ).not.toThrow()
 
   outputCheck.modularized(
@@ -377,6 +429,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
       ['--sourcemap', '--outdir=./build', '--format=esm', '--target=es6', 'index.ts'],
       {
         env: {},
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )
@@ -406,6 +459,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
       ],
       {
         env: {},
+        stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
     )

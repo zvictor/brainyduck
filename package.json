@@ -20,7 +20,6 @@
   },
   "main": "./index.cjs",
   "types": "./.cache/sdk.d.ts",
-  "browser": ".cache/sdk.js",
   "files": [
     "/commands",
     "/scripts",
@@ -62,6 +61,7 @@
     "p-queue": "7.2.0",
     "resolve-as-bin": "2.1.0",
     "tempy": "3.0.0",
+    "tsup": "6.1.3",
     "typescript": "4.7.3"
   },
   "optionalDependencies": {

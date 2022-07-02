@@ -57,7 +57,7 @@ const runCallback = () => {
   const cmd = process.env.CALLBACK.split(' ')
 
   execaSync(cmd.shift(), cmd, {
-    stdio: ['pipe', process.stdout, process.stderr],
+    stdio: ['ignore', process.stdout, process.stderr],
     cwd: process.cwd(),
   })
 

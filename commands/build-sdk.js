@@ -169,16 +169,34 @@ export { faugra }`
 
   fs.writeFileSync(
     tmpTsconfigFile,
-    `{"extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {"outDir": "${locateCache()}"}}`
+    `{
+      "extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {
+        "preserveSymlinks": true,
+        "outDir": "${locateCache()}",
+        ${/* https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1131425209 */ ''}
+        "baseUrl": "${path.join(__dirname, '..')}",
+        "paths": { "*": ["node_modules/*/"]}
+      }
+    }`
   )
 
-  execaSync(findBin(`tsc`), ['--project', tmpTsconfigFile], {
-    stdio: ['pipe', process.stdout, process.stderr],
-    cwd: process.cwd(),
-  })
-
-  fs.renameSync(locateCache(`sdk.js`), locateCache(`sdk.cjs`))
-  fs.renameSync(locateCache(`sdk.js.map`), locateCache(`sdk.cjs.map`))
+  const { stdout } = execaSync(
+    findBin(`tsup`),
+    [
+      outputFile,
+      '--config',
+      path.join(__dirname, '..', 'tsup.config.ts'),
+      '--out-dir',
+      locateCache(),
+      '--tsconfig',
+      tmpTsconfigFile,
+    ],
+    {
+      stdio: ['ignore', 'pipe', process.stderr],
+      cwd: process.cwd(),
+    }
+  )
+  debug(stdout)
 
   debug(`The sdk has been transpiled and cached`)
   return outputFile
