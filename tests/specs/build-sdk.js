@@ -37,77 +37,10 @@ const resetBuild = (cwd, ...extra) =>
     ...extra,
   ])
 
-const outputCheck = {
-  basic: (results, name) => {
-    console.log(`Basic example ${name ? `- ${name} ` : ''}run:\n`, results)
-
-    const parsedResults = JSON.parse(
-      `[${results
-        .replaceAll(`'`, `"`)
-        .replace(/([\w]+):/gm, `"$1":`)
-        .replace(/}[\s]*{/gm, '},{')}]`
-    )
-
-    expect(parsedResults.length).toBe(4)
-
-    expect(parsedResults[0]).toEqual({
-      createUser: {
-        _id: expect.any(String),
-        _ts: expect.any(Number),
-        username: expect.stringContaining('rick-sanchez-'),
-      },
-    })
-
-    expect(parsedResults[1]).toEqual({
-      createUser: {
-        _id: expect.any(String),
-        _ts: expect.any(Number),
-        username: expect.stringContaining('morty-smith-'),
-      },
-    })
-    expect(parsedResults[2]).toEqual({
-      _id: expect.any(String),
-      _ts: expect.any(Number),
-      username: expect.stringContaining('rick-sanchez-'),
-    })
-    expect(parsedResults[3]).toEqual({
-      _id: expect.any(String),
-      _ts: expect.any(Number),
-      username: expect.stringContaining('morty-smith-'),
-    })
-  },
-  modularized: (results, name) => {
-    console.log(`Modularized example ${name ? `- ${name} ` : ''}run:\n`, results)
-
-    const parsedResults = JSON.parse(
-      results
-        .split('\n')
-        .slice(1)
-        .join('\n')
-        .replaceAll(`'`, `"`)
-        .replace(/([\w]+):/gm, `"$1":`)
-        .replace(/}[\s]*{/gm, '},{')
-    )
-
-    expect(parsedResults).toEqual({
-      findPostByID: {
-        author: {
-          _id: expect.any(String),
-          _ts: expect.any(Number),
-          name: 'Whatever Name',
-        },
-        _id: expect.any(String),
-        _ts: expect.any(Number),
-        content: 'some post content',
-        title: 'a post title',
-      },
-    })
-  },
-}
-
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
   const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+  const outputCheck = (await import(`../fixtures/basic.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync(
     'node',
@@ -154,7 +87,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
 
   // ts-node tests
-  outputCheck.basic(
+  outputCheck(
     execaSync(findBin('ts-node'), ['index.ts'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -174,7 +107,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     })
   ).not.toThrow()
 
-  outputCheck.basic(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -207,7 +140,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     )
   ).not.toThrow()
 
-  outputCheck.basic(
+  outputCheck(
     execaSync('node', ['./build/index.mjs'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -240,7 +173,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     )
   ).not.toThrow()
 
-  outputCheck.basic(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -270,7 +203,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     )
   ).not.toThrow()
 
-  outputCheck.basic(
+  outputCheck(
     execaSync('node', ['./build/index.mjs'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -293,7 +226,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     )
   ).not.toThrow()
 
-  outputCheck.basic(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: { FAUGRA_CACHE: cache.TEST },
       cwd,
@@ -304,6 +237,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
+  const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build-sdk'], {
     env: { DEBUG: 'faugra:*' },
@@ -347,7 +281,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   expect(await amountOfCollectionsCreated()).toBe(2)
 
   // ts-node tests
-  outputCheck.modularized(
+  outputCheck(
     execaSync(`node`, [`--loader`, `ts-node/esm`, 'index.ts'], {
       env: {},
       cwd,
@@ -366,7 +300,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     })
   ).not.toThrow()
 
-  outputCheck.modularized(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: {},
       cwd,
@@ -389,7 +323,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     )
   ).not.toThrow()
 
-  outputCheck.modularized(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: {},
       cwd,
@@ -412,7 +346,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     )
   ).not.toThrow()
 
-  outputCheck.modularized(
+  outputCheck(
     execaSync('node', ['./build/index.cjs'], {
       env: {},
       cwd,
@@ -435,7 +369,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     )
   ).not.toThrow()
 
-  outputCheck.modularized(
+  outputCheck(
     execaSync('node', ['./build/index.js'], {
       env: {},
       cwd,
@@ -465,7 +399,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
     )
   ).not.toThrow()
 
-  outputCheck.modularized(
+  outputCheck(
     execaSync('node', ['./build/index.cjs'], {
       env: {},
       cwd,

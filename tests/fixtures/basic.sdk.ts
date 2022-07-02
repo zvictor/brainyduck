@@ -105,21 +105,6 @@ export type UserPage = {
   before?: Maybe<Scalars['String']>;
 };
 
-export type AllUsersQueryVariables = Exact<{
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type AllUsersQuery = { __typename?: 'Query', allUsers: { __typename?: 'UserPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'User', _id: string, _ts: any, username: string } | null> } };
-
-export type FindUserByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
-
 export type CreateUserMutationVariables = Exact<{
   data: UserInput;
 }>;
@@ -150,29 +135,22 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
 
+export type AllUsersQueryVariables = Exact<{
+  _size?: InputMaybe<Scalars['Int']>;
+  _cursor?: InputMaybe<Scalars['String']>;
+}>;
 
-export const AllUsersDocument = gql`
-    query allUsers($_size: Int, $_cursor: String) {
-  allUsers(_size: $_size, _cursor: $_cursor) {
-    data {
-      _id
-      _ts
-      username
-    }
-    after
-    before
-  }
-}
-    `;
-export const FindUserByIdDocument = gql`
-    query findUserByID($id: ID!) {
-  findUserByID(id: $id) {
-    _id
-    _ts
-    username
-  }
-}
-    `;
+
+export type AllUsersQuery = { __typename?: 'Query', allUsers: { __typename?: 'UserPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'User', _id: string, _ts: any, username: string } | null> } };
+
+export type FindUserByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
+
+
 export const CreateUserDocument = gql`
     mutation createUser($data: UserInput!) {
   createUser(data: $data) {
@@ -209,6 +187,28 @@ export const UpdateUserDocument = gql`
   }
 }
     `;
+export const AllUsersDocument = gql`
+    query allUsers($_size: Int, $_cursor: String) {
+  allUsers(_size: $_size, _cursor: $_cursor) {
+    data {
+      _id
+      _ts
+      username
+    }
+    after
+    before
+  }
+}
+    `;
+export const FindUserByIdDocument = gql`
+    query findUserByID($id: ID!) {
+  findUserByID(id: $id) {
+    _id
+    _ts
+    username
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -217,12 +217,6 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    allUsers(variables?: AllUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllUsersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllUsersQuery>(AllUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allUsers', 'query');
-    },
-    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
-    },
     createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
@@ -234,6 +228,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
+    },
+    allUsers(variables?: AllUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllUsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AllUsersQuery>(AllUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allUsers', 'query');
+    },
+    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
     }
   };
 }
