@@ -1,47 +1,53 @@
 import fs from 'fs'
 import _debug from 'debug'
 import faunadb from 'faunadb'
+import { paramCase } from 'param-case'
 import { faunaClient, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
 const debug = _debug('faugra:test')
 
 export const createDatabase = (name, secret) =>
-  runFQL(`
-  CreateKey({
-    database: Select('ref', CreateDatabase({ name: '${name}' })),
-    role: 'admin',
-  })
-`, secret)
+  runFQL(
+    `CreateKey({
+      database: Select('ref', CreateDatabase({ name: '${name}' })),
+      role: 'admin',
+    })`,
+    secret
+  )
 
 export const deleteDatabase = (name, secret) => runFQL(`Delete(Database('${name}'))`, secret)
 
-export const setupEnvironment = (name) => {
+export const setupEnvironment = (name, options = {}) => {
   const timestamp = +new Date()
+  const start = options.beforeEach ? beforeEach : beforeAll
+  const end = options.beforeEach ? afterEach : afterAll
+  let dbName = `${timestamp}_${name}`
 
-  beforeAll(() => {
-    process.env.FAUGRA_SECRET = createDatabase(
-      `${timestamp}_${name}`,
-      process.env.MASTER_SECRET
-    ).secret
+  start(() => {
+    const testName = expect.getState().currentTestName
+    console.log({ testName })
+
+    if (testName) {
+      dbName = `${dbName}_${paramCase(testName)}`
+    }
+
+    process.env.FAUGRA_SECRET = createDatabase(dbName, process.env.MASTER_SECRET).secret
     debug(`Using database ${timestamp}_${name}`)
   })
 
-  afterAll(() => {
-    deleteDatabase(`${timestamp}_${name}`, process.env.MASTER_SECRET)
+  end(() => {
+    deleteDatabase(dbName, process.env.MASTER_SECRET)
     delete process.env.FAUGRA_CACHE
   })
   debug(`Deleted database ${timestamp}_${name}`)
 }
 
-export const amountOfFunctionsCreated = () =>
-  faunaClient().query(q.Count(q.Functions()))
+export const amountOfFunctionsCreated = () => faunaClient().query(q.Count(q.Functions()))
 
-export const amountOfRolesCreated = () =>
-  faunaClient().query(q.Count(q.Roles()))
+export const amountOfRolesCreated = () => faunaClient().query(q.Count(q.Roles()))
 
-export const amountOfCollectionsCreated = () =>
-  faunaClient().query(q.Count(q.Collections()))
+export const amountOfCollectionsCreated = () => faunaClient().query(q.Count(q.Collections()))
 
 export const listFiles = (directory) =>
   fs.existsSync(directory)
