@@ -1,6 +1,6 @@
 {
   "name": "faugra",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "description": "Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures",
   "keywords": [
     "BaaS",
@@ -23,6 +23,7 @@
   "main": "./index.cjs",
   "types": "./.cache/sdk.d.ts",
   "files": [
+    "/bundlers",
     "/commands",
     "/scripts",
     "*.cjs",
