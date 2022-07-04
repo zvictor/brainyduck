@@ -214,7 +214,7 @@ importers:
       '@babel/core': ^7.18.5
       '@babel/preset-env': ^7.18.2
       babel-jest: 28.1.1
-      esbuild: ^0.14.48
+      esbuild: 0.14.48
       execa: ^6.1.0
       jest: 28.1.1
       param-case: ^3.0.4
@@ -7172,7 +7172,6 @@ packages:
       typescript: 4.7.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: false
 
   /ts-node/10.8.2_x2utdhayajzrh747hktprshhby:
     resolution: {integrity: sha512-LYdGnoGddf1D6v8REPtIH+5iq/gTDuZqv2/UJUU7tKjuEU8xVZorBM+buCGNjj+pGEud+sOoM4CX3/YzINpENA==}

@@ -55,8 +55,8 @@ test(`complete all 'dev' operations for the 'modularized' example`, async () => 
       [
         '- Processing accounts/sayHello.udf [UDF]',
         '✔ Processed accounts/sayHello.udf [UDF]',
-        '- Processing Query.gql,blog/Post.gql,accounts/User.gql [Schema]',
-        '✔ Processed Query.gql,blog/Post.gql,accounts/User.gql [Schema]',
+        '- Processing Query.gql, accounts/User.gql, blog/Post.gql [Schema]',
+        '✔ Processed Query.gql, accounts/User.gql, blog/Post.gql [Schema]',
         '',
       ].sort()
     )

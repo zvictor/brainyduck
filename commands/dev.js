@@ -74,18 +74,18 @@ const processor = (type, operation, file, cumulative) => {
   }
 
   queue.add(async () => {
-    const name = lock[type] || file
+    const name = lock[type] || [file]
     unblock(type)
 
     if (!operation) {
       return debug(`Ignoring file(s) ${file} [${type}] (no operation defined)`)
     }
 
-    const spinner = ora(`Processing ${name} [${type}]\n`).start()
+    const spinner = ora(`Processing ${name.sort().join(', ')} [${type}]\n`).start()
 
     try {
       await operation(file)
-      spinner.succeed(`Processed ${name} [${type}]`)
+      spinner.succeed(`Processed ${name.sort().join(', ')} [${type}]`)
     } catch (e) {
       spinner.fail()
       console.error(e)
