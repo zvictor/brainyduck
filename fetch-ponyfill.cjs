@@ -2,7 +2,7 @@ const debug = require('debug')
 
 if (!globalThis.fetch) {
   debug('faugra:fetch')(`Native fetch not found. Using node-fetch`)
-  return (exports = require('node-fetch'))
+  return (module.exports = require('node-fetch'))
 }
 
 debug('faugra:fetch')(`Using native fetch`)
