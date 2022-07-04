@@ -40,6 +40,7 @@ const resetBuild = (cwd, ...extra) =>
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
   const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+  const sdkCheck = fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/basic.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync(
@@ -59,11 +60,11 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   // Uncomment to update fixtures.
   // await fs.writeFile(
-  //   fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url)),
+  //   sdkCheck,
   //   await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })
   // )
   expect(await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
-    await fs.readFile(fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url)), {
+    await fs.readFile(sdkCheck, {
       encoding: 'utf8',
     })
   )
@@ -237,6 +238,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
 test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
+  const sdkCheck = fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build-sdk'], {
@@ -255,11 +257,11 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   // Uncomment to update fixtures.
   // await fs.writeFile(
-  //   fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url)),
+  //   sdkCheck,
   //   await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })
   // )
   expect(await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
-    await fs.readFile(fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url)), {
+    await fs.readFile(sdkCheck, {
       encoding: 'utf8',
     })
   )

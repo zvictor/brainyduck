@@ -40,9 +40,10 @@ for (const name of examples) {
       expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
     )
     expect(build.exitCode).toBe(0)
+    debug(`Build of '${name}' has completed successfully`)
 
     const run = execaSync('npm', ['run', '--silent', 'start'], {
-      env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+      env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache, TS_NODE_TRANSPILE_ONLY: 'true' },
       cwd,
     })
 
