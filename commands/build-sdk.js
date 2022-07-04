@@ -171,7 +171,6 @@ export { faugra }`
     tmpTsconfigFile,
     `{
       "extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {
-        "preserveSymlinks": true,
         "outDir": "${locateCache()}",
         ${/* https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1131425209 */ ''}
         "baseUrl": "${path.join(__dirname, '..')}",

@@ -26,7 +26,6 @@ export const setupEnvironment = (name, options = {}) => {
 
   start(() => {
     const testName = expect.getState().currentTestName
-    console.log({ testName })
 
     if (testName) {
       dbName = `${dbName}_${paramCase(testName)}`
