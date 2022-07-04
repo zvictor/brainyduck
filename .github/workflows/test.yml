@@ -1,0 +1,22 @@
+name: Node.js CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: CI
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: latest
+      - run: pnpm install
+      - run: pnpm test
+        env:
+          MASTER_SECRET: ${{ secrets.MASTER_SECRET }}
