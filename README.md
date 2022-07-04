@@ -28,9 +28,10 @@ Please refer to the [documentation](https://zvictor.github.io/faugra/#/?id=why) 
 
 ## Sponsors
 
-<p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=sponsorship&utm_campaign=zvictor&utm_id=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
-Feats is a new professional network for people who build products, brands, and businesses.<br />
-Uniting people behind projects to create meaningful opportunities for all.
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=faugra&utm_medium=sponsorship&utm_campaign=faugra&utm_id=faugra"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="Faugra's logo" /><br />
+Faugra needs your support!<br />
+Please consider helping us spread the word of the Duck to the world. 🐥🙏
+</a>
 <p>
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png)

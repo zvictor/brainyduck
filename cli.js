@@ -158,8 +158,12 @@ program
     }
   )
 
-  .command('reset', 'wipe out all data in the database [Be careful!]', {
-    executableFile: fileURLToPath(new URL('./commands/reset.js', import.meta.url)),
-  })
+  .command(
+    'reset [types]',
+    'wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]',
+    {
+      executableFile: fileURLToPath(new URL('./commands/reset.js', import.meta.url)),
+    }
+  )
 
 program.parse(process.argv)

@@ -77,7 +77,7 @@ Commands:
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
   build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
-  reset                                                    wipe out all data in the database [Be careful!]
+  reset [types]                                            wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   help [command]                                           display help for command
 ```
 
@@ -311,8 +311,8 @@ await build({
 
 ## Contributing
 
-1. When debugging Faugra, it's always a good idea to run the commands using the `--verbose` (or `DEBUG=faugra:*`) flag.
-Please make sure you have that included in your logs before you report any bug.
+1. When debugging Faugra, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=faugra:*`) flag.
+Please make sure you **have that included in your logs before you report any bug**.
 
 2. The tests are easy to run and are an important diagnosis tool to understand what could be going on in your environment.
 Clone Faugra's repository and then run the tests in one of the possible ways:
@@ -335,9 +335,10 @@ You can also set `DEBUG=faugra:*` when running tests to get deeper insights.
 
 ## Sponsors
 
-<p align="center"><a href="https://join.feats.co/?utm_source=zvictor&utm_medium=sponsorship&utm_campaign=zvictor&utm_id=zvictor"><img width="150px" src="https://www.feats.co/static/logos/black/white-background/feats-logo-100.png" alt="Feats's logo" /></a><br />
-Feats is a new professional network for people who build products, brands, and businesses.<br />
-Uniting people behind projects to create meaningful opportunities for all.
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=faugra&utm_medium=sponsorship&utm_campaign=faugra&utm_id=faugra"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="Faugra's logo" /><br />
+Faugra needs your support!<br />
+Please consider helping us spread the word of the Duck to the world. 🐥🙏
+</a>
 <p>
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
