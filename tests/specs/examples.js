@@ -10,14 +10,16 @@ const debug = _debug('faugra:test:examples')
 
 setupEnvironment(`examples`, { beforeEach: true })
 
-const examples = (
-  await fs.readdir(fileURLToPath(new URL(`../../examples`, import.meta.url)), {
-    encoding: 'utf-8',
-    withFileTypes: true,
-  })
-)
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name)
+// const examples = (
+//   await fs.readdir(fileURLToPath(new URL(`../../examples`, import.meta.url)), {
+//     encoding: 'utf-8',
+//     withFileTypes: true,
+//   })
+// )
+//   .filter((dirent) => dirent.isDirectory())
+//   .map((dirent) => dirent.name)
+// TODO: standardize the way examples are built and run, then test them all from here
+const examples = ['basic', 'basic-esbuild-bundle', 'modularized', 'modularized-esbuild-bundle']
 
 console.log(`Testing the following examples:`, examples)
 
@@ -28,7 +30,7 @@ for (const name of examples) {
     const cache = temporaryDirectory()
     debug(`Using cache directory ${cache}`)
 
-    const build = execaSync('npm', ['run', '--quiet', 'build'], {
+    const build = execaSync('npm', ['run', '--silent', 'build'], {
       env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
       cwd,
     })
@@ -39,7 +41,7 @@ for (const name of examples) {
     )
     expect(build.exitCode).toBe(0)
 
-    const run = execaSync('npm', ['run', '--quiet', 'start'], {
+    const run = execaSync('npm', ['run', '--silent', 'start'], {
       env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
       cwd,
     })

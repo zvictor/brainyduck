@@ -253,6 +253,62 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
 
+## Bundling & Exporting
+
+By default, your SDK files will be cached at `./node_modules/faugra/.cache`. _Note that you can customize it by defining a different value to the `FAUGRA_CACHE` env var._
+
+Most of the times you are developing you **don't need to worry about the location of those files as Faugra manages them for you** internally. Sometimes, however, (specially when bundling your projects) you might need to think on how to move them around and make sure that they stay available to your code regardless of changes in the environment.
+
+For such cases, there a few strategies you can choose from:
+
+### rebuild
+
+It's okay to just rebuild your sdk in a new environment.
+
+```Dockerfile
+FROM node
+...
+ADD ./src .
+RUN npm install
+RUN npx faugra build-sdk
+```
+
+### clone
+
+The files in Faugra's cache are portable, meaning that you can just copy them around.
+
+_We wish all ducks could be cloned that easily!_ 🐣🧬🧑‍🔬
+
+
+```Dockerfile
+...
+ENV FAUGRA_CACHE /home/faugra
+ADD ./node_modules/faugra/.cache $FAUGRA_CACHE
+```
+
+### bundle
+
+We have built a special plugin to optimize the use of Faugra in Esbuild bundles.
+This plugin reroutes any `import ... from 'faugra'` statement to import your SDK directly, without any wrapper from Faugra.
+
+If you have `bundle: true` set in esbuild, your SDK code will be inlined in your built code and you won't need to worry about moving the SDK around. This is the recommended approach for many environments that don't work well with external dependencies, such as Cloudflare Workers.
+
+Examples: [basic-esbuild-bundle](https://github.com/zvictor/faugra/tree/master/examples/basic-esbuild-bundle) / [modularized-esbuild-bundle](https://github.com/zvictor/faugra/tree/master/examples/modularized-esbuild-bundle)
+
+Setup:
+```ts
+import { build } from 'esbuild'
+import bundler from 'faugra/bundlers/esbuild'
+
+await build({
+  ...
+  bundle: true,
+  plugins: [bundler()],
+})
+```
+
+![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+
 ## Contributing
 
 1. When debugging Faugra, it's always a good idea to run the commands using the `--verbose` (or `DEBUG=faugra:*`) flag.

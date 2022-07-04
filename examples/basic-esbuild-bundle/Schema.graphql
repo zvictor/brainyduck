@@ -1,0 +1,7 @@
+type User {
+  username: String! @unique
+}
+
+type Query {
+  allUsers: [User!]
+}

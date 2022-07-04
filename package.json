@@ -16,7 +16,9 @@
       "types": "./.cache/sdk.d.ts",
       "import": "./index.js",
       "require": "./index.cjs"
-    }
+    },
+    "./cache": "./locateCache.cjs",
+    "./bundlers/*": "./bundlers/*.cjs"
   },
   "main": "./index.cjs",
   "types": "./.cache/sdk.d.ts",
