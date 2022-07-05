@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 import { faunaClient, patternMatch, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:define-indexes')
+const debug = _debug('faugra:deploy-indexes')
 
 export default async function main(pattern = '**/*.index') {
   debug(`Looking for files matching '${pattern}'`)

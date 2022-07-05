@@ -130,26 +130,26 @@ program
   )
 
   .command(
-    'define-functions [pattern]',
+    'deploy-functions [pattern]',
     'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]',
     {
-      executableFile: fileURLToPath(new URL('./commands/define-functions.js', import.meta.url)),
+      executableFile: fileURLToPath(new URL('./commands/deploy-functions.js', import.meta.url)),
     }
   )
 
   .command(
-    'define-indexes [pattern]',
+    'deploy-indexes [pattern]',
     'upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]',
     {
-      executableFile: fileURLToPath(new URL('./commands/define-indexes.js', import.meta.url)),
+      executableFile: fileURLToPath(new URL('./commands/deploy-indexes.js', import.meta.url)),
     }
   )
 
   .command(
-    'define-roles [pattern]',
+    'deploy-roles [pattern]',
     'upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]',
     {
-      executableFile: fileURLToPath(new URL('./commands/define-roles.js', import.meta.url)),
+      executableFile: fileURLToPath(new URL('./commands/deploy-roles.js', import.meta.url)),
     }
   )
 

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 import { faunaClient, patternMatch, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:define-functions')
+const debug = _debug('faugra:deploy-functions')
 
 export default async function main(pattern = '**/*.udf') {
   debug(`Looking for files matching '${pattern}'`)

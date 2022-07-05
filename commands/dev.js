@@ -18,10 +18,10 @@ import PQueue from 'p-queue'
 import chokidar from 'chokidar'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
-import defineFunctions from './define-functions.js'
+import deployFunctions from './deploy-functions.js'
 // import generateTypes from './generate-types.js'
-import defineIndexes from './define-indexes.js'
-import defineRoles from './define-roles.js'
+import deployIndexes from './deploy-indexes.js'
+import deployRoles from './deploy-roles.js'
 import pushSchema from './push-schema.js'
 import build from './build.js'
 import { ignored } from '../utils.js'
@@ -132,11 +132,11 @@ export default async function main() {
     true
   )
 
-  const index = await watch('Index', PATTERNS['index'], defineIndexes)
+  const index = await watch('Index', PATTERNS['index'], deployIndexes)
 
-  const udr = await watch('UDR', PATTERNS['udr'], defineRoles)
+  const udr = await watch('UDR', PATTERNS['udr'], deployRoles)
 
-  const udf = await watch('UDF', PATTERNS['udf'], defineFunctions)
+  const udf = await watch('UDF', PATTERNS['udf'], deployFunctions)
 
   const documents = await watch(
     'Document',

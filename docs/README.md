@@ -50,36 +50,36 @@ You can install it globally, per project or just run it on demand:
 Usage: faugra [options] [command]
 
 Options:
-  -V, --version                                            output the version number
-  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUNA_SECRET>).
-  --domain <value>                                         FaunaDB server domain (defaults to <FAUNA_DOMAIN or 'db.fauna.com'>).
-  --port <value>                                           Connection port (defaults to <FAUNA_PORT>).
-  --graphql-domain <value>                                 Graphql server domain (defaults to <FAUNA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
-  --graphql-port <value>                                   Graphql connection port (defaults to <FAUNA_GRAPHQL_PORT>).
-  --scheme <value>                                         Connection scheme (defaults to <FAUNA_SCHEME or 'https'>).
-  --overwrite                                              wipe out data related to the command before its execution
-  --no-operations-generation                               disable the auto-generated operations documents.
-  -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
-  --no-watch                                               disable the files watcher (only used in the dev command).
-  --watch-changes                                          ignore initial files and watch changes ONLY (only used in the dev command).
-  --callback <command>                                     run external command after every execution completion (only used in the dev command).
-  --tsconfig                                               use a custom tsconfig file for the sdk transpilation.
-  --verbose                                                run the command with verbose logging.
-  --debug [port]                                           run the command with debugging listening on [port].
-  --debug-brk [port]                                       run the command with debugging(-brk) listening on [port].
-  -h, --help                                               display help for command
+  -V, --version                                        output the version number
+  -s, --secret <value>                                 set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUNA_SECRET>).
+  --domain <value>                                     FaunaDB server domain (defaults to <FAUNA_DOMAIN or 'db.fauna.com'>).
+  --port <value>                                       Connection port (defaults to <FAUNA_PORT>).
+  --graphql-domain <value>                             Graphql server domain (defaults to <FAUNA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
+  --graphql-port <value>                               Graphql connection port (defaults to <FAUNA_GRAPHQL_PORT>).
+  --scheme <value>                                     Connection scheme (defaults to <FAUNA_SCHEME or 'https'>).
+  --overwrite                                          wipe out data related to the command before its execution
+  --no-operations-generation                           disable the auto-generated operations documents.
+  -i, --ignore <value>                                 set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
+  --no-watch                                           disable the files watcher (only used in the dev command).
+  --watch-changes                                      ignore initial files and watch changes ONLY (only used in the dev command).
+  --callback <command>                                 run external command after every execution completion (only used in the dev command).
+  --tsconfig                                           use a custom tsconfig file for the sdk transpilation.
+  --verbose                                            run the command with verbose logging.
+  --debug [port]                                       run the command with debugging listening on [port].
+  --debug-brk [port]                                   run the command with debugging(-brk) listening on [port].
+  -h, --help                                           display help for command
 
 Commands:
   build [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
-  dev [directory]                                          watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
-  define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
-  define-indexes [pattern]                                 upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
-  define-roles [pattern]                                   upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
-  pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
-  push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
-  generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
-  reset [types]                                            wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
-  help [command]                                           display help for command
+  dev [directory]                                      watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
+  deploy-functions [pattern]                           upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
+  deploy-indexes [pattern]                             upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
+  deploy-roles [pattern]                               upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
+  pull-schema [output]                                 load the schema hosted in faunadb. Defaults: [output: <stdout>]
+  push-schema [pattern]                                push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
+  generate-types [pattern] [output]                    code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
+  reset [types]                                        wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
+  help [command]                                       display help for command
 ```
 
 ![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
