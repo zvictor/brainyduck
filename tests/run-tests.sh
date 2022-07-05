@@ -9,8 +9,8 @@ if [ !  -f "$cmd" ] ; then
   exit 1
 fi
 
-if [ -z ${MASTER_SECRET+x} ]; then
-  echo "ERROR: MASTER_SECRET is not defined. Expecting the environment to set the MASTER_SECRET variable, ex: 'MASTER_SECRET=klJSDojasd8ojasd $0'";
+if [ -z ${TESTS_SECRET+x} ]; then
+  echo "ERROR: TESTS_SECRET is not defined. Expecting the environment to set the TESTS_SECRET variable, ex: 'TESTS_SECRET=klJSDojasd8ojasd $0'";
   exit 1;
 fi
 

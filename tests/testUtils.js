@@ -31,12 +31,12 @@ export const setupEnvironment = (name, options = {}) => {
       dbName = `${dbName}_${paramCase(testName)}`
     }
 
-    process.env.FAUNA_SECRET = createDatabase(dbName, process.env.MASTER_SECRET).secret
+    process.env.FAUNA_SECRET = createDatabase(dbName, process.env.TESTS_SECRET).secret
     debug(`Using database ${timestamp}_${name}`)
   })
 
   end(() => {
-    deleteDatabase(dbName, process.env.MASTER_SECRET)
+    deleteDatabase(dbName, process.env.TESTS_SECRET)
     delete process.env.FAUGRA_CACHE
   })
   debug(`Deleted database ${timestamp}_${name}`)

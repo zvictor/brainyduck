@@ -19,4 +19,4 @@ jobs:
       - run: pnpm install
       - run: pnpm test -- --ci --reporters='default' --reporters='github-actions'
         env:
-          MASTER_SECRET: ${{ secrets.MASTER_SECRET }}
+          TESTS_SECRET: ${{ secrets.TESTS_SECRET }}

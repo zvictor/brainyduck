@@ -320,14 +320,16 @@ Clone Faugra's repository and then run the tests in one of the possible ways:
 
 **Note: Make sure you use a secret of a DB you create exclusivily for these tests, as Faugra will potentially wipe all its data out!**
 
+_Note: `TESTS_SECRET` needs to have `admin` role._
+
 ```haskell
 -- Run all tests:
-MASTER_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh
+TESTS_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh
 ```
 
 ```haskell
 -- Run only tests of a specific command:
-MASTER_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh specs/<command-name>.js
+TESTS_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh specs/<command-name>.js
 ```
 
 You can also set `DEBUG=faugra:*` when running tests to get deeper insights.
