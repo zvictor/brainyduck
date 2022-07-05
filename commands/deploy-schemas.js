@@ -34,7 +34,7 @@ const loadSchema = async (pattern) => {
   )
 
   if (!files.length) {
-    throw new Error(`no file could be found with pattern '${pattern}'`)
+    throw new Error(`No matching file could be found`)
   }
 
   const content = files.map((x) => {

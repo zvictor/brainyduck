@@ -16,6 +16,10 @@ export default async function main(pattern = patterns.UDR) {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 
+  if (!files.length) {
+    throw new Error(`No matching file could be found`)
+  }
+
   return await Promise.all(
     files.map(async (file) => {
       debug(`\t${figures.pointer} found ${file}`)

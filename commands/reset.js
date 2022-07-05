@@ -96,9 +96,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const types =
       process.argv[2] && Object.fromEntries(process.argv[2].split(',').map((type) => [type, true]))
 
-    if (await confirm(types)) {
-      await main(types)
-      console.log(`All reset operations have succeeded.`)
+    if (!(await confirm(types))) {
+      return console.log('Wise decision! 🧑‍🌾')
     }
+
+    await main(types)
+    console.log(`All reset operations have succeeded.`)
   })()
 }
