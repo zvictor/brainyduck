@@ -7,12 +7,12 @@ import figures from 'figures'
 import faunadb from 'faunadb'
 import logSymbols from 'log-symbols'
 import { fileURLToPath } from 'url'
-import { faunaClient, patternMatch, runFQL } from '../utils.js'
+import { faunaClient, patternMatch, patterns, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
 const debug = _debug('faugra:deploy-indexes')
 
-export default async function main(pattern = '**/*.index') {
+export default async function main(pattern = patterns.INDEX) {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 

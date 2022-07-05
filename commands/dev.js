@@ -24,18 +24,9 @@ import deployIndexes from './deploy-indexes.js'
 import deployRoles from './deploy-roles.js'
 import deploySchema from './deploy-schema.js'
 import build from './build.js'
-import { ignored } from '../utils.js'
+import { patterns, ignored } from '../utils.js'
 
 const debug = _debug('faugra:watcher')
-
-const PATTERNS = {
-  ts: '**/*.(ts|tsx)',
-  udf: '**/*.udf',
-  schema: '**/[A-Z]*.(gql|graphql)',
-  index: '**/*.index',
-  udr: '**/*.role',
-  documents: '**/[a-z]*.(gql|graphql)',
-}
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
@@ -119,29 +110,24 @@ const watch = (type, pattern, operation, cumulative) =>
   })
 
 export default async function main() {
-  const ts = await watch('Typescript', PATTERNS['ts'], null, true)
+  const ts = await watch('Typescript', patterns.TS, null, true)
 
-  // const schema = await watch('Schema', PATTERNS['schema'], (file) =>
+  // const schema = await watch('Schema', patterns.SCHEMA, (file) =>
   //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   // )
 
-  const schema = await watch(
-    'Schema',
-    PATTERNS['schema'],
-    () => deploySchema(PATTERNS['schema']),
-    true
-  )
+  const schema = await watch('Schema', patterns.SCHEMA, () => deploySchema(patterns.SCHEMA), true)
 
-  const index = await watch('Index', PATTERNS['index'], deployIndexes)
+  const index = await watch('Index', patterns.INDEX, deployIndexes)
 
-  const udr = await watch('UDR', PATTERNS['udr'], deployRoles)
+  const udr = await watch('UDR', patterns.UDR, deployRoles)
 
-  const udf = await watch('UDF', PATTERNS['udf'], deployFunctions)
+  const udf = await watch('UDF', patterns.UDF, deployFunctions)
 
   const documents = await watch(
     'Document',
-    PATTERNS['documents'],
-    () => build(PATTERNS['schema'], PATTERNS['documents']),
+    patterns.DOCUMENTS,
+    () => build(patterns.SCHEMA, patterns.DOCUMENTS),
     true
   )
 

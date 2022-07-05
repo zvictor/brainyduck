@@ -12,6 +12,16 @@ import fetch, { Headers } from './fetch-ponyfill.cjs'
 
 export { default as locateCache } from './locateCache.cjs'
 
+// Default file extension patterns
+export const patterns = {
+  TS: '**/*.(ts|tsx)',
+  UDF: '**/*.udf',
+  SCHEMA: '**/[A-Z]*.(gql|graphql)',
+  INDEX: '**/*.index',
+  UDR: '**/*.role',
+  DOCUMENTS: '**/[a-z]*.(gql|graphql)',
+}
+
 const { Client } = faunadb
 const errors = {
   CACHE_TIMEOUT:

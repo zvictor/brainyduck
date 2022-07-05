@@ -7,12 +7,12 @@ import faunadb from 'faunadb'
 import figures from 'figures'
 import logSymbols from 'log-symbols'
 import { fileURLToPath } from 'url'
-import { faunaClient, patternMatch, runFQL } from '../utils.js'
+import { patterns, faunaClient, patternMatch, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
 const debug = _debug('faugra:deploy-functions')
 
-export default async function main(pattern = '**/*.udf') {
+export default async function main(pattern = patterns.UDF) {
   debug(`Looking for files matching '${pattern}'`)
   const files = await patternMatch(pattern)
 

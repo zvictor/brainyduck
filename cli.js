@@ -4,6 +4,7 @@ import fs from 'fs'
 import { fileURLToPath } from 'url'
 import { program } from 'commander'
 import { constantCase } from 'constant-case'
+import { patterns } from './utils.js'
 
 const prefix = {
   FAUNA: 'FAUNA',
@@ -139,7 +140,7 @@ program
 
   .command(
     'deploy-functions [pattern]',
-    'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]',
+    `upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: ${patterns.UDF}]`,
     {
       executableFile: fileURLToPath(new URL('./commands/deploy-functions.js', import.meta.url)),
     }
@@ -147,7 +148,7 @@ program
 
   .command(
     'deploy-indexes [pattern]',
-    'upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]',
+    `upload your User-Defined Indexes to faunadb. Defaults: [pattern: ${patterns.INDEX}]`,
     {
       executableFile: fileURLToPath(new URL('./commands/deploy-indexes.js', import.meta.url)),
     }
@@ -155,7 +156,7 @@ program
 
   .command(
     'deploy-roles [pattern]',
-    'upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]',
+    `upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: ${patterns.UDR}]`,
     {
       executableFile: fileURLToPath(new URL('./commands/deploy-roles.js', import.meta.url)),
     }
