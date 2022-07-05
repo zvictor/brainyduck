@@ -113,6 +113,14 @@ program
   })
 
   .command(
+    'build [schema-pattern] [documents-pattern] [output]',
+    'code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
+    {
+      executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
+    }
+  )
+
+  .command(
     'dev [directory]',
     'watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]',
     {
@@ -166,14 +174,6 @@ program
     'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]',
     {
       executableFile: fileURLToPath(new URL('./commands/generate-types.js', import.meta.url)),
-    }
-  )
-
-  .command(
-    'build-sdk [schema-pattern] [documents-pattern] [output]',
-    'code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
-    {
-      executableFile: fileURLToPath(new URL('./commands/build-sdk.js', import.meta.url)),
     }
   )
 

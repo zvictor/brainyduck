@@ -5,7 +5,7 @@ const filePath = locateCache('sdk.cjs')
 
 if (!fs.existsSync(filePath)) {
   console.error(
-    `Project is missing SDK! 🤷‍🐣\n\nPlease run 'npx faugra dev' (or 'npx faugra build-sdk') in your project diretory to get started. 💁🐥\n ↳ read more on https://github.com/zvictor/faugra/wiki/Missing-sdk\n`
+    `Project is missing SDK! 🤷‍🐣\n\nPlease run 'npx faugra dev' (or 'npx faugra build') in your project diretory to get started. 💁🐥\n ↳ read more on https://github.com/zvictor/faugra/wiki/Missing-sdk\n`
   )
 
   console.error(`Debug info: no file could be found at\n ↳ ${filePath}\n`)

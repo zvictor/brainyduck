@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build-sdk && node build.js",
+    "build": "faugra build && node build.js",
     "start": "node ./build/index.js"
   },
   "dependencies": {

@@ -23,7 +23,7 @@ import defineFunctions from './define-functions.js'
 import defineIndexes from './define-indexes.js'
 import defineRoles from './define-roles.js'
 import pushSchema from './push-schema.js'
-import buildSdk from './build-sdk.js'
+import build from './build.js'
 import { ignored } from '../utils.js'
 
 const debug = _debug('faugra:watcher')
@@ -141,7 +141,7 @@ export default async function main() {
   const documents = await watch(
     'Document',
     PATTERNS['documents'],
-    () => buildSdk(PATTERNS['schema'], PATTERNS['documents']),
+    () => build(PATTERNS['schema'], PATTERNS['documents']),
     true
   )
 

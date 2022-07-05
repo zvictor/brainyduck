@@ -70,6 +70,7 @@ Options:
   -h, --help                                               display help for command
 
 Commands:
+  build [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
   dev [directory]                                          watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
   define-functions [pattern]                               upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
   define-indexes [pattern]                                 upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
@@ -77,7 +78,6 @@ Commands:
   pull-schema [output]                                     load the schema hosted in faunadb. Defaults: [output: <stdout>]
   push-schema [pattern]                                    push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   generate-types [pattern] [output]                        code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
-  build-sdk [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
   reset [types]                                            wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   help [command]                                           display help for command
 ```
@@ -271,7 +271,7 @@ FROM node
 ...
 ADD ./src .
 RUN npm install
-RUN npx faugra build-sdk
+RUN npx faugra build
 ```
 
 ### clone

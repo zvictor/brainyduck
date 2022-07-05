@@ -2,7 +2,7 @@
   "name": "faugra-example-basic-esbuild",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build-sdk && node build.mjs",
+    "build": "faugra build && node build.mjs",
     "start": "node ./build/index.js"
   },
   "dependencies": {

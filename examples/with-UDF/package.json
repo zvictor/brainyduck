@@ -2,7 +2,7 @@
   "name": "faugra-example-udf",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build-sdk",
+    "build": "faugra build",
     "start": "npx ts-node index.ts"
   },
   "dependencies": {

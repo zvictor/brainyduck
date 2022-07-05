@@ -13,9 +13,9 @@ import {
   removeRetryMessages,
 } from '../testUtils.js'
 
-const debug = _debug('faugra:test:build-sdk')
+const debug = _debug('faugra:test:build')
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
-setupEnvironment(`build-sdk`)
+setupEnvironment(`build`)
 
 beforeEach(() => {
   cache.TEST = temporaryDirectory()
@@ -45,7 +45,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   const { stdout, stderr, exitCode } = execaSync(
     'node',
-    ['../../cli.js', 'build-sdk', 'Schema.graphql'],
+    ['../../cli.js', 'build', 'Schema.graphql'],
     { env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache.TEST }, cwd }
   )
 
@@ -241,7 +241,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   const sdkCheck = fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build-sdk'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })

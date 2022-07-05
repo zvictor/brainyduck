@@ -18,7 +18,7 @@ import pull from './pull-schema.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const debug = _debug('faugra:build-sdk')
+const debug = _debug('faugra:build')
 
 const config = {
   filename: 'output.ts',
