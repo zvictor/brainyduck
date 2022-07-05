@@ -175,7 +175,7 @@ const _representData = (data) => {
 export const representData = (data) =>
   inspect(_representData(data), {
     depth: 5,
-    colors: true,
+    colors: process.stdout.hasColors ? process.stdout.hasColors() : false,
   })
 
 export const sleep = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout))
