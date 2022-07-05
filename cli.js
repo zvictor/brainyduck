@@ -5,42 +5,61 @@ import { fileURLToPath } from 'url'
 import { program } from 'commander'
 import { constantCase } from 'constant-case'
 
+const prefix = {
+  FAUNA: 'FAUNA',
+  FAUGRA: 'FAUGRA',
+}
+
 const pkg = JSON.parse(
   await fs.readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)))
 )
 
-const optionParser = (key) => () =>
-  (process.env[`FAUGRA_${constantCase(key)}`] = program.opts()[key])
+const optionParser =
+  (key, _prefix = prefix.FAUGRA) =>
+  () => {
+    let name = constantCase(key)
+    if (_prefix) {
+      name = `${_prefix}_${name}`
+    }
+
+    return (process.env[name] = program.opts()[key])
+  }
 
 program
   .version(pkg.version)
 
   .option(
     '-s, --secret <value>',
-    `set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).`
+    `set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <${prefix.FAUNA}_SECRET>).`
   )
-  .on('option:secret', optionParser('secret'))
+  .on('option:secret', optionParser('secret', prefix.FAUNA))
 
   .option(
     '--domain <value>',
-    `FaunaDB server domain (defaults to <FAUGRA_DOMAIN or 'db.fauna.com'>).`
+    `FaunaDB server domain (defaults to <${prefix.FAUNA}_DOMAIN or 'db.fauna.com'>).`
   )
-  .on('option:domain', optionParser('domain'))
+  .on('option:domain', optionParser('domain', prefix.FAUNA))
 
-  .option('--port <value>', `Connection port (defaults to <FAUGRA_PORT>).`)
-  .on('option:port', optionParser('port'))
+  .option('--port <value>', `Connection port (defaults to <${prefix.FAUNA}_PORT>).`)
+  .on('option:port', optionParser('port', prefix.FAUNA))
 
   .option(
     '--graphql-domain <value>',
-    `Graphql server domain (defaults to <FAUGRA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).`
+    `Graphql server domain (defaults to <${prefix.FAUNA}_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).`
   )
-  .on('option:graphql-domain', optionParser('graphqlDomain'))
+  .on('option:graphql-domain', optionParser('graphqlDomain', prefix.FAUNA))
 
-  .option('--graphql-port <value>', `Graphql connection port (defaults to <FAUGRA_GRAPHQL_PORT>).`)
-  .on('option:graphql-port', optionParser('graphqlPort'))
+  .option(
+    '--graphql-port <value>',
+    `Graphql connection port (defaults to <${prefix.FAUNA}_GRAPHQL_PORT>).`
+  )
+  .on('option:graphql-port', optionParser('graphqlPort', prefix.FAUNA))
 
-  .option('--scheme <value>', `Connection scheme (defaults to <FAUGRA_SCHEME or 'https'>).`)
-  .on('option:scheme', optionParser('scheme'))
+  .option(
+    '--scheme <value>',
+    `Connection scheme (defaults to <${prefix.FAUNA}_SCHEME or 'https'>).`
+  )
+  .on('option:scheme', optionParser('scheme', prefix.FAUNA))
 
   .option('--overwrite', `wipe out data related to the command before its execution`)
   .on('option:overwrite', optionParser('overwrite'))

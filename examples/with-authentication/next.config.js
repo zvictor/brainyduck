@@ -1,5 +1,5 @@
-if (!process.env.FAUGRA_SECRET) {
-  throw new Error('Please define `process.env.FAUGRA_SECRET`')
+if (!process.env.FAUNA_SECRET) {
+  throw new Error('Please define `process.env.FAUNA_SECRET`')
 }
 
 module.exports = {

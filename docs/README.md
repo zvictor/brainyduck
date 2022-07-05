@@ -51,13 +51,14 @@ Usage: faugra [options] [command]
 
 Options:
   -V, --version                                            output the version number
-  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUGRA_SECRET>).
-  --domain <value>                                         FaunaDB server domain (defaults to <FAUGRA_DOMAIN or 'db.fauna.com'>).
-  --port <value>                                           Connection port (defaults to <FAUGRA_PORT>).
-  --graphql-domain <value>                                 Graphql server domain (defaults to <FAUGRA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
-  --graphql-port <value>                                   Graphql connection port (defaults to <FAUGRA_GRAPHQL_PORT>).
-  --scheme <value>                                         Connection scheme (defaults to <FAUGRA_SCHEME or 'https'>).
+  -s, --secret <value>                                     set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUNA_SECRET>).
+  --domain <value>                                         FaunaDB server domain (defaults to <FAUNA_DOMAIN or 'db.fauna.com'>).
+  --port <value>                                           Connection port (defaults to <FAUNA_PORT>).
+  --graphql-domain <value>                                 Graphql server domain (defaults to <FAUNA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
+  --graphql-port <value>                                   Graphql connection port (defaults to <FAUNA_GRAPHQL_PORT>).
+  --scheme <value>                                         Connection scheme (defaults to <FAUNA_SCHEME or 'https'>).
   --overwrite                                              wipe out data related to the command before its execution
+  --no-operations-generation                               disable the auto-generated operations documents.
   -i, --ignore <value>                                     set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
   --no-watch                                               disable the files watcher (only used in the dev command).
   --watch-changes                                          ignore initial files and watch changes ONLY (only used in the dev command).

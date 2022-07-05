@@ -31,7 +31,7 @@ export const setupEnvironment = (name, options = {}) => {
       dbName = `${dbName}_${paramCase(testName)}`
     }
 
-    process.env.FAUGRA_SECRET = createDatabase(dbName, process.env.MASTER_SECRET).secret
+    process.env.FAUNA_SECRET = createDatabase(dbName, process.env.MASTER_SECRET).secret
     debug(`Using database ${timestamp}_${name}`)
   })
 

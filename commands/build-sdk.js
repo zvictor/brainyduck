@@ -105,8 +105,8 @@ export default async function main(
 export type { Dom };
 
 export default function faugra({
-  secret = process?.env.FAUGRA_SECRET,
-  endpoint = process?.env.FAUGRA_ENDPOINT,
+  secret = process?.env.FAUNA_SECRET,
+  endpoint = process?.env.FAUNA_ENDPOINT,
 } = {}) {
   if (!secret) {
     throw new Error('SDK requires a secret to be defined.')

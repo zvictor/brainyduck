@@ -17,7 +17,7 @@ This example shows how to add authentication and authorization to a next.js proj
 Execute `faugra` inside the domain folder and then start next.js as usual.
 
 ```bash
-export FAUGRA_SECRET=<your-secret>
+export FAUNA_SECRET=<your-secret>
 
 $ npx faugra dev ./domain --no-watch
 $ npx next dev

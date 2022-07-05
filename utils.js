@@ -24,13 +24,13 @@ export const ignored = process.env.FAUGRA_IGNORE
 
 export const graphqlEndpoint = (() => {
   const {
-    FAUGRA_GRAPHQL_DOMAIN = 'graphql.fauna.com',
-    FAUGRA_SCHEME = 'https',
-    FAUGRA_GRAPHQL_PORT,
+    FAUNA_GRAPHQL_DOMAIN = 'graphql.fauna.com',
+    FAUNA_SCHEME = 'https',
+    FAUNA_GRAPHQL_PORT,
   } = process.env
 
-  const base = `${FAUGRA_SCHEME}://${FAUGRA_GRAPHQL_DOMAIN}${
-    FAUGRA_GRAPHQL_PORT ? `:${FAUGRA_GRAPHQL_PORT}` : ``
+  const base = `${FAUNA_SCHEME}://${FAUNA_GRAPHQL_DOMAIN}${
+    FAUNA_GRAPHQL_PORT ? `:${FAUNA_GRAPHQL_PORT}` : ``
   }`
   return { server: `${base}/graphql`, import: `${base}/import` }
 })()
@@ -42,7 +42,7 @@ export const findBin = (name) => {
 }
 
 export const loadSecret = () => {
-  const secret = process.env.FAUGRA_SECRET
+  const secret = process.env.FAUNA_SECRET
 
   if (!secret) {
     console.error(
@@ -56,19 +56,19 @@ export const loadSecret = () => {
 }
 
 export const faunaClient = () => {
-  const { FAUGRA_DOMAIN, FAUGRA_SCHEME, FAUGRA_PORT } = process.env
+  const { FAUNA_DOMAIN, FAUNA_SCHEME, FAUNA_PORT } = process.env
   const options = { secret: loadSecret() }
 
-  if (FAUGRA_DOMAIN) {
-    options.domain = process.env.FAUGRA_DOMAIN
+  if (FAUNA_DOMAIN) {
+    options.domain = process.env.FAUNA_DOMAIN
   }
 
-  if (FAUGRA_SCHEME) {
-    options.scheme = process.env.FAUGRA_SCHEME
+  if (FAUNA_SCHEME) {
+    options.scheme = process.env.FAUNA_SCHEME
   }
 
-  if (FAUGRA_PORT) {
-    options.port = process.env.FAUGRA_PORT
+  if (FAUNA_PORT) {
+    options.port = process.env.FAUNA_PORT
   }
 
   return new Client(options)
@@ -79,26 +79,26 @@ export const patternMatch = async (pattern, cwd = process.cwd()) =>
 
 export const runFQL = (query, secret) => {
   debug('faugra:runFQL')(`Executing query:\n${query}`)
-  const { FAUGRA_DOMAIN, FAUGRA_PORT, FAUGRA_SCHEME } = process.env
+  const { FAUNA_DOMAIN, FAUNA_PORT, FAUNA_SCHEME } = process.env
 
   const tmpFile = temporaryFile()
   fs.writeFileSync(tmpFile, query, 'utf8')
 
   const args = [`eval`, `--secret=${secret || loadSecret()}`, `--file=${tmpFile}`]
 
-  if (FAUGRA_DOMAIN) {
+  if (FAUNA_DOMAIN) {
     args.push('--domain')
-    args.push(FAUGRA_DOMAIN)
+    args.push(FAUNA_DOMAIN)
   }
 
-  if (FAUGRA_PORT) {
+  if (FAUNA_PORT) {
     args.push('--port')
-    args.push(FAUGRA_PORT)
+    args.push(FAUNA_PORT)
   }
 
-  if (FAUGRA_SCHEME) {
+  if (FAUNA_SCHEME) {
     args.push('--scheme')
-    args.push(FAUGRA_SCHEME)
+    args.push(FAUNA_SCHEME)
   }
 
   const { stdout, stderr, exitCode } = execaSync(findBin(`fauna`), args, {
