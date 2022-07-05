@@ -115,18 +115,22 @@ program
 
   .command(
     'build [schemas-pattern] [documents-pattern] [output]',
-    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
+    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <FAUGRA_CACHE>]',
     {
       executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
     }
   )
 
+  .command('dev [directory]', 'deploy and watch for changes. Defaults: [directory: <pwd>]', {
+    executableFile: fileURLToPath(new URL('./commands/dev.js', import.meta.url)),
+    isDefault: true,
+  })
+
   .command(
-    'dev [directory]',
-    'watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]',
+    'deploy [types]',
+    'deploy the local folder to your database. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]',
     {
-      executableFile: fileURLToPath(new URL('./commands/dev.js', import.meta.url)),
-      isDefault: true,
+      executableFile: fileURLToPath(new URL('./commands/deploy.js', import.meta.url)),
     }
   )
 
