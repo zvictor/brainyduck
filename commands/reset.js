@@ -5,8 +5,8 @@ import ora from 'ora'
 import path from 'path'
 import chalk from 'chalk'
 import readline from 'node:readline'
-import { fileURLToPath } from 'url'
-import { runFQL, importSchema } from '../utils.js'
+import { fileURLToPath } from 'node:url'
+import { runFQL, importSchema, representData } from '../utils.js'
 
 const ALL_TYPES = {
   functions: true,
@@ -36,7 +36,7 @@ const confirm = (types = ALL_TYPES) =>
     console.warn(`This action is irreversible and might possibly affect production data.\n\n`)
 
     rl.question(
-      chalk.bold(`Are you sure you want to delete all the ${listOfTypes}? (y/N)`),
+      chalk.bold(`Are you sure you want to delete all the ${listOfTypes}? (y/N) `),
       (answer) => {
         rl.close()
         resolve(answer === 'y')
@@ -55,13 +55,7 @@ const reset = (type) => {
     }
 
     spinner.succeed(`${type} cleared out`)
-
-    for (const item of data) {
-      console.log(
-        `\tdeleted:`,
-        item.data && item.data.length ? item.data.map((i) => i.ref['@ref']) : item['@ref'] || item
-      )
-    }
+    console.log('deleted:', representData(data.map((x) => x.data || x)))
 
     return data
   } catch (e) {

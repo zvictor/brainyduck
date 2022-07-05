@@ -3,8 +3,9 @@ import path from 'path'
 import debug from 'debug'
 import faunadb from 'faunadb'
 import resolve from 'resolve-as-bin'
-import { execaSync } from 'execa'
 import { globby } from 'globby'
+import { inspect } from 'node:util'
+import { execaSync } from 'execa'
 import { performance } from 'perf_hooks'
 import { fileURLToPath } from 'url'
 import { temporaryFile } from 'tempy'
@@ -156,6 +157,26 @@ export const importSchema = async (schema, override) => {
 
   return message
 }
+
+const _representData = (data) => {
+  if (typeof data.map === 'function') {
+    return data.map(_representData)
+  }
+
+  const deeper = data && (data.name || data.ref || data['@ref'])
+
+  if (deeper) {
+    return _representData(deeper)
+  }
+
+  return data
+}
+
+export const representData = (data) =>
+  inspect(_representData(data), {
+    depth: 5,
+    colors: true,
+  })
 
 export const sleep = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout))
 
