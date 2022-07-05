@@ -12,7 +12,7 @@ import * as typescriptOperations from '@graphql-codegen/typescript-operations'
 import * as typescriptGraphqlRequest from '@graphql-codegen/typescript-graphql-request'
 import { temporaryFile, temporaryDirectory } from 'tempy'
 import { findBin, pipeData, patternMatch, locateCache } from '../utils.js'
-import push from './deploy-schema.js'
+import push from './deploy-schemas.js'
 import pull from './pull-schema.js'
 
 const __filename = fileURLToPath(import.meta.url)

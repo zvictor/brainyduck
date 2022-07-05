@@ -114,8 +114,8 @@ program
   })
 
   .command(
-    'build [schema-pattern] [documents-pattern] [output]',
-    'code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
+    'build [schemas-pattern] [documents-pattern] [output]',
+    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]',
     {
       executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
     }
@@ -131,10 +131,10 @@ program
   )
 
   .command(
-    'deploy-schema [pattern]',
+    'deploy-schemas [pattern]',
     'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy-schema.js', import.meta.url)),
+      executableFile: fileURLToPath(new URL('./commands/deploy-schemas.js', import.meta.url)),
     }
   )
 

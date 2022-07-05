@@ -7,7 +7,7 @@ import { codegen } from '@graphql-codegen/core'
 import { fileURLToPath } from 'url'
 import * as typescriptPlugin from '@graphql-codegen/typescript'
 import { pipeData } from '../utils.js'
-import push from './deploy-schema.js'
+import push from './deploy-schemas.js'
 import pull from './pull-schema.js'
 
 const debug = _debug('faugra:generate-types')

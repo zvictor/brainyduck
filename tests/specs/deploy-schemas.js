@@ -4,14 +4,14 @@ import { fileURLToPath } from 'url'
 import reset from '../../commands/reset'
 import { setupEnvironment, amountOfCollectionsCreated, removeRetryMessages } from '../testUtils.js'
 
-setupEnvironment(`deploy-schema`)
+setupEnvironment(`deploy-schemas`)
 
 beforeEach(() => reset({ collections: true }), 240000)
 
 test('push a basic schema', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schema'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })
@@ -39,7 +39,7 @@ test('push a basic schema', async () => {
 test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schema'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
     env: { DEBUG: 'faugra:*' },
     cwd,
   })

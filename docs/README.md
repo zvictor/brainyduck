@@ -70,9 +70,9 @@ Options:
   -h, --help                                           display help for command
 
 Commands:
-  build [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
+  build [schemas-pattern] [documents-pattern] [output] code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
   dev [directory]                                      watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
-  deploy-schema [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
+  deploy-schemas [pattern]                             push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   deploy-functions [pattern]                           upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
   deploy-indexes [pattern]                             upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
   deploy-roles [pattern]                               upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]

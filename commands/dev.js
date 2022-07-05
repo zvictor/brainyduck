@@ -22,7 +22,7 @@ import deployFunctions from './deploy-functions.js'
 // import generateTypes from './generate-types.js'
 import deployIndexes from './deploy-indexes.js'
 import deployRoles from './deploy-roles.js'
-import deploySchema from './deploy-schema.js'
+import deploySchemas from './deploy-schemas.js'
 import build from './build.js'
 import { patterns, ignored } from '../utils.js'
 
@@ -116,7 +116,7 @@ export default async function main() {
   //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   // )
 
-  const schema = await watch('Schema', patterns.SCHEMA, () => deploySchema(patterns.SCHEMA), true)
+  const schema = await watch('Schema', patterns.SCHEMA, () => deploySchemas(patterns.SCHEMA), true)
 
   const index = await watch('Index', patterns.INDEX, deployIndexes)
 
