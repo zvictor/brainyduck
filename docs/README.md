@@ -78,7 +78,6 @@ Commands:
   deploy-indexes [pattern]                              upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
   deploy-roles [pattern]                                upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
   pull-schema [output]                                  load the schema hosted in faunadb. Defaults: [output: <stdout>]
-  generate-types [pattern] [output]                     code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
   reset [types]                                         wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   help [command]                                        display help for command
 ```

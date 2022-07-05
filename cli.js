@@ -175,14 +175,6 @@ program
   )
 
   .command(
-    'generate-types [pattern] [output]',
-    'code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]',
-    {
-      executableFile: fileURLToPath(new URL('./commands/generate-types.js', import.meta.url)),
-    }
-  )
-
-  .command(
     'reset [types]',
     'wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]',
     {
