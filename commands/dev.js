@@ -22,7 +22,7 @@ import deployFunctions from './deploy-functions.js'
 // import generateTypes from './generate-types.js'
 import deployIndexes from './deploy-indexes.js'
 import deployRoles from './deploy-roles.js'
-import pushSchema from './push-schema.js'
+import deploySchema from './deploy-schema.js'
 import build from './build.js'
 import { ignored } from '../utils.js'
 
@@ -128,7 +128,7 @@ export default async function main() {
   const schema = await watch(
     'Schema',
     PATTERNS['schema'],
-    () => pushSchema(PATTERNS['schema']),
+    () => deploySchema(PATTERNS['schema']),
     true
   )
 

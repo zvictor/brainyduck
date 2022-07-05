@@ -7,7 +7,7 @@ import figures from 'figures'
 import { fileURLToPath } from 'url'
 import { patternMatch, importSchema } from '../utils.js'
 
-const debug = _debug('faugra:push-schema')
+const debug = _debug('faugra:deploy-schema')
 
 const extendTypes = (schema) => {
   const regexp = /^[\s]*(?!#)[\s]*extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm

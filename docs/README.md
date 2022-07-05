@@ -51,7 +51,7 @@ Usage: faugra [options] [command]
 
 Options:
   -V, --version                                        output the version number
-  -s, --secret <value>                                 set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <FAUNA_SECRET>).
+  -s, --secret <value>                                 set Fauna's secret key, used to deploy data to your database (defaults to <FAUNA_SECRET>).
   --domain <value>                                     FaunaDB server domain (defaults to <FAUNA_DOMAIN or 'db.fauna.com'>).
   --port <value>                                       Connection port (defaults to <FAUNA_PORT>).
   --graphql-domain <value>                             Graphql server domain (defaults to <FAUNA_GRAPHQL_DOMAIN or 'graphql.fauna.com'>).
@@ -72,11 +72,11 @@ Options:
 Commands:
   build [schema-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schema-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <stdout>]
   dev [directory]                                      watch for changes and run helpers accordingly. Defaults: [directory: <pwd>]
+  deploy-schema [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   deploy-functions [pattern]                           upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
   deploy-indexes [pattern]                             upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
   deploy-roles [pattern]                               upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: **/*.role]
   pull-schema [output]                                 load the schema hosted in faunadb. Defaults: [output: <stdout>]
-  push-schema [pattern]                                push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   generate-types [pattern] [output]                    code generator that converts graphql schemas into typescript types. Defaults: [pattern: **/[A-Z]*.(graphql|gql), output: <stdout>]
   reset [types]                                        wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   help [command]                                       display help for command

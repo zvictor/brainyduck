@@ -30,7 +30,7 @@ program
 
   .option(
     '-s, --secret <value>',
-    `set Fauna's secret key, used to push/pull schemas to and from the database (defaults to <${prefix.FAUNA}_SECRET>).`
+    `set Fauna's secret key, used to deploy data to your database (defaults to <${prefix.FAUNA}_SECRET>).`
   )
   .on('option:secret', optionParser('secret', prefix.FAUNA))
 
@@ -130,6 +130,14 @@ program
   )
 
   .command(
+    'deploy-schema [pattern]',
+    'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
+    {
+      executableFile: fileURLToPath(new URL('./commands/deploy-schema.js', import.meta.url)),
+    }
+  )
+
+  .command(
     'deploy-functions [pattern]',
     'upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]',
     {
@@ -158,14 +166,6 @@ program
     'load the schema hosted in faunadb. Defaults: [output: <stdout>]',
     {
       executableFile: fileURLToPath(new URL('./commands/pull-schema.js', import.meta.url)),
-    }
-  )
-
-  .command(
-    'push-schema [pattern]',
-    'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
-    {
-      executableFile: fileURLToPath(new URL('./commands/push-schema.js', import.meta.url)),
     }
   )
 
