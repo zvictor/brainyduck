@@ -11,7 +11,7 @@ We have built Faugra to help you transition to a top notch serverless environmen
 It takes only **3 steps to get started**:
 
 1. Create a `.graphql` file defining your desired Graphql schema
-2. Create or reuse a [Faugra secret](https://github.com/zvictor/faugra/wiki/Faugra-secret)
+2. Create or reuse a [fauna secret](https://github.com/zvictor/faugra/wiki/Fauna-secret)
 3. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
 
 That's it! Now you can start importing and consuming your sdk with `import sdk from 'faugra'` 🐣🎉

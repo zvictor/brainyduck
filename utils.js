@@ -57,10 +57,10 @@ export const loadSecret = () => {
 
   if (!secret) {
     console.error(
-      `The faugra secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Faugra-secret\n`
+      `The fauna secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Fauna-secret\n`
     )
 
-    throw new Error(`missing faugra's secret`)
+    throw new Error(`missing fauna's secret`)
   }
 
   return secret
