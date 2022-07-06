@@ -14,7 +14,7 @@
 
     <meta
       name="description"
-      content="A micro 'no-backend' backend framework 🤯 Quickly build
+      content="A micro 'no-backend' framework 🤯 Quickly build
     powerful backends using only your graphql schemas - zvictor/faugra"
     />
 
@@ -24,7 +24,7 @@
     <meta property="og:title" content="Faugra" />
     <meta
       property="og:description"
-      content="A micro 'no-backend' backend framework 🤯 Quickly build
+      content="A micro 'no-backend' framework 🤯 Quickly build
     powerful backends using only your graphql schemas - zvictor/faugra"
     />
     <meta
@@ -39,7 +39,7 @@
     <meta name="twitter:title" content="Faugra" />
     <meta
       name="twitter:description"
-      content="A micro 'no-backend' backend framework 🤯 Quickly build
+      content="A micro 'no-backend' framework 🤯 Quickly build
     powerful backends using only your graphql schemas - zvictor/faugra"
     />
     <meta
@@ -62,6 +62,9 @@
         --cover-link-text-decoration: none;
         --link-text-decoration: none;
         --link-text-decoration--hover: underline;
+
+        --cover-border-width: 2px;
+        --cover-border-color: var(--theme-color);
       }
 
       .github-corner svg {
@@ -69,15 +72,15 @@
       }
 
       .cover {
-        background: #222222
-          url('https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png') repeat-x
-          0 calc(100% + 11px) !important;
+        background: url('https://raw.githubusercontent.com/zvictor/faugra/master/.media/waves.svg')
+            0 0 / 100% 100% no-repeat no-repeat,
+          linear-gradient(#222, var(--base-background-color) 30%, #fff 300%) !important;
         color: #dddddd;
         font-size: 1.1rem;
       }
 
       .cover:before {
-        bottom: 2px;
+        display: none;
       }
 
       a {

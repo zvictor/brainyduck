@@ -1,7 +1,7 @@
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="faugra's logo" /><p>
 
 <p align="center">
-  <strong>A micro "no-backend" backend framework 🤯</strong><br />
+  <strong>A micro "no-backend" framework 🤯</strong><br />
   <sub>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
 </p>
 
