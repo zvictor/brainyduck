@@ -71,7 +71,7 @@ Options:
 
 Commands:
   build [schemas-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <FAUGRA_CACHE>]
-  dev [directory]                                       deploy and watch for changes. Defaults: [directory: <pwd>]
+  dev [directory]                                       build, deploy and watch for changes. Defaults: [directory: <pwd>]
   deploy [types]                                        deploy the local folder to your database. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   deploy-schemas [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   deploy-functions [pattern]                            upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]

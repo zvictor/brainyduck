@@ -2,7 +2,7 @@
   "name": "faugra-example-basic",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build",
+    "dev": "faugra dev",
     "start": "npx ts-node index.ts"
   },
   "dependencies": {

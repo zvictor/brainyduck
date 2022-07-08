@@ -14,14 +14,13 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
-  Time: any;
-  /** The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
+  /**
+   * The `Long` scalar type represents non-fractional signed whole numeric values.
+   * Long can represent values between -(2^63) and 2^63 - 1.
+   */
   Long: any;
+  Time: any;
 };
-
-export enum Faugra {
-  Resetting = 'RESETTING'
-}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -31,7 +30,11 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   /** Delete an existing document in the collection of 'User' */
   deleteUser?: Maybe<User>;
-  /** Partially updates an existing document in the collection of 'User'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'. */
+  /**
+   * Partially updates an existing document in the collection of 'User'. It only
+   * modifies the values that are specified in the arguments. During execution, it
+   * verifies that required fields are not set to 'null'.
+   */
   partialUpdateUser?: Maybe<User>;
 };
 
@@ -62,11 +65,6 @@ export type PartialUpdateUserInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
-/** 'User' input values */
-export type UserInput = {
-  username: Scalars['String'];
-};
-
 export type Query = {
   __typename?: 'Query';
   /** Find a document from the collection of 'User' by its id. */
@@ -91,6 +89,11 @@ export type User = {
   _id: Scalars['ID'];
   /** The document's timestamp. */
   _ts: Scalars['Long'];
+  username: Scalars['String'];
+};
+
+/** 'User' input values */
+export type UserInput = {
   username: Scalars['String'];
 };
 

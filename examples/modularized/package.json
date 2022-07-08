@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build",
+    "dev": "faugra dev",
     "start": "node --loader ts-node/esm index.ts"
   },
   "dependencies": {

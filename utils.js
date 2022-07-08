@@ -43,7 +43,11 @@ export const graphqlEndpoint = (() => {
   const base = `${FAUNA_SCHEME}://${FAUNA_GRAPHQL_DOMAIN}${
     FAUNA_GRAPHQL_PORT ? `:${FAUNA_GRAPHQL_PORT}` : ``
   }`
-  return { server: `${base}/graphql`, import: `${base}/import` }
+  return {
+    server: `${base}/graphql`,
+    import: `${base}/import`,
+    puke: `https://duckpuke.brainy.sh/`,
+  }
 })()
 
 export const findBin = (name) => {
@@ -127,20 +131,22 @@ export const runFQL = (query, secret) => {
   return JSON.parse(stdout)
 }
 
-export const importSchema = async (schema, override) => {
+export const importSchema = async (schema, { override, puke } = {}) => {
+  const url = puke ? graphqlEndpoint.puke : graphqlEndpoint.import
+
   debug('faugra:importSchema')(
-    `Pushing the schema to ${graphqlEndpoint.import} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
+    `Pushing the schema to ${url} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
   )
 
   const t0 = performance.now()
-  const response = await fetch(`${graphqlEndpoint.import}${override ? '?mode=override' : ''}`, {
+  const response = await fetch(`${url}${override ? '?mode=override' : ''}`, {
     method: 'POST',
     body: schema,
     headers: new Headers({
       Authorization: `Bearer ${loadSecret()}`,
     }),
   })
-  debug('faugra:importSchema')(`The call to fauna took ${performance.now() - t0} milliseconds.`)
+  debug('faugra:importSchema')(`The call to remote took ${performance.now() - t0} milliseconds.`)
 
   const message = await response.text()
   if (response.status !== 200) {
@@ -152,7 +158,7 @@ export const importSchema = async (schema, override) => {
     await sleep(30000)
     console.log(`Retrying now...`)
 
-    return await importSchema(schema, override)
+    return await importSchema(schema, { override, puke })
   }
 
   return message

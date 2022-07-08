@@ -13,7 +13,6 @@ import * as typescriptGraphqlRequest from '@graphql-codegen/typescript-graphql-r
 import { temporaryFile, temporaryDirectory } from 'tempy'
 import { findBin, pipeData, patternMatch, locateCache } from '../utils.js'
 import push from './deploy-schemas.js'
-import pull from './pull-schema.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -90,18 +89,21 @@ const generateSdk = async (schema, documentsPattern) => {
 export default async function main(
   schemaPattern,
   documentsPattern = '**/[a-z]*.(graphql|gql)',
-  outputFile = locateCache('sdk.ts'),
-  transpile = true
+  { cache, output } = { cache: true }
 ) {
-  debug(`called with:`, { schemaPattern, documentsPattern, outputFile })
+  debug(`called with:`, { schemaPattern, documentsPattern, cache, output })
 
-  await push(await schemaPattern)
-  const schema = await pull()
+  if (cache) {
+    if (output) throw new Error(`Options 'cache' and 'output' are mutually exclusive`)
+
+    output = locateCache('sdk.ts')
+    fs.rmSync(locateCache(), { force: true, recursive: true })
+  }
+
+  const schema = await push(await schemaPattern, { puke: true })
 
   debug(`Generating TypeScript SDK`)
-  const sdk = await generateSdk(schema, await documentsPattern)
-
-  const ouput = `${sdk}
+  const sdk = `${await generateSdk(schema, await documentsPattern)}
 export type { Dom };
 
 export default function faugra({
@@ -123,21 +125,21 @@ export default function faugra({
 
 export { faugra }`
 
-  if (!outputFile) {
-    return ouput
+  if (!output) {
+    return sdk
   }
 
-  const outputDir = path.dirname(outputFile)
+  const outputDir = path.dirname(output)
 
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true })
   }
 
-  fs.writeFileSync(outputFile, ouput)
-  debug(`The sdk has been copied to ${outputFile}`)
+  fs.writeFileSync(output, sdk)
+  debug(`The sdk has been copied to ${output}`)
 
-  if (!transpile) {
-    return ouput
+  if (!cache) {
+    return output
   }
 
   const tsconfigFile = process.env.FAUGRA_TSCONFIG || path.join(__dirname, '..', 'tsconfig.json')
@@ -170,7 +172,7 @@ export { faugra }`
   fs.writeFileSync(
     tmpTsconfigFile,
     `{
-      "extends": "${tsconfigFile}", "include": ["${outputFile}"], "compilerOptions": {
+      "extends": "${tsconfigFile}", "include": ["${output}"], "compilerOptions": {
         "outDir": "${locateCache()}",
         ${/* https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1131425209 */ ''}
         "baseUrl": "${path.join(__dirname, '..')}",
@@ -182,7 +184,7 @@ export { faugra }`
   const { stdout } = execaSync(
     findBin(`tsup`),
     [
-      outputFile,
+      output,
       '--config',
       path.join(__dirname, '..', 'tsup.config.ts'),
       '--out-dir',
@@ -198,17 +200,17 @@ export { faugra }`
   debug(stdout)
 
   debug(`The sdk has been transpiled and cached`)
-  return outputFile
+  return output
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const [schemaPattern, documentsPattern, outputFile] = process.argv.slice(2)
+  const [schemaPattern, documentsPattern, output] = process.argv.slice(2)
 
   ;(async () => {
     const location = await main(
       schemaPattern === '-' ? pipeData() : schemaPattern,
       documentsPattern === '-' ? pipeData() : documentsPattern,
-      outputFile
+      output && { output }
     )
 
     console.log(`The sdk has been saved at ${location}`)

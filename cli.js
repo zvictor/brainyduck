@@ -121,7 +121,7 @@ program
     }
   )
 
-  .command('dev [directory]', 'deploy and watch for changes. Defaults: [directory: <pwd>]', {
+  .command('dev [directory]', 'build, deploy and watch for changes. Defaults: [directory: <pwd>]', {
     executableFile: fileURLToPath(new URL('./commands/dev.js', import.meta.url)),
     isDefault: true,
   })

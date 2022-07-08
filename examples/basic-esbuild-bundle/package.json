@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "faugra build && node build.mjs",
+    "deploy": "faugra deploy",
     "start": "node ./build/index.js"
   },
   "dependencies": {

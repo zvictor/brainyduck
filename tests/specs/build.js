@@ -83,6 +83,13 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   )
 
   expect(exitCode).toBe(0)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+
+  execaSync('node', ['../../cli.js', 'deploy'], {
+    env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
+    cwd,
+  })
+
   expect(await amountOfCollectionsCreated()).toBe(1)
 
   await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
@@ -280,6 +287,13 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   )
 
   expect(exitCode).toBe(0)
+  expect(await amountOfCollectionsCreated()).toBe(0)
+
+  execaSync('node', ['../../cli.js', 'deploy'], {
+    env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
+    cwd,
+  })
+
   expect(await amountOfCollectionsCreated()).toBe(2)
 
   // ts-node tests

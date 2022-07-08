@@ -14,14 +14,13 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
-  Time: any;
-  /** The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
+  /**
+   * The `Long` scalar type represents non-fractional signed whole numeric values.
+   * Long can represent values between -(2^63) and 2^63 - 1.
+   */
   Long: any;
+  Time: any;
 };
-
-export enum Faugra {
-  Resetting = 'RESETTING'
-}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -29,7 +28,11 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   /** Create a new document in the collection of 'User' */
   createUser: User;
-  /** Partially updates an existing document in the collection of 'Post'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'. */
+  /**
+   * Partially updates an existing document in the collection of 'Post'. It only
+   * modifies the values that are specified in the arguments. During execution, it
+   * verifies that required fields are not set to 'null'.
+   */
   partialUpdatePost?: Maybe<Post>;
   /** Update an existing document in the collection of 'Post' */
   updatePost?: Maybe<Post>;
@@ -37,7 +40,11 @@ export type Mutation = {
   deleteUser?: Maybe<User>;
   /** Delete an existing document in the collection of 'Post' */
   deletePost?: Maybe<Post>;
-  /** Partially updates an existing document in the collection of 'User'. It only modifies the values that are specified in the arguments. During execution, it verifies that required fields are not set to 'null'. */
+  /**
+   * Partially updates an existing document in the collection of 'User'. It only
+   * modifies the values that are specified in the arguments. During execution, it
+   * verifies that required fields are not set to 'null'.
+   */
   partialUpdateUser?: Maybe<User>;
   /** Create a new document in the collection of 'Post' */
   createPost: Post;
@@ -99,6 +106,17 @@ export type PartialUpdateUserInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type Post = {
+  __typename?: 'Post';
+  author: User;
+  /** The document's ID. */
+  _id: Scalars['ID'];
+  content: Scalars['String'];
+  title: Scalars['String'];
+  /** The document's timestamp. */
+  _ts: Scalars['Long'];
+};
+
 /** Allow manipulating the relationship between the types 'Post' and 'User' using the field 'Post.author'. */
 export type PostAuthorRelation = {
   /** Create a document of type 'User' and associate it with the current document. */
@@ -112,22 +130,6 @@ export type PostInput = {
   title: Scalars['String'];
   content: Scalars['String'];
   author?: InputMaybe<PostAuthorRelation>;
-};
-
-/** 'User' input values */
-export type UserInput = {
-  name: Scalars['String'];
-};
-
-export type Post = {
-  __typename?: 'Post';
-  author: User;
-  /** The document's ID. */
-  _id: Scalars['ID'];
-  content: Scalars['String'];
-  title: Scalars['String'];
-  /** The document's timestamp. */
-  _ts: Scalars['Long'];
 };
 
 /** The pagination object for elements of type 'Post'. */
@@ -178,6 +180,11 @@ export type User = {
   _id: Scalars['ID'];
   /** The document's timestamp. */
   _ts: Scalars['Long'];
+  name: Scalars['String'];
+};
+
+/** 'User' input values */
+export type UserInput = {
   name: Scalars['String'];
 };
 

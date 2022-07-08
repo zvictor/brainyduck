@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import path from 'path'
 import _debug from 'debug'
 import { resolve } from 'path'
 import { execaSync } from 'execa'
@@ -30,17 +31,49 @@ for (const name of examples) {
     const cache = temporaryDirectory()
     debug(`Using cache directory ${cache}`)
 
-    const build = execaSync('npm', ['run', '--silent', 'build'], {
-      env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
-      cwd,
-    })
+    const { scripts } = JSON.parse(await fs.readFile(path.join(cwd, 'package.json')))
 
-    expect(build.stderr).toEqual(expect.not.stringMatching(/error/i))
-    expect(build.stdout).toEqual(
-      expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
-    )
-    expect(build.exitCode).toBe(0)
-    debug(`Build of '${name}' has completed successfully`)
+    if (scripts.build) {
+      const build = execaSync('npm', ['run', '--silent', 'build'], {
+        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        cwd,
+      })
+
+      expect(build.stderr).toEqual(expect.not.stringMatching(/error/i))
+      expect(build.stdout).toEqual(
+        expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
+      )
+      expect(build.exitCode).toBe(0)
+      debug(`Build of '${name}' has completed successfully`)
+    }
+
+    if (scripts.deploy) {
+      const deploy = execaSync('npm', ['run', '--silent', 'deploy'], {
+        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        cwd,
+      })
+
+      expect(deploy.stderr).toEqual(expect.not.stringMatching(/error/i))
+      expect(deploy.stdout).toEqual(
+        expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
+      )
+      expect(deploy.exitCode).toBe(0)
+      debug(`Deployment of '${name}' has completed successfully`)
+    }
+
+    if (scripts.dev) {
+      const dev = execaSync('npm', ['run', '--silent', 'dev', '--', '--no-watch'], {
+        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        cwd,
+      })
+
+      expect(dev.stderr).toEqual(expect.not.stringMatching(/error/i))
+      expect(dev.stdout).toEqual(
+        expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
+      )
+      expect(dev.exitCode).toBe(0)
+      debug(`Dev preparation of '${name}' has completed successfully`)
+    }
 
     const run = execaSync('npm', ['run', '--silent', 'start'], {
       env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache, TS_NODE_TRANSPILE_ONLY: 'true' },

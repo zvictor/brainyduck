@@ -115,7 +115,15 @@ export default async function main() {
   //   generateTypes(file, file.replace(/(.gql|.graphql)$/, '$1.d.ts'))
   // )
 
-  const schema = await watch('Schema', patterns.SCHEMA, () => deploySchemas(patterns.SCHEMA), true)
+  const schema = await watch(
+    'Schema',
+    patterns.SCHEMA,
+    async () => {
+      await build(patterns.SCHEMA, patterns.DOCUMENTS)
+      await deploySchemas(patterns.SCHEMA, { override: true })
+    },
+    true
+  )
 
   const index = await watch('Index', patterns.INDEX, deployIndexes)
 

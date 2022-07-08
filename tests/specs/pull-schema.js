@@ -32,7 +32,7 @@ test('fetch schema from fauna', async () => {
   }`
 
   // The schema needs to be pre-populated/reset before we can pull it again
-  await importSchema(schema, true)
+  await importSchema(schema, { override: true })
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pull-schema'], {
     env: { DEBUG: 'faugra:*' },

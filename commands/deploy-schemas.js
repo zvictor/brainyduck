@@ -45,17 +45,17 @@ const loadSchema = async (pattern) => {
   return content.join('\n')
 }
 
-export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', override) {
-  debug(`called with:`, { inputPath, override })
+export default async function main(inputPath = '**/[A-Z]*.(graphql|gql)', { override, puke } = {}) {
+  debug(`called with:`, { inputPath, override, puke })
   const schema = extendTypes(await loadSchema(inputPath))
 
   const prettySchema = schema.replace(/^/gm, '\t')
   debug(`The resulting merged schema:\n${prettySchema}`)
 
   try {
-    return await importSchema(schema, override)
+    return await importSchema(schema, { override, puke })
   } catch (error) {
-    console.error(`The schema below could not be pushed to fauna:\n\n${prettySchema}`)
+    console.error(`The schema below could not be pushed to remote:\n\n${prettySchema}`)
 
     throw error
   }
