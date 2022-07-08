@@ -1,15 +1,16 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import debug from 'debug'
 import faunadb from 'faunadb'
 import resolve from 'resolve-as-bin'
+import readline from 'node:readline'
 import { globby } from 'globby'
-import { inspect } from 'node:util'
 import { execaSync } from 'execa'
-import { performance } from 'perf_hooks'
-import { fileURLToPath } from 'url'
+import { performance } from 'node:perf_hooks'
+import { fileURLToPath } from 'node:url'
 import { temporaryFile } from 'tempy'
 import fetch, { Headers } from './fetch-ponyfill.cjs'
+import { inspect, promisify } from 'node:util'
 
 export { default as locateCache } from './locateCache.cjs'
 
@@ -54,6 +55,16 @@ export const findBin = (name) => {
   const local = fileURLToPath(new URL(path.join(`./node_modules/.bin`, name), import.meta.url))
 
   return fs.existsSync(local) ? local : resolve(name)
+}
+
+export const question = (...args) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  })
+
+  const q = promisify(rl.question).bind(rl)(...args)
+  return q.finally(() => rl.close())
 }
 
 export const loadSecret = () => {

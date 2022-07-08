@@ -4,9 +4,8 @@ import fs from 'fs'
 import ora from 'ora'
 import path from 'path'
 import chalk from 'chalk'
-import readline from 'node:readline'
 import { fileURLToPath } from 'node:url'
-import { runFQL, importSchema, representData } from '../utils.js'
+import { runFQL, importSchema, representData, question } from '../utils.js'
 
 const ALL_TYPES = {
   functions: true,
@@ -21,28 +20,20 @@ const ALL_TYPES = {
 const readScript = (name) =>
   fs.readFileSync(new URL(path.join(`../scripts/`, name), import.meta.url), { encoding: 'utf8' })
 
-const confirm = (types = ALL_TYPES) =>
-  new Promise((resolve) => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    })
+const confirm = async (types = ALL_TYPES) => {
+  const listOfTypes = chalk.red.bold(Object.keys(types).join(', '))
 
-    const listOfTypes = chalk.red.bold(Object.keys(types).join(', '))
+  console.warn(
+    `\n\nYou are about to wipe out all the ${listOfTypes} from the database associated to the key you provided.`
+  )
+  console.warn(`This action is irreversible and might possibly affect production data.\n\n`)
 
-    console.warn(
-      `\n\nYou are about to wipe out all the ${listOfTypes} from the database associated to the key you provided.`
-    )
-    console.warn(`This action is irreversible and might possibly affect production data.\n\n`)
+  const answer = await question(
+    chalk.bold(`Are you sure you want to delete all the ${listOfTypes}? [y/N] `)
+  )
 
-    rl.question(
-      chalk.bold(`Are you sure you want to delete all the ${listOfTypes}? (y/N) `),
-      (answer) => {
-        rl.close()
-        resolve(answer === 'y')
-      }
-    )
-  })
+  return answer === 'y'
+}
 
 const reset = (type) => {
   const spinner = ora(`Wiping out ${type}...`).start()
