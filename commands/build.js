@@ -53,7 +53,7 @@ const generateOperations = async (schema) => {
 
   if (exitCode) {
     console.error(stderr)
-    throw new Error(`Faugra could not generate operations automatically`)
+    throw new Error(`Brainyduck could not generate operations automatically`)
   }
 
   if (stderr) console.warn(stderr)

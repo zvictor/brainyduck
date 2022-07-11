@@ -16,7 +16,7 @@ export type Scalars = {
   Long: any;
 };
 
-export enum Faugra {
+export enum Brainyduck {
   Resetting = 'RESETTING'
 }
 

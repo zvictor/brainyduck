@@ -2,7 +2,7 @@
 
 Building world-class backend as a service became accessible with the advent of technologies such as graphql and faunadb. Within this new paradigm, a whole new setup and deployment requisites were introduced to your project development.
 
-We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
+We have built Brainyduck to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
@@ -117,7 +117,7 @@ query allUsers {
 }
 ```
 
-Faugra will give you:
+Brainyduck will give you:
 
 1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) in which your original schema will be [expanded to provide basic CRUD out of the box](https://docs.fauna.com/fauna/current/api/graphql/schemas) (i.e. no need to define resolvers for basic operations!). Expect it to look like this:
 
@@ -246,8 +246,8 @@ Faugra will give you:
 
 **What else?**
 
-1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/brainyduck/tree/master/examples/modularized).
-2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+1. Brainyduck stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/brainyduck/tree/master/examples/modularized).
+2. Isn't basic CRUD enough? What about more complex custom resolvers? Brainyduck integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
 For more examples, please check our [examples directory](https://github.com/zvictor/brainyduck/tree/master/examples).
@@ -258,7 +258,7 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 By default, your SDK files will be cached at `./node_modules/brainyduck/.cache`. _Note that you can customize it by defining a different value to the `BRAINYDUCK_CACHE` env var._
 
-Most of the times you are developing you **don't need to worry about the location of those files as Faugra manages them for you** internally. Sometimes, however, (specially when bundling your projects) you might need to think on how to move them around and make sure that they stay available to your code regardless of changes in the environment.
+Most of the times you are developing you **don't need to worry about the location of those files as Brainyduck manages them for you** internally. Sometimes, however, (specially when bundling your projects) you might need to think on how to move them around and make sure that they stay available to your code regardless of changes in the environment.
 
 For such cases, there a few strategies you can choose from:
 
@@ -276,7 +276,7 @@ RUN npx brainyduck build
 
 ### clone
 
-The files in Faugra's cache are portable, meaning that you can just copy them around.
+The files in Brainyduck's cache are portable, meaning that you can just copy them around.
 
 _We wish all ducks could be cloned that easily!_ 🐣🧬🧑‍🔬
 
@@ -289,8 +289,8 @@ ADD ./node_modules/brainyduck/.cache $BRAINYDUCK_CACHE
 
 ### bundle
 
-We have built a special plugin to optimize the use of Faugra in Esbuild bundles.
-This plugin reroutes any `import ... from 'brainyduck'` statement to import your SDK directly, without any wrapper from Faugra.
+We have built a special plugin to optimize the use of Brainyduck in Esbuild bundles.
+This plugin reroutes any `import ... from 'brainyduck'` statement to import your SDK directly, without any wrapper from Brainyduck.
 
 If you have `bundle: true` set in esbuild, your SDK code will be inlined in your built code and you won't need to worry about moving the SDK around. This is the recommended approach for many environments that don't work well with external dependencies, such as Cloudflare Workers.
 
@@ -312,13 +312,13 @@ await build({
 
 ## Contributing
 
-1. When debugging Faugra, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=brainyduck:*`) flag.
+1. When debugging Brainyduck, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=brainyduck:*`) flag.
 Please make sure you **have that included in your logs before you report any bug**.
 
 2. The tests are easy to run and are an important diagnosis tool to understand what could be going on in your environment.
-Clone Faugra's repository and then run the tests in one of the possible ways:
+Clone Brainyduck's repository and then run the tests in one of the possible ways:
 
-**Note: Make sure you use a secret of a DB you create exclusivily for these tests, as Faugra will potentially wipe all its data out!**
+**Note: Make sure you use a secret of a DB you create exclusivily for these tests, as Brainyduck will potentially wipe all its data out!**
 
 _Note: `TESTS_SECRET` needs to have `admin` role._
 
@@ -338,8 +338,8 @@ You can also set `DEBUG=brainyduck:*` when running tests to get deeper insights.
 
 ## Sponsors
 
-<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Faugra's logo" /><br />
-Faugra needs your support!<br />
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Brainyduck's logo" /><br />
+Brainyduck needs your support!<br />
 Please consider helping us spread the word of the Duck to the world. 🐥🙏
 </a>
 <p>

@@ -16,7 +16,7 @@
 
 Building world-class backend as a service became accessible with the advent of technologies such as graphql and faunadb. Within this new paradigm, a whole new setup and deployment requisites were introduced to your project development.
 
-We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
+We have built Brainyduck to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png)
 
@@ -28,8 +28,8 @@ Please refer to the [documentation](https://zvictor.github.io/brainyduck/#/?id=w
 
 ## Sponsors
 
-<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Faugra's logo" /><br />
-Faugra needs your support!<br />
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Brainyduck's logo" /><br />
+Brainyduck needs your support!<br />
 Please consider helping us spread the word of the Duck to the world. 🐥🙏
 </a>
 <p>

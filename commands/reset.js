@@ -63,7 +63,7 @@ export default async function main(types = ALL_TYPES) {
     const spinner = ora(`Wiping out the graphql schema...`).start()
 
     try {
-      await importSchema(`enum Faugra { RESETTING }`)
+      await importSchema(`enum Brainyduck { RESETTING }`)
       spinner.succeed(`Graphql schema has been reset.`)
     } catch (e) {
       spinner.fail()
