@@ -59,7 +59,7 @@ Options:
   --scheme <value>                                      Connection scheme (defaults to <FAUNA_SCHEME or 'https'>).
   --overwrite                                           wipe out data related to the command before its execution
   --no-operations-generation                            disable the auto-generated operations documents.
-  -i, --ignore <value>                                  set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).
+  -i, --ignore <value>                                  set glob patterns to exclude matches (defaults to <BRAINYDUCK_IGNORE or '**/node_modules/**,**/.git/**'>).
   --no-watch                                            disable the files watcher (only used in the dev command).
   --watch-changes                                       ignore initial files and watch changes ONLY (only used in the dev command).
   --callback <command>                                  run external command after every execution completion (only used in the dev command).
@@ -70,7 +70,7 @@ Options:
   -h, --help                                            display help for command
 
 Commands:
-  build [schemas-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <FAUGRA_CACHE>]
+  build [schemas-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <BRAINYDUCK_CACHE>]
   dev [directory]                                       build, deploy and watch for changes. Defaults: [directory: <pwd>]
   deploy [types]                                        deploy the local folder to your database. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   deploy-schemas [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
@@ -256,7 +256,7 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ## Bundling & Exporting
 
-By default, your SDK files will be cached at `./node_modules/faugra/.cache`. _Note that you can customize it by defining a different value to the `FAUGRA_CACHE` env var._
+By default, your SDK files will be cached at `./node_modules/faugra/.cache`. _Note that you can customize it by defining a different value to the `BRAINYDUCK_CACHE` env var._
 
 Most of the times you are developing you **don't need to worry about the location of those files as Faugra manages them for you** internally. Sometimes, however, (specially when bundling your projects) you might need to think on how to move them around and make sure that they stay available to your code regardless of changes in the environment.
 
@@ -283,8 +283,8 @@ _We wish all ducks could be cloned that easily!_ 🐣🧬🧑‍🔬
 
 ```Dockerfile
 ...
-ENV FAUGRA_CACHE /home/faugra
-ADD ./node_modules/faugra/.cache $FAUGRA_CACHE
+ENV BRAINYDUCK_CACHE /home/faugra
+ADD ./node_modules/faugra/.cache $BRAINYDUCK_CACHE
 ```
 
 ### bundle

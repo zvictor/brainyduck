@@ -8,7 +8,7 @@ import { patterns } from './utils.js'
 
 const prefix = {
   FAUNA: 'FAUNA',
-  FAUGRA: 'FAUGRA',
+  BRAINYDUCK: 'BRAINYDUCK',
 }
 
 const pkg = JSON.parse(
@@ -16,7 +16,7 @@ const pkg = JSON.parse(
 )
 
 const optionParser =
-  (key, _prefix = prefix.FAUGRA) =>
+  (key, _prefix = prefix.BRAINYDUCK) =>
   () => {
     let name = constantCase(key)
     if (_prefix) {
@@ -67,18 +67,18 @@ program
 
   .option('--no-operations-generation', `disable the auto-generated operations documents.`)
   .on('option:no-operations-generation', function () {
-    process.env.FAUGRA_NO_OPERATIONS_GENERATION = !this.operationsGeneration
+    process.env.BRAINYDUCK_NO_OPERATIONS_GENERATION = !this.operationsGeneration
   })
 
   .option(
     '-i, --ignore <value>',
-    `set glob patterns to exclude matches (defaults to <FAUGRA_IGNORE or '**/node_modules/**,**/.git/**'>).`
+    `set glob patterns to exclude matches (defaults to <BRAINYDUCK_IGNORE or '**/node_modules/**,**/.git/**'>).`
   )
   .on('option:ignore', optionParser('ignore'))
 
   .option('--no-watch', `disable the files watcher (only used in the dev command).`)
   .on('option:no-watch', function () {
-    process.env.FAUGRA_NO_WATCH = !this.watch
+    process.env.BRAINYDUCK_NO_WATCH = !this.watch
   })
 
   .option(
@@ -95,7 +95,7 @@ program
 
   .option('--tsconfig', `use a custom tsconfig file for the sdk transpilation.`)
   .on('option:tsconfig', function () {
-    process.env.FAUGRA_TSCONFIG = this.tsconfig
+    process.env.BRAINYDUCK_TSCONFIG = this.tsconfig
   })
 
   .option('--verbose', `run the command with verbose logging.`)
@@ -115,7 +115,7 @@ program
 
   .command(
     'build [schemas-pattern] [documents-pattern] [output]',
-    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <FAUGRA_CACHE>]',
+    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <BRAINYDUCK_CACHE>]',
     {
       executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
     }

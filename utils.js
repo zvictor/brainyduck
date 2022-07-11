@@ -30,8 +30,8 @@ const errors = {
     'Value is cached. Please wait at least 60 seconds after creating or renaming a collection or index before reusing its name.',
 }
 
-export const ignored = process.env.FAUGRA_IGNORE
-  ? process.env.FAUGRA_IGNORE.split(',')
+export const ignored = process.env.BRAINYDUCK_IGNORE
+  ? process.env.BRAINYDUCK_IGNORE.split(',')
   : ['**/node_modules/**', '**/.git/**']
 
 export const graphqlEndpoint = (() => {

@@ -66,7 +66,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [pattern] = process.argv.slice(2)
 
   ;(async () => {
-    if (process.env.FAUGRA_OVERWRITE) {
+    if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset({ functions: true })
     }

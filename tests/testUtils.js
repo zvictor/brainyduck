@@ -37,7 +37,7 @@ export const setupEnvironment = (name, options = {}) => {
 
   end(() => {
     deleteDatabase(dbName, process.env.TESTS_SECRET)
-    delete process.env.FAUGRA_CACHE
+    delete process.env.BRAINYDUCK_CACHE
   })
   debug(`Deleted database ${timestamp}_${name}`)
 }
