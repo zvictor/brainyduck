@@ -13,7 +13,7 @@ import {
   removeRetryMessages,
 } from '../testUtils.js'
 
-const debug = _debug('faugra:test:build')
+const debug = _debug('brainyduck:test:build')
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
 setupEnvironment(`build`)
 
@@ -46,7 +46,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   const { stdout, stderr, exitCode } = execaSync(
     'node',
     ['../../cli.js', 'build', 'Schema.graphql'],
-    { env: { DEBUG: 'faugra:*', BRAINYDUCK_CACHE: cache.TEST }, cwd }
+    { env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache.TEST }, cwd }
   )
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
@@ -249,7 +249,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd,
   })
 

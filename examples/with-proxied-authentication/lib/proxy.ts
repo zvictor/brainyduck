@@ -1,4 +1,4 @@
-import sdk from 'faugra'
+import sdk from 'brainyduck'
 import fetchJson from './fetchJson'
 
 const call = async (

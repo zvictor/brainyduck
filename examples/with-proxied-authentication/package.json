@@ -1,8 +1,8 @@
 {
-  "name": "faugra-example-proxy",
+  "name": "brainyduck-example-proxy",
   "version": "1.0.0",
   "dependencies": {
-    "faugra": "latest",
+    "brainyduck": "latest",
     "next": "^12.1.6",
     "next-iron-session": "^4.1.10",
     "react": "^18.1.0",

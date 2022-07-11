@@ -3,7 +3,7 @@
 const scream = (e) => {
   console.error(e.stack || e)
 
-  if (e.message === `missing faugra's secret`) {
+  if (e.message === `missing brainyduck's secret`) {
     process.exit(1)
   }
 }
@@ -25,7 +25,7 @@ import deploySchemas from './deploy-schemas.js'
 import build from './build.js'
 import { patterns, ignored } from '../utils.js'
 
-const debug = _debug('faugra:watcher')
+const debug = _debug('brainyduck:watcher')
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })

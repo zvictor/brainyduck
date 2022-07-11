@@ -1,8 +1,8 @@
-<p align="center"><img src="https://raw.githubusercontent.com/zvictor/faugra/master/.media/logo.png" alt="faugra's logo" /><p>
+<p align="center"><img src="https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/logo.png" alt="brainyduck's logo" /><p>
 
 # Proxied Authentication & authorization example
 
-This example shows how to add authentication and authorization to a next.js project backed by faugra, tunneling all database calls through a proxy on the backend.
+This example shows how to add authentication and authorization to a next.js project backed by brainyduck, tunneling all database calls through a proxy on the backend.
 
 ## Structure
 
@@ -14,11 +14,11 @@ This example shows how to add authentication and authorization to a next.js proj
 
 ## Setup
 
-Execute `faugra` inside the domain folder and then start next.js as usual.
+Execute `brainyduck` inside the domain folder and then start next.js as usual.
 
 ```bash
 export FAUNA_SECRET=<your-secret>
 
-$ npx faugra dev ./domain --no-watch
+$ npx brainyduck dev ./domain --no-watch
 $ npx next dev
 ```

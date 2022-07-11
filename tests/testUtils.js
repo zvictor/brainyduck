@@ -5,7 +5,7 @@ import { paramCase } from 'param-case'
 import { faunaClient, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:test')
+const debug = _debug('brainyduck:test')
 
 export const createDatabase = (name, secret) =>
   runFQL(

@@ -1,4 +1,4 @@
-import sdk from 'faugra'
+import sdk from 'brainyduck'
 
 const random = () => Math.random().toString(36).substring(7)
 

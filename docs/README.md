@@ -4,28 +4,28 @@ Building world-class backend as a service became accessible with the advent of t
 
 We have built Faugra to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Getting started
 
 It takes only **3 steps to get started**:
 
 1. Create a `.graphql` file defining your desired Graphql schema
-2. Create or reuse a [fauna secret](https://github.com/zvictor/faugra/wiki/Fauna-secret)
-3. In the same folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
+2. Create or reuse a [fauna secret](https://github.com/zvictor/brainyduck/wiki/Fauna-secret)
+3. In the same folder, run `npx brainyduck --secret <MY_FAUNA_SECRET>`
 
-That's it! Now you can start importing and consuming your sdk with `import sdk from 'faugra'` 🐣🎉
+That's it! Now you can start importing and consuming your sdk with `import sdk from 'brainyduck'` 🐣🎉
 
 _Alternatively, you can:_
 
-- In any of our [examples](https://github.com/zvictor/faugra/tree/master/examples) folder, run `npx faugra --secret <MY_FAUNA_SECRET>`
+- In any of our [examples](https://github.com/zvictor/brainyduck/tree/master/examples) folder, run `npx brainyduck --secret <MY_FAUNA_SECRET>`
 
-|                                      [Basic](https://github.com/zvictor/faugra/tree/master/examples/basic)                                      |                                      [Modularized](https://github.com/zvictor/faugra/tree/master/examples/modularized)                                      |                                      [with-UDF](https://github.com/zvictor/faugra/tree/master/examples/with-UDF)                                      |
+|                                      [Basic](https://github.com/zvictor/brainyduck/tree/master/examples/basic)                                      |                                      [Modularized](https://github.com/zvictor/brainyduck/tree/master/examples/modularized)                                      |                                      [with-UDF](https://github.com/zvictor/brainyduck/tree/master/examples/with-UDF)                                      |
 | :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
-| [![Basic example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/basic.gif)](https://asciinema.org/a/361576) | [![Modularized example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562) | [![with-UDF example asciicast](https://raw.githubusercontent.com/zvictor/faugra/master/.media/examples/with-UDF.gif)](https://asciinema.org/a/361573) |
+| [![Basic example asciicast](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/examples/basic.gif)](https://asciinema.org/a/361576) | [![Modularized example asciicast](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/examples/modularized.gif)](https://asciinema.org/a/361562) | [![with-UDF example asciicast](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/examples/with-UDF.gif)](https://asciinema.org/a/361573) |
 |                                                                                                                                                 |
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Installation
 
@@ -33,21 +33,21 @@ You can install it globally, per project or just run it on demand:
 
 ```bash
   # npm, globally:
-  $ npm install -g faugra
+  $ npm install -g brainyduck
 
   # npm, project-only:
-  $ npm i faugra -D
+  $ npm i brainyduck -D
 
   # or run on demand:
-  $ npx faugra
+  $ npx brainyduck
 ```
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Usage
 
 ```markup
-Usage: faugra [options] [command]
+Usage: brainyduck [options] [command]
 
 Options:
   -V, --version                                         output the version number
@@ -82,7 +82,7 @@ Commands:
   help [command]                                        display help for command
 ```
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Features
 
@@ -223,12 +223,12 @@ Faugra will give you:
       <summary>your-code.js</summary>
 
    ```typescript
-   import faugra from 'faugra' // <-- automatically loads the SDK generated exclusively to your schema
+   import brainyduck from 'brainyduck' // <-- automatically loads the SDK generated exclusively to your schema
 
-   await faugra().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
-   await faugra({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions by providing different credentials
+   await brainyduck().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
+   await brainyduck({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions by providing different credentials
 
-   const { allUsers } = await faugra().allUsers()
+   const { allUsers } = await brainyduck().allUsers()
 
    for (const user of allUsers.data) {
      console.log(user)
@@ -246,17 +246,17 @@ Faugra will give you:
 
 **What else?**
 
-1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/faugra/tree/master/examples/modularized).
+1. Faugra stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/brainyduck/tree/master/examples/modularized).
 2. Isn't basic CRUD enough? What about more complex custom resolvers? Faugra integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
 3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
 
-For more examples, please check our [examples directory](https://github.com/zvictor/faugra/tree/master/examples).
+For more examples, please check our [examples directory](https://github.com/zvictor/brainyduck/tree/master/examples).
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Bundling & Exporting
 
-By default, your SDK files will be cached at `./node_modules/faugra/.cache`. _Note that you can customize it by defining a different value to the `BRAINYDUCK_CACHE` env var._
+By default, your SDK files will be cached at `./node_modules/brainyduck/.cache`. _Note that you can customize it by defining a different value to the `BRAINYDUCK_CACHE` env var._
 
 Most of the times you are developing you **don't need to worry about the location of those files as Faugra manages them for you** internally. Sometimes, however, (specially when bundling your projects) you might need to think on how to move them around and make sure that they stay available to your code regardless of changes in the environment.
 
@@ -271,7 +271,7 @@ FROM node
 ...
 ADD ./src .
 RUN npm install
-RUN npx faugra build
+RUN npx brainyduck build
 ```
 
 ### clone
@@ -283,23 +283,23 @@ _We wish all ducks could be cloned that easily!_ 🐣🧬🧑‍🔬
 
 ```Dockerfile
 ...
-ENV BRAINYDUCK_CACHE /home/faugra
-ADD ./node_modules/faugra/.cache $BRAINYDUCK_CACHE
+ENV BRAINYDUCK_CACHE /home/brainyduck
+ADD ./node_modules/brainyduck/.cache $BRAINYDUCK_CACHE
 ```
 
 ### bundle
 
 We have built a special plugin to optimize the use of Faugra in Esbuild bundles.
-This plugin reroutes any `import ... from 'faugra'` statement to import your SDK directly, without any wrapper from Faugra.
+This plugin reroutes any `import ... from 'brainyduck'` statement to import your SDK directly, without any wrapper from Faugra.
 
 If you have `bundle: true` set in esbuild, your SDK code will be inlined in your built code and you won't need to worry about moving the SDK around. This is the recommended approach for many environments that don't work well with external dependencies, such as Cloudflare Workers.
 
-Examples: [basic-esbuild-bundle](https://github.com/zvictor/faugra/tree/master/examples/basic-esbuild-bundle) / [modularized-esbuild-bundle](https://github.com/zvictor/faugra/tree/master/examples/modularized-esbuild-bundle)
+Examples: [basic-esbuild-bundle](https://github.com/zvictor/brainyduck/tree/master/examples/basic-esbuild-bundle) / [modularized-esbuild-bundle](https://github.com/zvictor/brainyduck/tree/master/examples/modularized-esbuild-bundle)
 
 Setup:
 ```ts
 import { build } from 'esbuild'
-import bundler from 'faugra/bundlers/esbuild'
+import bundler from 'brainyduck/bundlers/esbuild'
 
 await build({
   ...
@@ -308,11 +308,11 @@ await build({
 })
 ```
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Contributing
 
-1. When debugging Faugra, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=faugra:*`) flag.
+1. When debugging Faugra, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=brainyduck:*`) flag.
 Please make sure you **have that included in your logs before you report any bug**.
 
 2. The tests are easy to run and are an important diagnosis tool to understand what could be going on in your environment.
@@ -332,19 +332,19 @@ TESTS_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh
 TESTS_SECRET=secret_for_an_exclusive_db ./tests/run-tests.sh specs/<command-name>.js
 ```
 
-You can also set `DEBUG=faugra:*` when running tests to get deeper insights.
+You can also set `DEBUG=brainyduck:*` when running tests to get deeper insights.
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Sponsors
 
-<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=faugra&utm_medium=sponsorship&utm_campaign=faugra&utm_id=faugra"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="Faugra's logo" /><br />
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Faugra's logo" /><br />
 Faugra needs your support!<br />
 Please consider helping us spread the word of the Duck to the world. 🐥🙏
 </a>
 <p>
 
-![divider](https://raw.githubusercontent.com/zvictor/faugra/master/.media/divider.png ':size=100%')
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 <p align="center">
 <sub><sup>Logo edited by <a href="https://github.com/zvictor">zvictor</a>, adapted from an illustration by <a href="https://pixabay.com/users/OpenClipart-Vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1299735">OpenClipart-Vectors</a><sub><sup>

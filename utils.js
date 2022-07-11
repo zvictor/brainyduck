@@ -72,7 +72,7 @@ export const loadSecret = () => {
 
   if (!secret) {
     console.error(
-      `The fauna secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/faugra/wiki/Fauna-secret\n`
+      `The fauna secret is missing! 🤷‍🥚\n\nPlease define a secret to get started. 💁🐣\n ↳ read more on https://github.com/zvictor/brainyduck/wiki/Fauna-secret\n`
     )
 
     throw new Error(`missing fauna's secret`)
@@ -104,7 +104,7 @@ export const patternMatch = async (pattern, cwd = process.cwd()) =>
   (await globby(pattern, { cwd, ignore: ignored })).map((x) => path.join(cwd, x))
 
 export const runFQL = (query, secret) => {
-  debug('faugra:runFQL')(`Executing query:\n${query}`)
+  debug('brainyduck:runFQL')(`Executing query:\n${query}`)
   const { FAUNA_DOMAIN, FAUNA_PORT, FAUNA_SCHEME } = process.env
 
   const tmpFile = temporaryFile()
@@ -132,20 +132,20 @@ export const runFQL = (query, secret) => {
   })
 
   if (exitCode) {
-    debug('faugra:runFQL')(`The query has failed to execute.`)
+    debug('brainyduck:runFQL')(`The query has failed to execute.`)
     console.error(stderr)
 
     throw new Error(`runFQL failed with exit code ${exitCode}`)
   }
 
-  debug('faugra:runFQL')(`The query has been executed`)
+  debug('brainyduck:runFQL')(`The query has been executed`)
   return JSON.parse(stdout)
 }
 
 export const importSchema = async (schema, { override, puke } = {}) => {
   const url = puke ? graphqlEndpoint.puke : graphqlEndpoint.import
 
-  debug('faugra:importSchema')(
+  debug('brainyduck:importSchema')(
     `Pushing the schema to ${url} in ${override ? 'OVERRIDE' : 'NORMAL'} mode`
   )
 
@@ -157,7 +157,9 @@ export const importSchema = async (schema, { override, puke } = {}) => {
       Authorization: `Bearer ${loadSecret()}`,
     }),
   })
-  debug('faugra:importSchema')(`The call to remote took ${performance.now() - t0} milliseconds.`)
+  debug('brainyduck:importSchema')(
+    `The call to remote took ${performance.now() - t0} milliseconds.`
+  )
 
   const message = await response.text()
   if (response.status !== 200) {

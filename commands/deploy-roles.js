@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 import { faunaClient, patternMatch, patterns, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:deploy-roles')
+const debug = _debug('brainyduck:deploy-roles')
 
 export default async function main(pattern = patterns.UDR) {
   debug(`Looking for files matching '${pattern}'`)

@@ -1,8 +1,8 @@
-import { faugra } from 'faugra'
+import { brainyduck } from 'brainyduck'
 const { log } = console
 
 async function main() {
-  const mutation = await faugra().createPost({
+  const mutation = await brainyduck().createPost({
     data: {
       title: 'a post title',
       content: 'some post content',
@@ -12,7 +12,7 @@ async function main() {
 
   log(`post created with id: ${mutation.createPost._id}\n`)
 
-  log(await faugra().findPostByID({ id: mutation.createPost._id }))
+  log(await brainyduck().findPostByID({ id: mutation.createPost._id }))
 }
 
 main()

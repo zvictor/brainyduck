@@ -1,13 +1,13 @@
 {
-  "name": "faugra-example-basic-esbuild",
+  "name": "brainyduck-example-basic-esbuild",
   "version": "1.0.0",
   "scripts": {
-    "build": "faugra build && node build.mjs",
-    "deploy": "faugra deploy",
+    "build": "brainyduck build && node build.mjs",
+    "deploy": "brainyduck deploy",
     "start": "node ./build/index.js"
   },
   "dependencies": {
-    "faugra": "../..",
+    "brainyduck": "../..",
     "graphql-request": "^4.3.0"
   },
   "devDependencies": {

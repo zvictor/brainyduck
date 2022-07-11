@@ -17,7 +17,7 @@ import push from './deploy-schemas.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const debug = _debug('faugra:build')
+const debug = _debug('brainyduck:build')
 
 const config = {
   filename: 'output.ts',
@@ -106,7 +106,7 @@ export default async function main(
   const sdk = `${await generateSdk(schema, await documentsPattern)}
 export type { Dom };
 
-export default function faugra({
+export default function brainyduck({
   secret = process?.env.FAUNA_SECRET,
   endpoint = process?.env.FAUNA_ENDPOINT,
 } = {}) {
@@ -123,7 +123,7 @@ export default function faugra({
   )
 }
 
-export { faugra }`
+export { brainyduck }`
 
   if (!output) {
     return sdk

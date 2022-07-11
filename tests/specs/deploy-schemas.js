@@ -12,7 +12,7 @@ test('push a basic schema', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd,
   })
 
@@ -40,7 +40,7 @@ test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd,
   })
 

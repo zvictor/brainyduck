@@ -12,7 +12,7 @@ beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 test('fails on empty schema', async () => {
   try {
     execaSync('node', ['../../cli.js', 'pull-schema'], {
-      env: { DEBUG: 'faugra:*' },
+      env: { DEBUG: 'brainyduck:*' },
       cwd: path.dirname(fileURLToPath(import.meta.url)),
     })
 
@@ -35,7 +35,7 @@ test('fetch schema from fauna', async () => {
   await importSchema(schema, { override: true })
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pull-schema'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 

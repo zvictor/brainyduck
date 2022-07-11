@@ -5,7 +5,7 @@ const filePath = locateCache('sdk.cjs')
 
 if (!fs.existsSync(filePath)) {
   console.error(
-    `Project is missing SDK! 🤷‍🐣\n\nPlease run 'npx faugra dev' (or 'npx faugra build') in your project diretory to get started. 💁🐥\n ↳ read more on https://github.com/zvictor/faugra/wiki/Missing-sdk\n`
+    `Project is missing SDK! 🤷‍🐣\n\nPlease run 'npx brainyduck dev' (or 'npx brainyduck build') in your project diretory to get started. 💁🐥\n ↳ read more on https://github.com/zvictor/brainyduck/wiki/Missing-sdk\n`
   )
 
   console.error(`Debug info: no file could be found at\n ↳ ${filePath}\n`)
@@ -14,7 +14,7 @@ if (!fs.existsSync(filePath)) {
 
 if (require.main === module) {
   console.error(
-    `You tried executing faugra in some unexpected and unsupported way! 🤷‍🍳\n\nPlease run 'npx faugra --help' in your project diretory to get started. 💁🥚\n ↳ or ask for help on https://github.com/zvictor/faugra/discussions\n`
+    `You tried executing brainyduck in some unexpected and unsupported way! 🤷‍🍳\n\nPlease run 'npx brainyduck --help' in your project diretory to get started. 💁🥚\n ↳ or ask for help on https://github.com/zvictor/brainyduck/discussions\n`
   )
 
   throw new Error('Non executable file')
