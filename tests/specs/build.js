@@ -13,7 +13,7 @@ import {
   removeRetryMessages,
 } from '../testUtils.js'
 
-const debug = _debug('faugra:test:build')
+const debug = _debug('brainyduck:test:build')
 const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
 setupEnvironment(`build`)
 
@@ -46,7 +46,10 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   const { stdout, stderr, exitCode } = execaSync(
     'node',
     ['../../cli.js', 'build', 'Schema.graphql'],
-    { env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache.TEST }, cwd }
+    {
+      env: { DEBUG: 'brainyduck:*', BRAINYDUCK_SECRET: undefined, BRAINYDUCK_CACHE: cache.TEST },
+      cwd,
+    }
   )
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
@@ -97,7 +100,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   // ts-node tests
   outputCheck(
     execaSync(findBin('ts-node'), ['index.ts'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'ts-node'
@@ -109,7 +112,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
     execaSync(findBin('tsc'), ['index.ts', '--declaration', '--outDir', './build'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       stdio: ['ignore', process.stdout, process.stderr],
       cwd,
     })
@@ -117,7 +120,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsc'
@@ -141,7 +144,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         tsconfig,
       ],
       {
-        env: { FAUGRA_CACHE: cache.TEST },
+        env: { BRAINYDUCK_CACHE: cache.TEST },
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -150,7 +153,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsup (ESM)'
@@ -174,7 +177,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         tsconfig,
       ],
       {
-        env: { FAUGRA_CACHE: cache.TEST },
+        env: { BRAINYDUCK_CACHE: cache.TEST },
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -183,7 +186,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsup (CJS)'
@@ -204,7 +207,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         'index.ts',
       ],
       {
-        env: { FAUGRA_CACHE: cache.TEST },
+        env: { BRAINYDUCK_CACHE: cache.TEST },
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -213,7 +216,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'esbuild (ESM)'
@@ -227,7 +230,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       findBin('esbuild'),
       ['--sourcemap', '--outdir=./build', '--format=cjs', `--tsconfig=${tsconfig}`, 'index.ts'],
       {
-        env: { FAUGRA_CACHE: cache.TEST },
+        env: { BRAINYDUCK_CACHE: cache.TEST },
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -236,7 +239,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUGRA_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'esbuild (CJS)'
@@ -249,7 +252,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*', BRAINYDUCK_SECRET: undefined },
     cwd,
   })
 

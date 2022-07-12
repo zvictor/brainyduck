@@ -10,7 +10,7 @@ import { UrlLoader } from '@graphql-tools/url-loader'
 import { mergeTypeDefs } from '@graphql-tools/merge'
 import { graphqlEndpoint, loadSecret } from '../utils.js'
 
-const debug = _debug('faugra:pull-schema')
+const debug = _debug('brainyduck:pull-schema')
 
 const options = {
   loaders: [new UrlLoader()],

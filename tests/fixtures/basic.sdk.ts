@@ -243,7 +243,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
 export type Sdk = ReturnType<typeof getSdk>;
 export type { Dom };
 
-export default function faugra({
+export default function brainyduck({
   secret = process?.env.FAUNA_SECRET,
   endpoint = process?.env.FAUNA_ENDPOINT,
 } = {}) {
@@ -260,4 +260,4 @@ export default function faugra({
   )
 }
 
-export { faugra }
+export { brainyduck }

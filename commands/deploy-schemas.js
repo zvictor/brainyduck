@@ -7,7 +7,7 @@ import figures from 'figures'
 import { fileURLToPath } from 'url'
 import { patternMatch, importSchema } from '../utils.js'
 
-const debug = _debug('faugra:deploy-schemas')
+const debug = _debug('brainyduck:deploy-schemas')
 
 const extendTypes = (schema) => {
   const regexp = /^[\s]*(?!#)[\s]*extend[\s]+type[\s]+([^\s]+)[\s]*\{([^\}]*)}/gm
@@ -65,7 +65,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   ;(async () => {
     const [inputPath] = process.argv.slice(2)
 
-    if (process.env.FAUGRA_OVERWRITE) {
+    if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset({ collections: true, schemas: true })
     }

@@ -1,4 +1,4 @@
-import sdk from 'faugra'
+import sdk from 'brainyduck'
 import { NextApiResponse } from 'next'
 import withSession, { ApiRequestWithSession } from '|lib/withSession'
 

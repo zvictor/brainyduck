@@ -1,13 +1,13 @@
 {
-  "name": "faugra-example-modularized",
+  "name": "brainyduck-example-modularized",
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "faugra dev",
+    "dev": "brainyduck dev",
     "start": "node --loader ts-node/esm index.ts"
   },
   "dependencies": {
-    "faugra": "../..",
+    "brainyduck": "../..",
     "graphql-request": "^4.3.0"
   },
   "devDependencies": {

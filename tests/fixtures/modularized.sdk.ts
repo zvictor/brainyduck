@@ -188,6 +188,35 @@ export type UserInput = {
   name: Scalars['String'];
 };
 
+export type AllPostsQueryVariables = Exact<{
+  _size?: InputMaybe<Scalars['Int']>;
+  _cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type AllPostsQuery = { __typename?: 'Query', allPosts: { __typename?: 'PostPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null> } };
+
+export type FindPostByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FindPostByIdQuery = { __typename?: 'Query', findPostByID?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
+
+export type FindUserByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
+
+export type SayHelloQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type SayHelloQuery = { __typename?: 'Query', sayHello: string };
+
 export type CreatePostMutationVariables = Exact<{
   data: PostInput;
 }>;
@@ -248,36 +277,55 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
 
-export type AllPostsQueryVariables = Exact<{
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
-}>;
 
-
-export type AllPostsQuery = { __typename?: 'Query', allPosts: { __typename?: 'PostPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null> } };
-
-export type FindPostByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type FindPostByIdQuery = { __typename?: 'Query', findPostByID?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
-
-export type FindUserByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
-
-export type SayHelloQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type SayHelloQuery = { __typename?: 'Query', sayHello: string };
-
-
+export const AllPostsDocument = gql`
+    query allPosts($_size: Int, $_cursor: String) {
+  allPosts(_size: $_size, _cursor: $_cursor) {
+    data {
+      author {
+        _id
+        _ts
+        name
+      }
+      _id
+      content
+      title
+      _ts
+    }
+    after
+    before
+  }
+}
+    `;
+export const FindPostByIdDocument = gql`
+    query findPostByID($id: ID!) {
+  findPostByID(id: $id) {
+    author {
+      _id
+      _ts
+      name
+    }
+    _id
+    content
+    title
+    _ts
+  }
+}
+    `;
+export const FindUserByIdDocument = gql`
+    query findUserByID($id: ID!) {
+  findUserByID(id: $id) {
+    _id
+    _ts
+    name
+  }
+}
+    `;
+export const SayHelloDocument = gql`
+    query sayHello($name: String!) {
+  sayHello(name: $name)
+}
+    `;
 export const CreatePostDocument = gql`
     mutation createPost($data: PostInput!) {
   createPost(data: $data) {
@@ -374,54 +422,6 @@ export const UpdateUserDocument = gql`
   }
 }
     `;
-export const AllPostsDocument = gql`
-    query allPosts($_size: Int, $_cursor: String) {
-  allPosts(_size: $_size, _cursor: $_cursor) {
-    data {
-      author {
-        _id
-        _ts
-        name
-      }
-      _id
-      content
-      title
-      _ts
-    }
-    after
-    before
-  }
-}
-    `;
-export const FindPostByIdDocument = gql`
-    query findPostByID($id: ID!) {
-  findPostByID(id: $id) {
-    author {
-      _id
-      _ts
-      name
-    }
-    _id
-    content
-    title
-    _ts
-  }
-}
-    `;
-export const FindUserByIdDocument = gql`
-    query findUserByID($id: ID!) {
-  findUserByID(id: $id) {
-    _id
-    _ts
-    name
-  }
-}
-    `;
-export const SayHelloDocument = gql`
-    query sayHello($name: String!) {
-  sayHello(name: $name)
-}
-    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -430,6 +430,18 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    allPosts(variables?: AllPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllPostsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AllPostsQuery>(AllPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allPosts', 'query');
+    },
+    findPostByID(variables: FindPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindPostByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindPostByIdQuery>(FindPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findPostByID', 'query');
+    },
+    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
+    },
+    sayHello(variables: SayHelloQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SayHelloQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SayHelloQuery>(SayHelloDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sayHello', 'query');
+    },
     createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost', 'mutation');
     },
@@ -453,25 +465,13 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
-    },
-    allPosts(variables?: AllPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllPostsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllPostsQuery>(AllPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allPosts', 'query');
-    },
-    findPostByID(variables: FindPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindPostByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindPostByIdQuery>(FindPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findPostByID', 'query');
-    },
-    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
-    },
-    sayHello(variables: SayHelloQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SayHelloQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SayHelloQuery>(SayHelloDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sayHello', 'query');
     }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
 export type { Dom };
 
-export default function faugra({
+export default function brainyduck({
   secret = process?.env.FAUNA_SECRET,
   endpoint = process?.env.FAUNA_ENDPOINT,
 } = {}) {
@@ -488,4 +488,4 @@ export default function faugra({
   )
 }
 
-export { faugra }
+export { brainyduck }

@@ -5,7 +5,7 @@ import { paramCase } from 'param-case'
 import { faunaClient, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:test')
+const debug = _debug('brainyduck:test')
 
 export const createDatabase = (name, secret) =>
   runFQL(
@@ -37,7 +37,7 @@ export const setupEnvironment = (name, options = {}) => {
 
   end(() => {
     deleteDatabase(dbName, process.env.TESTS_SECRET)
-    delete process.env.FAUGRA_CACHE
+    delete process.env.BRAINYDUCK_CACHE
   })
   debug(`Deleted database ${timestamp}_${name}`)
 }

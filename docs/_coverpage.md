@@ -1,4 +1,4 @@
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/logo.png" alt="faugra's logo" /><p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" /><p>
 
 <p align="center">
   <strong>A micro "no-backend" framework 🤯</strong><br />
@@ -6,8 +6,8 @@
 </p>
 
 <p align="center">
-  <a href="/faugra/#/?id=getting-started">Getting started 🐣</a> | <a href="/faugra/#/?id=installation">Installation 🚜</a> | <a href="/faugra/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/faugra/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/faugra">NPM 📦</a> | <a href="https://github.com/zvictor/faugra">Github 🕸</a>
+  <a href="/brainyduck/#/?id=getting-started">Getting started 🐣</a> | <a href="/brainyduck/#/?id=installation">Installation 🚜</a> | <a href="/brainyduck/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a>
 </p>
 <br />
 
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/faugra@master/.media/transformation.png" alt="faugra's transformation diagram" /><p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" /><p>

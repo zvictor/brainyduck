@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 import { faunaClient, patternMatch, patterns, runFQL } from '../utils.js'
 
 const { query: q } = faunadb
-const debug = _debug('faugra:deploy-indexes')
+const debug = _debug('brainyduck:deploy-indexes')
 
 export default async function main(pattern = patterns.INDEX) {
   debug(`Looking for files matching '${pattern}'`)
@@ -60,7 +60,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const [pattern] = process.argv.slice(2)
 
   ;(async () => {
-    if (process.env.FAUGRA_OVERWRITE) {
+    if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset({ indexes: true })
     }

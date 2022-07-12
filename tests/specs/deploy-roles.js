@@ -13,7 +13,7 @@ test('role definitions should not accept simplified formats', async () => {
 
   try {
     execaSync('node', ['../../cli.js', 'deploy-roles', 'simplified.role'], {
-      env: { DEBUG: 'faugra:*' },
+      env: { DEBUG: 'brainyduck:*' },
       cwd,
     })
 
@@ -33,7 +33,7 @@ test('role name should match file name', async () => {
 
   try {
     execaSync('node', ['../../cli.js', 'deploy-roles', 'unmatched.role'], {
-      env: { DEBUG: 'faugra:*' },
+      env: { DEBUG: 'brainyduck:*' },
       cwd,
     })
 
@@ -53,7 +53,7 @@ test('upload all roles: publicAccess', async () => {
 
   // the referred functions needs to be defined first
   const functions = execaSync('node', ['../../cli.js', 'deploy-functions'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd,
   })
 
@@ -67,7 +67,7 @@ test('upload all roles: publicAccess', async () => {
 
   // ... and only then their access permission can be defined
   const roles = execaSync('node', ['../../cli.js', 'deploy-roles'], {
-    env: { DEBUG: 'faugra:*' },
+    env: { DEBUG: 'brainyduck:*' },
     cwd,
   })
 

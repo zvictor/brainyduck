@@ -3,7 +3,7 @@
 const scream = (e) => {
   console.error(e.stack || e)
 
-  if (e.message === `missing faugra's secret`) {
+  if (e.message === `missing brainyduck's secret`) {
     process.exit(1)
   }
 }
@@ -25,7 +25,7 @@ import deploySchemas from './deploy-schemas.js'
 import build from './build.js'
 import { patterns, ignored } from '../utils.js'
 
-const debug = _debug('faugra:watcher')
+const debug = _debug('brainyduck:watcher')
 
 const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
@@ -87,7 +87,7 @@ const watch = (type, pattern, operation, cumulative) =>
   new Promise((resolve) => {
     chokidar
       .watch(pattern, {
-        ignoreInitial: Boolean(process.env.FAUGRA_WATCH_CHANGES),
+        ignoreInitial: Boolean(process.env.BRAINYDUCK_WATCH_CHANGES),
         ignored: [/(^|[\/\\])\../, ...ignored],
         persistent: true,
         cwd: path.resolve(directory),
@@ -140,7 +140,7 @@ export default async function main() {
 
   debug('Initial scan complete')
 
-  if (process.env.FAUGRA_NO_WATCH) {
+  if (process.env.BRAINYDUCK_NO_WATCH) {
     queue.onIdle().then(() => {
       runCallback()
 
@@ -175,7 +175,7 @@ export default async function main() {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   ;(async () => {
-    if (process.env.FAUGRA_OVERWRITE) {
+    if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset()
     }

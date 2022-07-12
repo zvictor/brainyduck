@@ -65,7 +65,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const types =
       process.argv[2] && Object.fromEntries(process.argv[2].split(',').map((type) => [type, true]))
 
-    if (process.env.FAUGRA_OVERWRITE) {
+    if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset(types)
     }

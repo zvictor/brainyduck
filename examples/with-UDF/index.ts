@@ -1,7 +1,7 @@
-import faugra from 'faugra'
+import brainyduck from 'brainyduck'
 
-faugra().sayHi({ name: 'dimension C-137' }).then(console.log)
-faugra().sayHello({ name: 'dimension C-137' }).then(console.log)
+brainyduck().sayHi({ name: 'dimension C-137' }).then(console.log)
+brainyduck().sayHello({ name: 'dimension C-137' }).then(console.log)
 
 // Expected output of this script:
 

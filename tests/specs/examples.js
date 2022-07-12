@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url'
 import { temporaryDirectory } from 'tempy'
 import { setupEnvironment } from '../testUtils.js'
 
-const debug = _debug('faugra:test:examples')
+const debug = _debug('brainyduck:test:examples')
 
 setupEnvironment(`examples`, { beforeEach: true })
 
@@ -35,7 +35,7 @@ for (const name of examples) {
 
     if (scripts.build) {
       const build = execaSync('npm', ['run', '--silent', 'build'], {
-        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache },
         cwd,
       })
 
@@ -49,7 +49,7 @@ for (const name of examples) {
 
     if (scripts.deploy) {
       const deploy = execaSync('npm', ['run', '--silent', 'deploy'], {
-        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache },
         cwd,
       })
 
@@ -63,7 +63,7 @@ for (const name of examples) {
 
     if (scripts.dev) {
       const dev = execaSync('npm', ['run', '--silent', 'dev', '--', '--no-watch'], {
-        env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache },
         cwd,
       })
 
@@ -76,7 +76,7 @@ for (const name of examples) {
     }
 
     const run = execaSync('npm', ['run', '--silent', 'start'], {
-      env: { DEBUG: 'faugra:*', FAUGRA_CACHE: cache, TS_NODE_TRANSPILE_ONLY: 'true' },
+      env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache, TS_NODE_TRANSPILE_ONLY: 'true' },
       cwd,
     })
 
