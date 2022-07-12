@@ -153,9 +153,11 @@ export const importSchema = async (schema, { override, puke } = {}) => {
   const response = await fetch(`${url}${override ? '?mode=override' : ''}`, {
     method: 'POST',
     body: schema,
-    headers: new Headers({
-      Authorization: `Bearer ${loadSecret()}`,
-    }),
+    headers: puke
+      ? {}
+      : new Headers({
+          Authorization: `Bearer ${loadSecret()}`,
+        }),
   })
   debug('brainyduck:importSchema')(
     `The call to remote took ${performance.now() - t0} milliseconds.`
