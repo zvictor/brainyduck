@@ -1,4 +1,4 @@
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="brainyduck's logo" /><p>
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" /><p>
 
 <p align="center">
   <strong>A micro "no-backend" framework 🤯</strong><br />

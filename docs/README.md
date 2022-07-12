@@ -338,7 +338,7 @@ You can also set `DEBUG=brainyduck:*` when running tests to get deeper insights.
 
 ## Sponsors
 
-<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Brainyduck's logo" /><br />
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/duck.png" alt="Brainyduck's logo" /><br />
 Brainyduck needs your support!<br />
 Please consider helping us spread the word of the Duck to the world. 🐥🙏
 </a>

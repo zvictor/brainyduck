@@ -1,4 +1,10 @@
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="brainyduck's logo" /><p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-light.png">
+    <img alt="Brainyduck's logo" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png">
+  </picture>
+<p>
 
 <p align="center">
   <strong>A micro "no-backend" framework 🤯</strong><br />
@@ -28,7 +34,7 @@ Please refer to the [documentation](https://zvictor.github.io/brainyduck/#/?id=w
 
 ## Sponsors
 
-<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png" alt="Brainyduck's logo" /><br />
+<p align="center"><a style="color: inherit" href="https://github.com/sponsors/zvictor?utm_source=brainyduck&utm_medium=sponsorship&utm_campaign=brainyduck&utm_id=brainyduck"><img width="150px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/duck.png" alt="Brainyduck's logo" /><br />
 Brainyduck needs your support!<br />
 Please consider helping us spread the word of the Duck to the world. 🐥🙏
 </a>
