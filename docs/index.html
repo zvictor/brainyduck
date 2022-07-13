@@ -73,7 +73,7 @@
 
       .cover {
         background: url('https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/waves.svg')
-            0 0 / 100% 100% no-repeat no-repeat,
+            0 bottom / 100% 100% no-repeat no-repeat,
           linear-gradient(#222, var(--base-background-color) 30%, #fff 300%) !important;
         color: #dddddd;
         font-size: 1.1rem;
@@ -85,6 +85,12 @@
 
       a {
         font-weight: bold;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .cover {
+          background-position-y: 50% !important;
+        }
       }
     </style>
   </head>
