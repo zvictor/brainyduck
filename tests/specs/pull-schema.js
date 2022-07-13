@@ -1,8 +1,8 @@
 import path from 'path'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
-import reset from '../../commands/reset.js'
-import { importSchema } from '../../utils.js'
+import reset from 'brainyduck/reset'
+import { importSchema } from 'brainyduck/utils'
 import { setupEnvironment, amountOfCollectionsCreated } from '../testUtils.js'
 
 setupEnvironment(`pull-schema`)

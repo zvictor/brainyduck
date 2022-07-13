@@ -254,6 +254,45 @@ For more examples, please check our [examples directory](https://github.com/zvic
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
+## CLI and Programatic Access
+
+All commands can be accessed in multiple ways.
+
+Note that all CLI options have an equivalent environment variable you can set directly, as long as you follow the [constant case pattern](https://github.com/zvictor/brainyduck/blob/36f39d9b9e6c50654967b876767abdd905488b7c/cli.js#L18-L27) to do so.
+
+Fauna options start with `FAUNA_` and all other ones start with `BRAINYDUCK_`.
+
+E.g `--overwrite` becomes `BRAINYDUCK_OVERWRITE`; `--graphql-domain` becomes `FAUNA_GRAPHQL_DOMAIN`.
+
+### Centralized CLI
+
+Just run `npx brainyduck <command-name> [options]`.
+
+For more information, please check [usage](#usage) or run `npx brainyduck --help`.
+
+### Programmatically
+
+Looking for fancy ways to automate your processes? You can import Brainyduck directly into your scripts, using the `import('brainyduck/<command-name>')` pattern, like shown in the example below:
+
+```ts
+import build from 'brainyduck/build'
+
+await build()
+```
+
+### Direct CLI
+
+You can access each command while skipping the CLI wrapper altogether
+
+```markup
+node ./node_modules/brainyduck/commands/<command-name> [...args]
+```
+
+_The parameters of each script vary from file to file. You will need to [check the signature of each command](https://github.com/zvictor/brainyduck/tree/master/commands) on your own._
+
+
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
+
 ## Bundling & Exporting
 
 By default, your SDK files will be cached at `./node_modules/brainyduck/.cache`. _Note that you can customize it by defining a different value to the `BRAINYDUCK_CACHE` env var._

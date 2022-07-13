@@ -4,8 +4,8 @@ import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import path, { resolve } from 'path'
 import { temporaryDirectory, temporaryFile } from 'tempy'
-import reset from '../../commands/reset'
-import { findBin } from '../../utils'
+import reset from 'brainyduck/reset'
+import { findBin } from 'brainyduck/utils'
 import {
   setupEnvironment,
   amountOfCollectionsCreated,

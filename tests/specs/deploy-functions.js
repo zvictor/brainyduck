@@ -1,7 +1,7 @@
 import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import reset from '../../commands/reset.js'
+import reset from 'brainyduck/reset'
 import { setupEnvironment, amountOfFunctionsCreated } from '../testUtils.js'
 
 setupEnvironment(`deploy-functions`)
