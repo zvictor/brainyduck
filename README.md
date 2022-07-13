@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png">
     <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-light.png">
-    <img alt="Brainyduck's logo" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png">
+    <img width="280px" alt="Brainyduck's logo" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo.png">
   </picture>
 <p>
 
@@ -16,7 +16,7 @@
 </p>
 <br />
 
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" /><p>
+<p align="center"><img width="800px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" /><p>
 
 ## Why
 
