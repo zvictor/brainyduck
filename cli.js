@@ -128,7 +128,7 @@ program
 
   .command(
     'deploy [types]',
-    'deploy the local folder to your database. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]',
+    'deploy the local folder to your database. Defaults: [types: schemas,functions,indexes,roles]',
     {
       executableFile: fileURLToPath(new URL('./commands/deploy.js', import.meta.url)),
     }

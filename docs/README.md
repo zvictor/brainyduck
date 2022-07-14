@@ -31,7 +31,7 @@ Just run `npx brainyduck` on your schemas and the times in which you had to manu
 - 👀&nbsp; Quite a few examples in the [./examples](https://github.com/zvictor/brainyduck/tree/master/examples) folder.
 
 <details>
-  <summary>Read more</summary>
+  <summary><h4 style="display: inline">Read more</h4></summary>
 
 Given a GraphQL schema looking anything like this:
 
@@ -235,7 +235,7 @@ Options:
 Commands:
   build [schemas-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <BRAINYDUCK_CACHE>]
   dev [directory]                                       build, deploy and watch for changes. Defaults: [directory: <pwd>]
-  deploy [types]                                        deploy the local folder to your database. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
+  deploy [types]                                        deploy the local folder to your database. Defaults: [types: schemas,functions,indexes,roles]
   deploy-schemas [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
   deploy-functions [pattern]                            upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: **/*.udf]
   deploy-indexes [pattern]                              upload your User-Defined Indexes to faunadb. Defaults: [pattern: **/*.index]
@@ -244,6 +244,125 @@ Commands:
   reset [types]                                         wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]
   help [command]                                        display help for command
 ```
+
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
+
+## Commands
+
+### build
+
+Throw graphql schemas in and get a well typed api back. Simple like that!
+
+After running `build` you can add `import sdk from 'brainyduck'` statements in your code and run queries against your database directly.
+
+CLI:
+```shell
+npx brainyduck build [schema-pattern] [documents-pattern] [output]
+```
+
+Defaults:
+* _schema-pattern_: `**/[A-Z]*.(graphql|gql)`
+* _documents-pattern_: `**/[a-z]*.(graphql|gql)`
+* _output_: `<stdout>`
+
+### dev
+
+[Builds](#build), [deploys](#deploy), and watches for changes.
+
+CLI:
+```shell
+npx brainyduck dev [directory]
+```
+
+Defaults:
+* _directory_: `<pwd>`
+
+
+### deploy
+
+Deploys [schemas](#deploy-schemas), [functions](#deploy-functions), [indexes](#deploy-indexes), and [roles](#deploy-roles).
+
+CLI:
+```shell
+npx brainyduck deploy [types]
+```
+
+Defaults:
+* _types_: `schemas,functions,indexes,roles`
+
+### deploy-schemas
+
+Deploys the selected schemas to your database, creating collections accordingly.
+
+CLI:
+```shell
+npx brainyduck deploy-schemas [pattern]
+```
+
+Defaults:
+* _pattern_: `**/*.(graphql|gql)`
+
+### deploy-functions
+
+Deploys your [User-Defined Functions (UDF)](https://docs.fauna.com/fauna/current/build/fql/udfs).
+
+CLI:
+```shell
+npx brainyduck deploy-functions [pattern]
+```
+
+Defaults:
+* _pattern_: `**/*.udf`
+
+### deploy-indexes
+
+Deploys your [User-Defined Indexes](https://docs.fauna.com/fauna/current/api/fql/indexes).
+
+CLI:
+```shell
+npx brainyduck deploy-indexes [pattern]
+```
+
+Defaults:
+* _pattern_: `**/*.index`
+
+### deploy-roles
+
+Deploys your [User-Defined Roles (UDR)](https://docs.fauna.com/fauna/current/security/roles) to your database.
+
+CLI:
+```shell
+npx brainyduck deploy-roles [pattern]
+```
+
+Defaults:
+* _pattern_: `**/*.role`
+
+### pull-schema
+Downloads the schema from Fauna and outputs the result.
+Useful only for debugging or inspecting purposes, otherwise used only internally.
+
+CLI:
+```shell
+npx brainyduck pull-schema [output]
+```
+
+Defaults:
+* _output_: `<stdout>`
+
+### reset
+
+The fastest way to restart or get rid of data you don't want to keep anymore.
+
+**BE CAREFUL, though, as the actions performed by `reset` are irreversible.** Please double check your `--secret` before running this command!
+
+CLI:
+```shell
+npx brainyduck reset [types]
+```
+
+Defaults:
+* _types_: `functions,indexes,roles,documents,collections,databases,schemas`
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
