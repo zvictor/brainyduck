@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>A micro "no-backend backend framework" 🤯</strong><br />
-  <sub>Turn any schema into a next-gen backend (BaaS) with 1 single command!</sub>
+  <sub>Turn any schema into a next-gen backend (BaaS) with a single command! 😮</sub>
 </p>
 
 <p align="center">
