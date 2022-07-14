@@ -7,22 +7,24 @@
 <p>
 
 <p align="center">
-  <strong>A micro "no-backend" framework 🤯</strong><br />
-  <sub>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
+  <strong>A micro "no-backend backend framework" 🤯</strong><br />
+  <sub>Turn any schema into a next-gen backend (BaaS) with 1 single command!</sub>
 </p>
 
 <p align="center">
-  [ <a href="https://duck.brainy.sh/#/?id=getting-started">Getting started 🐣</a> | <a href="https://duck.brainy.sh/#/?id=installation">Installation 🚜</a> | <a href="https://duck.brainy.sh/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a> ]
+  [ <a href="https://duck.brainy.sh/#/?id=introduction">Features 🦆</a> | <a href="https://duck.brainy.sh/#/?id=getting-started">Getting started 🐣</a> | <a href="https://duck.brainy.sh/#/?id=installation">Installation 🚜</a> | <a href="https://duck.brainy.sh/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a> ]
 </p>
 <br />
 
 <p align="center"><img width="800px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" /><p>
 
-## Why
+## Intro
 
-Building world-class backend as a service became accessible with the advent of technologies such as graphql and faunadb. Within this new paradigm, a whole new setup and deployment requisites were introduced to your project development.
+Brainyduck helps you transition your backend to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
-We have built Brainyduck to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
+Worry not about new and complex setup and deployment requisites: The graphql schemas you already have is all you need to build a world-class & reliable endpoint.
+
+Just run `npx brainyduck` on your schemas and the times in which you had to manually setup your backend will forever be gone! Never find yourself redefining types in multiple files, ever again. 🥹
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png)
 

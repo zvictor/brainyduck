@@ -8,6 +8,8 @@ Just run `npx brainyduck` on your schemas and the times in which you had to manu
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
+<h1>The first micro "no-backend backend framework" 🤯</h1>
+
 ## Features
 
 #### Code generation
@@ -17,9 +19,9 @@ Just run `npx brainyduck` on your schemas and the times in which you had to manu
 - ⛰&nbsp; Schemas are [expanded to provide basic CRUD](https://docs.fauna.com/fauna/current/api/graphql/schemas) automatically (_i.e. no need to define resolvers for basic operations!_).
 - 🔎&nbsp; Validation of required and non-nullable fields against provided data.
 
-#### BaaS (by FaunaDB)
+#### Backend (by Fauna)
 
-- 🦄&nbsp; All the data persists on a [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) 🤘.
+- 🦄&nbsp; All the data persists on a [next-gen data backend](https://docs.fauna.com/fauna/current/introduction) 🤘.
 - 👨‍👩‍👦‍👦&nbsp; Support for [relationships between documents](https://docs.fauna.com/fauna/current/learn/tutorials/graphql/relations/), within the schema definition.
 - 🔒&nbsp; [Authentication and access control security](https://docs.fauna.com/fauna/current/security/) at the data level (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)).
 

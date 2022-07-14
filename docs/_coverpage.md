@@ -1,13 +1,15 @@
-<p align="center"><img width="320px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" /><p>
+<p align="center">
+  <img id="logo" width="320px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" />
+<p>
 
 <p align="center">
-  <h1>A micro "no-backend" framework 🤯</h1>
-  <h2>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</h2>
+  <h1>Turn any schema into a next-gen backend (BaaS) with 1 single command!</h1>
 </p>
 
-<img src="https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png" alt="divider" width="100%" style="max-width: 800px">
+<img src="https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png" alt="divider" width="100%" style="max-width: 920px">
 
 <nav align="center">
+  <a href="/#/?id=introduction">Features 🦆</a>
   <a href="/#/?id=getting-started">Getting started 🐣</a>
   <a href="/#/?id=installation">Installation 🚜</a>
   <a href="/#/?id=usage">Usage 🍗</a>
@@ -37,7 +39,7 @@
 
 <div class="glass">
   <p class="horizontal">
-    <img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" style="max-width: 1024px" />
+    <img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" width="100%" style="max-width: 1024px" />
   <p>
 
 
