@@ -1,7 +1,7 @@
 {
   "name": "brainyduck",
   "version": "0.0.55",
-  "description": "Build powerful BaaS while leveraging the power of serverless and modern architectures",
+  "description": "Quickly build powerful backends using only your graphql schemas",
   "keywords": [
     "BaaS",
     "fauna",
