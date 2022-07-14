@@ -109,6 +109,19 @@
         -webkit-backdrop-filter: blur(6.2px);
       }
 
+      .operative::before {
+        position: absolute;
+        right: 45px;
+        content: 'operative';
+        font-size: 0.8rem;
+        font-weight: bold;
+        background: var(--code-theme-background);
+        transform: translateY(-100%);
+        display: inline;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+
       @media screen and (max-width: 1024px) {
         .cover {
           --background-height: 50%;

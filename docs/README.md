@@ -249,6 +249,9 @@ Commands:
 
 ## Commands
 
+Commands with the **operative** badge require a `--secret` value to be passed along and are designed to make changes to the database associated to the given key.
+
+Using a wrong secret can have unintended and possibly drastic effects on your data. So please **make sure you are using the right secret whenever running a command!**
 ### build
 
 Throw graphql schemas in and get a well typed api back. Simple like that!
@@ -266,8 +269,12 @@ Defaults:
 * _output_: `<stdout>`
 
 ### dev
+<div class="operative"></div>
 
-[Builds](#build), [deploys](#deploy), and watches for changes.
+[Builds](#build), [deploys](#deploy) (override mode), and watches for changes.
+
+This is usually the command you run when you are developing locally, **never the command you run against production**.
+You are recommended to create a secret in a new database, just for the dev environment, before running this command.
 
 CLI:
 ```shell
@@ -279,8 +286,10 @@ Defaults:
 
 
 ### deploy
+<div class="operative"></div>
 
-Deploys [schemas](#deploy-schemas), [functions](#deploy-functions), [indexes](#deploy-indexes), and [roles](#deploy-roles).
+Deploys [schemas](#deploy-schemas) (merge mode), [functions](#deploy-functions), [indexes](#deploy-indexes), and [roles](#deploy-roles).
+This is usually the command you run when you have finished developing locally and want to ship to production. Just remember to use the right `--secret` value for that.
 
 CLI:
 ```shell
@@ -291,6 +300,7 @@ Defaults:
 * _types_: `schemas,functions,indexes,roles`
 
 ### deploy-schemas
+<div class="operative"></div>
 
 Deploys the selected schemas to your database, creating collections accordingly.
 
@@ -303,6 +313,7 @@ Defaults:
 * _pattern_: `**/*.(graphql|gql)`
 
 ### deploy-functions
+<div class="operative"></div>
 
 Deploys your [User-Defined Functions (UDF)](https://docs.fauna.com/fauna/current/build/fql/udfs).
 
@@ -315,6 +326,7 @@ Defaults:
 * _pattern_: `**/*.udf`
 
 ### deploy-indexes
+<div class="operative"></div>
 
 Deploys your [User-Defined Indexes](https://docs.fauna.com/fauna/current/api/fql/indexes).
 
@@ -327,6 +339,7 @@ Defaults:
 * _pattern_: `**/*.index`
 
 ### deploy-roles
+<div class="operative"></div>
 
 Deploys your [User-Defined Roles (UDR)](https://docs.fauna.com/fauna/current/security/roles) to your database.
 
@@ -351,10 +364,11 @@ Defaults:
 * _output_: `<stdout>`
 
 ### reset
+<div class="operative"></div>
 
 The fastest way to restart or get rid of data you don't want to keep anymore.
 
-**BE CAREFUL, though, as the actions performed by `reset` are irreversible.** Please double check your `--secret` before running this command!
+**BE CAREFUL, though, as the actions performed by `reset` are irreversible.** Please triple check your `--secret` before running this command!
 
 CLI:
 ```shell
@@ -366,7 +380,7 @@ Defaults:
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
-## CLI and Programatic Access
+## CLI and Programmatic Access
 
 All commands can be accessed in multiple ways.
 
@@ -463,10 +477,11 @@ await build({
 
 ## Contributing
 
-### Principles
-* All commands are side-effects free, except for `reset` and `deploy`. Meaning that they can be run without altering the database its operating on.
+### Coding Principles
+* Whenever possible the commands should be _non-operative_ (meaning that they can be run without altering the database its working with) and require no secret to execute.
 
-* CLI wrapper access
+* Separation of concerns: The CLI file is just a wrapper invoking each command file, and that separation must be clear.
+
 ### Debugging & Testing
 
 1. When debugging Brainyduck, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=brainyduck:*`) flag.
@@ -475,7 +490,7 @@ Please make sure you **have that included in your logs before you report any bug
 2. The tests are easy to run and are an important diagnosis tool to understand what could be going on in your environment.
 Clone Brainyduck's repository and then run the tests in one of the possible ways:
 
-**Note: Make sure you use a secret of a DB you create exclusivily for these tests, as Brainyduck will potentially wipe all its data out!**
+**Note: Make sure you use a secret of a DB you create exclusively for these tests, as Brainyduck will potentially wipe all its data out!**
 
 _Note: `TESTS_SECRET` needs to have `admin` role._
 
