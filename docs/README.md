@@ -1,8 +1,171 @@
-## Why
+## Introduction
 
-Building world-class backend as a service became accessible with the advent of technologies such as graphql and faunadb. Within this new paradigm, a whole new setup and deployment requisites were introduced to your project development.
+Brainyduck helps you transition your backend to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
 
-We have built Brainyduck to help you transition to a top notch serverless environment while keeping the developer experience neat! 🌈🍦🐥
+Worry not about new and complex setup and deployment requisites: The graphql schemas you already have is all you need to build a world-class & reliable endpoint.
+
+Just run `npx brainyduck` on your schemas and the times in which you had to manually setup your backend will forever be gone! Never find yourself redefining types in multiple files, ever again. 🥹
+
+![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
+
+## Features
+
+#### Code generation
+
+- ⚡️&nbsp; Auto generated APIs with small footprint.
+- 👮🏼&nbsp; The generated code is written in TypeScript, with full support for types.
+- ⛰&nbsp; Schemas are [expanded to provide basic CRUD](https://docs.fauna.com/fauna/current/api/graphql/schemas) automatically (_i.e. no need to define resolvers for basic operations!_).
+- 🔎&nbsp; Validation of required and non-nullable fields against provided data.
+
+#### BaaS (by FaunaDB)
+
+- 🦄&nbsp; All the data persists on a [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) 🤘.
+- 👨‍👩‍👦‍👦&nbsp; Support for [relationships between documents](https://docs.fauna.com/fauna/current/learn/tutorials/graphql/relations/), within the schema definition.
+- 🔒&nbsp; [Authentication and access control security](https://docs.fauna.com/fauna/current/security/) at the data level (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)).
+
+
+#### The library
+
+- ✅&nbsp; Well-tested.
+- 🐻&nbsp; Easy to add to your new or existing projects.
+- 👀&nbsp; Quite a few examples in the [./examples](https://github.com/zvictor/brainyduck/tree/master/examples) folder.
+
+<details>
+  <summary>Read more</summary>
+
+Given a GraphQL schema looking anything like this:
+
+```graphql
+type User {
+  username: String! @unique
+}
+
+type Post {
+  content: String!
+  author: User!
+}
+```
+
+Brainyduck will give you:
+
+1. Your schema will be expanded to provide basic CRUD out of the box. Expect it to become something like this:
+
+  ```graphql
+  type Query {
+    findPostByID(id: ID!): Post
+    findUserByID(id: ID!): User
+  }
+
+  type Mutation {
+    updateUser(id: ID!, data: UserInput!): User
+    createUser(data: UserInput!): User!
+    updatePost(id: ID!, data: PostInput!): Post
+    deleteUser(id: ID!): User
+    deletePost(id: ID!): Post
+    createPost(data: PostInput!): Post!
+  }
+
+  type Post {
+    author: User!
+    _id: ID!
+    content: String!
+    title: String!
+  }
+
+  type User {
+    _id: ID!
+    username: String!
+  }
+
+  input PostInput {
+    title: String!
+    content: String!
+    author: PostAuthorRelation
+  }
+
+  input UserInput {
+    username: String!
+  }
+
+  # ... plus few other less important definitions such as relations and pagination
+  ```
+
+2. Do you like TypeScript? Your schema will also be exported as TS types.
+
+  ```typescript
+  export type Query = {
+    __typename?: 'Query'
+    /** Find a document from the collection of 'Post' by its id. */
+    findPostByID?: Maybe<Post>
+    /** Find a document from the collection of 'User' by its id. */
+    findUserByID?: Maybe<User>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+    /** Update an existing document in the collection of 'User' */
+    updateUser?: Maybe<User>
+    /** Create a new document in the collection of 'User' */
+    createUser: User
+    /** Update an existing document in the collection of 'Post' */
+    updatePost?: Maybe<Post>
+    /** Delete an existing document in the collection of 'User' */
+    deleteUser?: Maybe<User>
+    /** Delete an existing document in the collection of 'Post' */
+    deletePost?: Maybe<Post>
+    /** Create a new document in the collection of 'Post' */
+    createPost: Post
+  }
+
+  export type Post = {
+    __typename?: 'Post'
+    author: User
+    /** The document's ID. */
+    _id: Scalars['ID']
+    content: Scalars['String']
+    title: Scalars['String']
+  }
+
+  export type User = {
+    __typename?: 'User'
+    /** The document's ID. */
+    _id: Scalars['ID']
+    username: Scalars['String']
+  }
+
+  // ... plus few other less important definitions such as relations and pagination
+  ```
+
+3. You will be able to abstract the GraphQL layer and make calls using a convenient API (with full autocomplete support!)
+
+  ```typescript
+  import brainyduck from 'brainyduck' // <-- automatically loads the SDK generated exclusively to your schema
+
+  await brainyduck().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
+  await brainyduck({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions by providing different credentials
+
+  const { allUsers } = await brainyduck().allUsers()
+
+  for (const user of allUsers.data) {
+    console.log(user)
+  }
+
+  // output:
+  //
+  // { username: 'rick-sanchez' }
+  // { username: 'morty-smith' }
+  ```
+
+4. The API can be used both on backend and frontend, as long as you are careful enough with your [secrets management](https://forums.fauna.com/t/do-i-need-a-backend-api-between-faunadb-and-my-app-what-are-the-use-cases-of-an-api/95/6?u=zvictor).
+
+**What else?**
+
+1. Brainyduck stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/brainyduck/tree/master/examples/modularized).
+2. Isn't basic CRUD enough? What about more complex custom resolvers? Brainyduck integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
+
+
+For more examples, please check our [examples directory](https://github.com/zvictor/brainyduck/tree/master/examples).
+</details>
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
@@ -84,176 +247,6 @@ Commands:
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
-## Features
-
-Given a GraphQL schema looking anything like this:
-
-```graphql
-# Schema.gql ↓
-
-type User {
-  username: String! @unique
-}
-
-type Post {
-  content: String!
-  author: User!
-}
-
-# queries.gql ↓
-
-mutation createUser($data: UserInput!) {
-  createUser(data: $data) {
-    _id
-  }
-}
-
-query allUsers {
-  allUsers {
-    data {
-      username
-    }
-  }
-}
-```
-
-Brainyduck will give you:
-
-1. A [full-featured data backend](https://docs.fauna.com/fauna/current/introduction) in which your original schema will be [expanded to provide basic CRUD out of the box](https://docs.fauna.com/fauna/current/api/graphql/schemas) (i.e. no need to define resolvers for basic operations!). Expect it to look like this:
-
-   <details>
-      <summary>auto-expanded schema</summary>
-
-   ```graphql
-   type Query {
-     findPostByID(id: ID!): Post
-     findUserByID(id: ID!): User
-   }
-
-   type Mutation {
-     updateUser(id: ID!, data: UserInput!): User
-     createUser(data: UserInput!): User!
-     updatePost(id: ID!, data: PostInput!): Post
-     deleteUser(id: ID!): User
-     deletePost(id: ID!): Post
-     createPost(data: PostInput!): Post!
-   }
-
-   type Post {
-     author: User!
-     _id: ID!
-     content: String!
-     title: String!
-   }
-
-   type User {
-     _id: ID!
-     username: String!
-   }
-
-   input PostInput {
-     title: String!
-     content: String!
-     author: PostAuthorRelation
-   }
-
-   input UserInput {
-     username: String!
-   }
-
-   # ... plus few other less important definitions such as relations and pagination
-   ```
-
-   </details>
-
-1. Do you like TypeScript? Your schema will also be exported as TS types.
-
-   <details>
-      <summary>TS types</summary>
-
-   ```typescript
-   export type Query = {
-     __typename?: 'Query'
-     /** Find a document from the collection of 'Post' by its id. */
-     findPostByID?: Maybe<Post>
-     /** Find a document from the collection of 'User' by its id. */
-     findUserByID?: Maybe<User>
-   }
-
-   export type Mutation = {
-     __typename?: 'Mutation'
-     /** Update an existing document in the collection of 'User' */
-     updateUser?: Maybe<User>
-     /** Create a new document in the collection of 'User' */
-     createUser: User
-     /** Update an existing document in the collection of 'Post' */
-     updatePost?: Maybe<Post>
-     /** Delete an existing document in the collection of 'User' */
-     deleteUser?: Maybe<User>
-     /** Delete an existing document in the collection of 'Post' */
-     deletePost?: Maybe<Post>
-     /** Create a new document in the collection of 'Post' */
-     createPost: Post
-   }
-
-   export type Post = {
-     __typename?: 'Post'
-     author: User
-     /** The document's ID. */
-     _id: Scalars['ID']
-     content: Scalars['String']
-     title: Scalars['String']
-   }
-
-   export type User = {
-     __typename?: 'User'
-     /** The document's ID. */
-     _id: Scalars['ID']
-     username: Scalars['String']
-   }
-
-   // ... plus few other less important definitions such as relations and pagination
-   ```
-
-   </details>
-
-1. You will be able to abstract the GraphQL layer and make calls using a convenient API (with full autocomplete support!)
-
-   <details>
-      <summary>your-code.js</summary>
-
-   ```typescript
-   import brainyduck from 'brainyduck' // <-- automatically loads the SDK generated exclusively to your schema
-
-   await brainyduck().createUser({ username: `rick-sanchez` }) // <-- TS autocomplete and type checking enabled!
-   await brainyduck({ secret: 'different-access-token' }).createUser({ username: `morty-smith` }) // <-- Easily handle authentication and sessions by providing different credentials
-
-   const { allUsers } = await brainyduck().allUsers()
-
-   for (const user of allUsers.data) {
-     console.log(user)
-   }
-
-   // output:
-   //
-   // { username: 'rick-sanchez' }
-   // { username: 'morty-smith' }
-   ```
-
-   </details>
-
-1. The API can be used both on backend and frontend, as long as you are careful enough with your [secrets management](https://forums.fauna.com/t/do-i-need-a-backend-api-between-faunadb-and-my-app-what-are-the-use-cases-of-an-api/95/6?u=zvictor).
-
-**What else?**
-
-1. Brainyduck stiches multiple graphql files together, so your codebase can embrace [modularization](https://github.com/zvictor/brainyduck/tree/master/examples/modularized).
-2. Isn't basic CRUD enough? What about more complex custom resolvers? Brainyduck integrates well with [user-defined functions [UDF]](https://docs.fauna.com/fauna/current/api/graphql/functions), automatically keeping your functions in sync with fauna's backend.
-3. Built-in state of the art [authentication and access control security](https://docs.fauna.com/fauna/current/security/) (including [Attribute-based access control (ABAC)](https://docs.fauna.com/fauna/current/security/abac)) provided by FaunaDB.
-
-For more examples, please check our [examples directory](https://github.com/zvictor/brainyduck/tree/master/examples).
-
-![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
-
 ## CLI and Programatic Access
 
 All commands can be accessed in multiple ways.
@@ -282,7 +275,7 @@ await build()
 
 ### Direct CLI
 
-You can access each command while skipping the CLI wrapper altogether
+You can access each command while skipping the CLI wrapper altogether.
 
 ```markup
 node ./node_modules/brainyduck/commands/<command-name> [...args]
@@ -350,6 +343,12 @@ await build({
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Contributing
+
+### Principles
+* All commands are side-effects free, except for `reset` and `deploy`. Meaning that they can be run without altering the database its operating on.
+
+* CLI wrapper access
+### Debugging & Testing
 
 1. When debugging Brainyduck, it's always a very good idea to run the commands using the `--verbose` (or `DEBUG=brainyduck:*`) flag.
 Please make sure you **have that included in your logs before you report any bug**.
