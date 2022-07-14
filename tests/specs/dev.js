@@ -14,10 +14,10 @@ setupEnvironment(`dev`)
 
 beforeEach(() => reset(), 240000)
 
-test(`complete all 'dev' operations for the 'basic' example`, async () => {
+test(`complete all 'dev' operations for the 'basic' example (default cmd)`, async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'dev', '--no-watch'], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', '--no-watch'], {
     env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
     cwd,
   })
