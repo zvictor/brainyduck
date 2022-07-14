@@ -1,14 +1,20 @@
 <p align="center"><img width="320px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" /><p>
 
 <p align="center">
-  <strong>A micro "no-backend" framework 🤯</strong><br />
-  <sub>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</sub>
+  <h1>A micro "no-backend" framework 🤯</h1>
+  <h2>Quickly build powerful BaaS while leveraging on the power of serverless and modern architectures.</h2>
 </p>
 
-<p align="center">
-  <a href="/#/?id=getting-started">Getting started 🐣</a> | <a href="/#/?id=installation">Installation 🚜</a> | <a href="/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a>
-</p>
-<br />
+<img src="https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png" alt="divider" width="100%" style="max-width: 800px">
+
+<nav align="center">
+  <a href="/#/?id=getting-started">Getting started 🐣</a>
+  <a href="/#/?id=installation">Installation 🚜</a>
+  <a href="/#/?id=usage">Usage 🍗</a>
+  <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a>
+  <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a>
+  <a href="https://github.com/zvictor/brainyduck">Github 🕸</a>
+</nav>
 
 <style>
   .vertical {
@@ -29,20 +35,21 @@
   }
 </style>
 
+<div class="glass">
+  <p class="horizontal">
+    <img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" style="max-width: 1024px" />
+  <p>
 
-<p class="horizontal">
-  <img src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/transformation.png" alt="brainyduck's transformation diagram" style="max-width: 1024px" />
-<p>
 
-
-<div class="vertical">
-  <div>
-    <img width="289px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/schema.png" alt="brainyduck's schema diagram" />
-  </div>
-  <div>
-    <img width="158px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/npx-vertical.png" alt="brainyduck's npx diagram" />
-  </div>
-  <div>
-    <img width="552px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/IDE.png" alt="brainyduck's IDE diagram" />
+  <div class="vertical">
+    <div>
+      <img width="289px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/schema.png" alt="brainyduck's schema diagram" />
+    </div>
+    <div>
+      <img width="158px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/npx-vertical.png" alt="brainyduck's npx diagram" />
+    </div>
+    <div>
+      <img width="552px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/IDE.png" alt="brainyduck's IDE diagram" />
+    </div>
   </div>
 </div>
