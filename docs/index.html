@@ -19,7 +19,7 @@
     />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://zvictor.github.io/brainyduck/" />
+    <meta property="og:url" content="https://duck.brainy.sh/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Brainyduck" />
     <meta
@@ -35,7 +35,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="zvictor.github.io" />
-    <meta property="twitter:url" content="https://zvictor.github.io/brainyduck/" />
+    <meta property="twitter:url" content="https://duck.brainy.sh/" />
     <meta name="twitter:title" content="Brainyduck" />
     <meta
       name="twitter:description"
@@ -49,6 +49,7 @@
 
     <style type="text/css">
       :root {
+        --background-height: 100%;
         --cover-background-blend-mode: luminosity;
         /* --base-background-color: #000; */
         --cover-background-color: #000006;
@@ -73,7 +74,7 @@
 
       .cover {
         background: url('https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/waves.svg')
-            0 bottom / 100% 100% no-repeat no-repeat,
+            0 bottom / 100% var(--background-height) no-repeat no-repeat,
           linear-gradient(#222, var(--base-background-color) 30%, #fff 300%) !important;
         color: #dddddd;
         font-size: 1.1rem;
@@ -89,7 +90,7 @@
 
       @media screen and (max-width: 1024px) {
         .cover {
-          background-position-y: 50% !important;
+          --background-height: 50%;
         }
       }
     </style>
@@ -102,6 +103,7 @@
       window.$docsify = {
         name: 'Brainyduck',
         repo: 'https://github.com/zvictor/brainyduck',
+        maxLevel: 3,
         coverpage: true,
         themeColor: colors[Math.floor(Math.random() * colors.length)],
       }

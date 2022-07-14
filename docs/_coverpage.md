@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="/brainyduck/#/?id=getting-started">Getting started 🐣</a> | <a href="/brainyduck/#/?id=installation">Installation 🚜</a> | <a href="/brainyduck/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a>
+  <a href="/#/?id=getting-started">Getting started 🐣</a> | <a href="/#/?id=installation">Installation 🚜</a> | <a href="/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a>
 </p>
 <br />
 

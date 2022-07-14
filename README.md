@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  [ <a href="https://zvictor.github.io/brainyduck/#/?id=getting-started">Getting started 🐣</a> | <a href="https://zvictor.github.io/brainyduck/#/?id=installation">Installation 🚜</a> | <a href="https://zvictor.github.io/brainyduck/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a> ]
+  [ <a href="https://duck.brainy.sh/#/?id=getting-started">Getting started 🐣</a> | <a href="https://duck.brainy.sh/#/?id=installation">Installation 🚜</a> | <a href="https://duck.brainy.sh/#/?id=usage">Usage 🍗</a> | <a href="https://github.com/zvictor/brainyduck/tree/master/examples">Examples 🌈 </a> | <a href="https://www.npmjs.com/package/brainyduck">NPM 📦</a> | <a href="https://github.com/zvictor/brainyduck">Github 🕸</a> ]
 </p>
 <br />
 
@@ -28,7 +28,7 @@ We have built Brainyduck to help you transition to a top notch serverless enviro
 
 ## Documentation
 
-Please refer to the [documentation](https://zvictor.github.io/brainyduck/#/?id=why) in order to [get started](https://zvictor.github.io/brainyduck/#/?id=getting-started) 🐣.
+Please refer to the [documentation](https://duck.brainy.sh/#/?id=why) in order to [get started](https://duck.brainy.sh/#/?id=getting-started) 🐣.
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png)
 
