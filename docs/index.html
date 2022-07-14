@@ -57,6 +57,7 @@
         --cover-max-width: 80vw 80em;
         --subsup-font-size: 0.8em;
         --content-max-width: 80em;
+        --heading-h2-border-style: none;
 
         --code-inline-background: var(--code-theme-background);
         --code-inline-color: var(--theme-color);
@@ -102,11 +103,10 @@
       .glass {
         margin-top: 30px;
         padding: 30px;
-        background: rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.05);
         border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(6.2px);
-        -webkit-backdrop-filter: blur(6.2px);
+        backdrop-filter: blur(3.2px);
+        -webkit-backdrop-filter: blur(3.2px);
       }
 
       .operative::before {
@@ -125,10 +125,23 @@
       @media screen and (max-width: 1024px) {
         .cover {
           --background-height: 50%;
+          font-size: 1rem;
         }
 
         .glass {
           padding: 10px;
+        }
+
+        #logo {
+          transform: scale(0.8);
+        }
+      }
+
+      @media screen and (max-width: 769px) {
+        .cover .glass {
+          padding: 0;
+          background: none;
+          backdrop-filter: none;
         }
       }
     </style>
