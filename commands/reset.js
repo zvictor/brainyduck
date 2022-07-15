@@ -86,6 +86,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     }
 
     await main(types)
+
     console.log(`All reset operations have succeeded.`)
+    process.exit(0)
   })()
 }

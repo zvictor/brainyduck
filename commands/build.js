@@ -215,5 +215,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     )
 
     console.log(`The sdk has been saved at ${location}`)
+    process.exit(0)
   })()
 }

@@ -38,8 +38,10 @@ export const setupEnvironment = (name, options = {}) => {
   end(() => {
     deleteDatabase(dbName, process.env.TESTS_SECRET)
     delete process.env.BRAINYDUCK_CACHE
+    debug(`Deleted database ${timestamp}_${name}`)
   })
-  debug(`Deleted database ${timestamp}_${name}`)
+
+  afterAll(() => faunaClient().close())
 }
 
 export const amountOfFunctionsCreated = () => faunaClient().query(q.Count(q.Functions()))

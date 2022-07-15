@@ -71,5 +71,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     }
 
     console.log(await main(inputPath))
+    process.exit(0)
   })()
 }

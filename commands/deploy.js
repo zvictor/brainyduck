@@ -71,6 +71,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     }
 
     await main(types)
+
     console.log(`\n\nAll done! All deployments have been successful 🦆`)
+    process.exit(0)
   })()
 }

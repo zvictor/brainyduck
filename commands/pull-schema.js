@@ -76,5 +76,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     if (!outputPath) {
       console.log(schema)
     }
+
+    process.exit(0)
   })()
 }

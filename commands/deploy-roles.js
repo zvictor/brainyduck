@@ -71,5 +71,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       `User-defined role(s) created or updated:`,
       refs.map((x) => x.name)
     )
+
+    process.exit(0)
   })()
 }

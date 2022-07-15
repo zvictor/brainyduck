@@ -81,9 +81,15 @@ export const loadSecret = () => {
   return secret
 }
 
+let _faunaClient
+
 export const faunaClient = () => {
+  if (_faunaClient) {
+    return _faunaClient
+  }
+
   const { FAUNA_DOMAIN, FAUNA_SCHEME, FAUNA_PORT } = process.env
-  const options = { secret: loadSecret() }
+  const options = { secret: loadSecret(), http2SessionIdleTime: 100 }
 
   if (FAUNA_DOMAIN) {
     options.domain = process.env.FAUNA_DOMAIN
@@ -97,7 +103,8 @@ export const faunaClient = () => {
     options.port = process.env.FAUNA_PORT
   }
 
-  return new Client(options)
+  _faunaClient = new Client(options)
+  return _faunaClient
 }
 
 export const patternMatch = async (pattern, cwd = process.cwd()) =>
