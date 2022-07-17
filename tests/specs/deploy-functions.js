@@ -1,19 +1,16 @@
 import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import reset from 'brainyduck/reset'
-import { setupEnvironment, amountOfFunctionsCreated } from '../testUtils.js'
+import { setupEnvironment, load, amountOfFunctionsCreated } from '../testUtils.js'
 
 setupEnvironment(`deploy-functions`)
-
-beforeEach(() => reset({ functions: true }), 10000)
 
 test('UDF name should match file name', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
     execaSync('node', ['../../cli.js', 'deploy-functions', 'unmatched.udf'], {
-      env: { DEBUG: 'brainyduck:*' },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     })
 
@@ -32,7 +29,7 @@ test('upload simplified and extended UDFs: sayHi, sayHello', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/with-UDF`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-functions'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd,
   })
 
