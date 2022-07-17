@@ -46,23 +46,23 @@ export const setupEnvironment = (name, options = {}) => {
 
   end(() => {
     deleteDatabase(dbName, process.env.TESTS_SECRET)
-    delete process.env.BRAINYDUCK_CACHE
     debug(`Deleted database ${timestamp}_${name}`)
   })
 }
 
-export const amountOfFunctionsCreated = () =>
-  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(
-    q.Count(q.Functions())
-  )
+const query = async (expression) => {
+  const client = faunaClient({ secret: load('FAUNA_SECRET') })
+  const output = await client.query(expression)
 
-export const amountOfRolesCreated = () =>
-  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(q.Count(q.Roles()))
+  await client.close()
+  return output
+}
 
-export const amountOfCollectionsCreated = () =>
-  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(
-    q.Count(q.Collections())
-  )
+export const amountOfFunctionsCreated = () => query(q.Count(q.Functions()))
+
+export const amountOfRolesCreated = () => query(q.Count(q.Roles()))
+
+export const amountOfCollectionsCreated = () => query(q.Count(q.Collections()))
 
 export const listFiles = (directory) =>
   fs.existsSync(directory)
