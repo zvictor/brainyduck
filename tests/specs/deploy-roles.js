@@ -1,19 +1,21 @@
 import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import reset from 'brainyduck/reset'
-import { setupEnvironment, amountOfFunctionsCreated, amountOfRolesCreated } from '../testUtils.js'
+import {
+  setupEnvironment,
+  load,
+  amountOfFunctionsCreated,
+  amountOfRolesCreated,
+} from '../testUtils.js'
 
 setupEnvironment(`deploy-roles`)
-
-beforeEach(() => reset({ functions: true, roles: true }), 10000)
 
 test('role definitions should not accept simplified formats', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../fixtures`, import.meta.url)))
 
   try {
     execaSync('node', ['../../cli.js', 'deploy-roles', 'simplified.role'], {
-      env: { DEBUG: 'brainyduck:*' },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     })
 
@@ -33,7 +35,7 @@ test('role name should match file name', async () => {
 
   try {
     execaSync('node', ['../../cli.js', 'deploy-roles', 'unmatched.role'], {
-      env: { DEBUG: 'brainyduck:*' },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     })
 
@@ -53,7 +55,7 @@ test('upload all roles: publicAccess', async () => {
 
   // the referred functions needs to be defined first
   const functions = execaSync('node', ['../../cli.js', 'deploy-functions'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd,
   })
 
@@ -67,7 +69,7 @@ test('upload all roles: publicAccess', async () => {
 
   // ... and only then their access permission can be defined
   const roles = execaSync('node', ['../../cli.js', 'deploy-roles'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd,
   })
 
