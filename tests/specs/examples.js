@@ -9,7 +9,7 @@ import { setupEnvironment } from '../testUtils.js'
 
 const debug = _debug('brainyduck:test:examples')
 
-setupEnvironment(`examples`, { beforeEach: true })
+setupEnvironment(`examples`)
 
 // const examples = (
 //   await fs.readdir(fileURLToPath(new URL(`../../examples`, import.meta.url)), {

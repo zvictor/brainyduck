@@ -3,6 +3,8 @@ import _debug from 'debug'
 import faunadb from 'faunadb'
 import { paramCase } from 'param-case'
 import { faunaClient, runFQL } from '../utils.js'
+import { load, store } from './storage.js'
+export { load }
 
 const { query: q } = faunadb
 const debug = _debug('brainyduck:test')
@@ -20,8 +22,8 @@ export const deleteDatabase = (name, secret) => runFQL(`Delete(Database('${name}
 
 export const setupEnvironment = (name, options = {}) => {
   const timestamp = +new Date()
-  const start = options.beforeEach ? beforeEach : beforeAll
-  const end = options.beforeEach ? afterEach : afterAll
+  const start = options.beforeAll ? beforeAll : beforeEach
+  const end = options.beforeAll ? afterAll : afterEach
   let dbName = `${timestamp}_${name}`
 
   start(() => {
@@ -31,7 +33,8 @@ export const setupEnvironment = (name, options = {}) => {
       dbName = `${dbName}_${paramCase(testName)}`
     }
 
-    process.env.FAUNA_SECRET = createDatabase(dbName, process.env.TESTS_SECRET).secret
+    const secret = createDatabase(dbName, process.env.TESTS_SECRET).secret
+    store('FAUNA_SECRET', secret)
     debug(`Using database ${timestamp}_${name}`)
   })
 
@@ -43,15 +46,15 @@ export const setupEnvironment = (name, options = {}) => {
 }
 
 export const amountOfFunctionsCreated = () =>
-  faunaClient({ http2SessionIdleTime: 0 }).query(
+  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(
     q.Count(q.Functions())
   )
 
 export const amountOfRolesCreated = () =>
-  faunaClient({ http2SessionIdleTime: 0 }).query(q.Count(q.Roles()))
+  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(q.Count(q.Roles()))
 
 export const amountOfCollectionsCreated = () =>
-  faunaClient({ http2SessionIdleTime: 0 }).query(
+  faunaClient({ secret: load('FAUNA_SECRET'), http2SessionIdleTime: 0 }).query(
     q.Count(q.Collections())
   )
 
