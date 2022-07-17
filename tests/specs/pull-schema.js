@@ -1,18 +1,15 @@
 import path from 'path'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
-import reset from 'brainyduck/reset'
 import { importSchema } from 'brainyduck/utils'
-import { setupEnvironment, amountOfCollectionsCreated } from '../testUtils.js'
+import { setupEnvironment, load, amountOfCollectionsCreated } from '../testUtils.js'
 
 setupEnvironment(`pull-schema`)
-
-beforeEach(() => reset({ schemas: true, collections: true }), 240000)
 
 test('fails on empty schema', async () => {
   try {
     execaSync('node', ['../../cli.js', 'pull-schema'], {
-      env: { DEBUG: 'brainyduck:*' },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd: path.dirname(fileURLToPath(import.meta.url)),
     })
 
@@ -32,10 +29,10 @@ test('fetch schema from fauna', async () => {
   }`
 
   // The schema needs to be pre-populated/reset before we can pull it again
-  await importSchema(schema, { override: true })
+  await importSchema(schema, { override: true, secret: load('FAUNA_SECRET') })
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pull-schema'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 
