@@ -71,6 +71,12 @@ program
   })
 
   .option(
+    '-f, --force <value>',
+    `skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).`
+  )
+  .on('option:force', optionParser('force'))
+
+  .option(
     '-i, --ignore <value>',
     `set glob patterns to exclude matches (defaults to <BRAINYDUCK_IGNORE or '**/node_modules/**,**/.git/**'>).`
   )

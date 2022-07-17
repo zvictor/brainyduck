@@ -28,6 +28,11 @@ const confirm = async (types = ALL_TYPES) => {
   )
   console.warn(`This action is irreversible and might possibly affect production data.\n\n`)
 
+  if (process.env.BRAINYDUCK_FORCE) {
+    console.warn(`Not asking for confirmation because you are using forced mode`)
+    return true
+  }
+
   const answer = await question(
     chalk.bold(`Are you sure you want to delete all the ${listOfTypes}? [y/N] `)
   )
