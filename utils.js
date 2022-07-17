@@ -154,7 +154,7 @@ export const runFQL = (query, secret) => {
   return JSON.parse(stdout)
 }
 
-export const importSchema = async (schema, { override, puke } = {}) => {
+export const importSchema = async (schema, { secret, override, puke } = {}) => {
   const url = puke ? graphqlEndpoint.puke : graphqlEndpoint.import
 
   debug('brainyduck:importSchema')(
@@ -168,7 +168,7 @@ export const importSchema = async (schema, { override, puke } = {}) => {
     headers: puke
       ? {}
       : new Headers({
-          Authorization: `Bearer ${loadSecret()}`,
+          Authorization: `Bearer ${secret || loadSecret()}`,
         }),
   })
   debug('brainyduck:importSchema')(
