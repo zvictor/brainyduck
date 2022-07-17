@@ -1,18 +1,20 @@
 import { execaSync } from 'execa'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import reset from 'brainyduck/reset'
-import { setupEnvironment, amountOfCollectionsCreated, removeRetryMessages } from '../testUtils.js'
+import {
+  setupEnvironment,
+  load,
+  amountOfCollectionsCreated,
+  removeRetryMessages,
+} from '../testUtils.js'
 
 setupEnvironment(`deploy-schemas`)
-
-beforeEach(() => reset({ collections: true }), 240000)
 
 test('push a basic schema', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd,
   })
 
@@ -40,7 +42,7 @@ test('push a modular schema', () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'deploy-schemas'], {
-    env: { DEBUG: 'brainyduck:*' },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
     cwd,
   })
 
