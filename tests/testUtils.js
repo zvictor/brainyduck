@@ -1,6 +1,7 @@
 import fs from 'fs'
 import _debug from 'debug'
 import faunadb from 'faunadb'
+import { execaSync } from 'execa'
 import { paramCase } from 'param-case'
 import { faunaClient, runFQL } from '../utils.js'
 import { load, store } from './storage.js'
@@ -8,6 +9,11 @@ export { load }
 
 const { query: q } = faunadb
 const debug = _debug('brainyduck:test')
+
+export const reset = (types) =>
+  execaSync('node', ['../cli.js', 'reset', types], {
+    env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_FORCE: 1 },
+  })
 
 export const createDatabase = (name, secret) =>
   runFQL(

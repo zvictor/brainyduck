@@ -4,13 +4,14 @@ import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import path, { resolve } from 'path'
 import { temporaryDirectory, temporaryFile } from 'tempy'
-import reset from 'brainyduck/reset'
 import { findBin } from 'brainyduck/utils'
 import {
   setupEnvironment,
   amountOfCollectionsCreated,
   listFiles,
   removeRetryMessages,
+  load,
+  reset,
 } from '../testUtils.js'
 
 const debug = _debug('brainyduck:test:build')
@@ -21,21 +22,17 @@ beforeEach(() => {
   cache.TEST = temporaryDirectory()
   debug(`Using cache directory ${cache.TEST}`)
 
-  return Promise.all([
-    fs.rm(cache.DEFAULT, { recursive: true, force: true }),
-    reset({ schemas: true, collections: true }),
-  ])
-}, 240000)
+  return fs.rm(cache.DEFAULT, { recursive: true, force: true })
+})
 
-const resetBuild = (cwd, ...extra) =>
-  Promise.all([
-    reset({ documents: true }),
-    fs.rm(path.join(cwd, 'build'), {
-      recursive: true,
-      force: true,
-    }),
-    ...extra,
-  ])
+const resetBuild = async (cwd) => {
+  await fs.rm(path.join(cwd, 'build'), {
+    recursive: true,
+    force: true,
+  })
+
+  reset('documents')
+}
 
 test('build an sdk for basic schema and non-standard cache', async () => {
   const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
@@ -47,7 +44,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     'node',
     ['../../cli.js', 'build', 'Schema.graphql'],
     {
-      env: { DEBUG: 'brainyduck:*', BRAINYDUCK_SECRET: undefined, BRAINYDUCK_CACHE: cache.TEST },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined, BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }
   )
@@ -89,7 +86,12 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(await amountOfCollectionsCreated()).toBe(0)
 
   execaSync('node', ['../../cli.js', 'deploy'], {
-    env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
+    env: {
+      DEBUG: '',
+      FAUNA_SECRET: load('FAUNA_SECRET'),
+      FORCE_COLOR: 0,
+      NODE_OPTIONS: '--no-warnings',
+    },
     cwd,
   })
 
@@ -100,7 +102,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   // ts-node tests
   outputCheck(
     execaSync(findBin('ts-node'), ['index.ts'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { BRAINYDUCK_CACHE: cache.TEST, FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'ts-node'
@@ -120,7 +122,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsc'
@@ -153,7 +155,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsup (ESM)'
@@ -186,7 +188,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'tsup (CJS)'
@@ -216,7 +218,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'esbuild (ESM)'
@@ -239,7 +241,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
       cwd,
     }).stdout,
     'esbuild (CJS)'
@@ -252,7 +254,7 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build'], {
-    env: { DEBUG: 'brainyduck:*', BRAINYDUCK_SECRET: undefined },
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
     cwd,
   })
 
@@ -293,7 +295,12 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   expect(await amountOfCollectionsCreated()).toBe(0)
 
   execaSync('node', ['../../cli.js', 'deploy'], {
-    env: { DEBUG: '', FORCE_COLOR: 0, NODE_OPTIONS: '--no-warnings' },
+    env: {
+      DEBUG: '',
+      FAUNA_SECRET: load('FAUNA_SECRET'),
+      FORCE_COLOR: 0,
+      NODE_OPTIONS: '--no-warnings',
+    },
     cwd,
   })
 
@@ -302,7 +309,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   // ts-node tests
   outputCheck(
     execaSync(`node`, [`--loader`, `ts-node/esm`, 'index.ts'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'ts-node'
@@ -321,7 +330,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'tsc'
@@ -344,7 +355,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'tsup (ESM)'
@@ -367,7 +380,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   outputCheck(
     execaSync('node', ['./build/index.cjs'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'tsup (CJS)'
@@ -390,7 +405,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'esbuild (ESM)'
@@ -420,7 +437,9 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
 
   outputCheck(
     execaSync('node', ['./build/index.cjs'], {
-      env: {},
+      env: {
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+      },
       cwd,
     }).stdout,
     'esbuild (CJS)'
