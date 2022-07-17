@@ -40,15 +40,20 @@ export const setupEnvironment = (name, options = {}) => {
     delete process.env.BRAINYDUCK_CACHE
     debug(`Deleted database ${timestamp}_${name}`)
   })
-
-  afterAll(() => faunaClient().close())
 }
 
-export const amountOfFunctionsCreated = () => faunaClient().query(q.Count(q.Functions()))
+export const amountOfFunctionsCreated = () =>
+  faunaClient({ http2SessionIdleTime: 0 }).query(
+    q.Count(q.Functions())
+  )
 
-export const amountOfRolesCreated = () => faunaClient().query(q.Count(q.Roles()))
+export const amountOfRolesCreated = () =>
+  faunaClient({ http2SessionIdleTime: 0 }).query(q.Count(q.Roles()))
 
-export const amountOfCollectionsCreated = () => faunaClient().query(q.Count(q.Collections()))
+export const amountOfCollectionsCreated = () =>
+  faunaClient({ http2SessionIdleTime: 0 }).query(
+    q.Count(q.Collections())
+  )
 
 export const listFiles = (directory) =>
   fs.existsSync(directory)

@@ -83,23 +83,28 @@ export const loadSecret = () => {
 
 let _faunaClient
 
-export const faunaClient = () => {
-  if (_faunaClient) {
+export const faunaClient = (options) => {
+  const { FAUNA_DOMAIN, FAUNA_SCHEME, FAUNA_PORT } = process.env
+
+  if (!options && _faunaClient && !_faunaClient._http._adapter._closed) {
     return _faunaClient
   }
 
-  const { FAUNA_DOMAIN, FAUNA_SCHEME, FAUNA_PORT } = process.env
-  const options = { secret: loadSecret(), http2SessionIdleTime: 100 }
+  options = options || {}
 
-  if (FAUNA_DOMAIN) {
+  if (!options.secret) {
+    options.secret = loadSecret()
+  }
+
+  if (!options.domain && FAUNA_DOMAIN) {
     options.domain = process.env.FAUNA_DOMAIN
   }
 
-  if (FAUNA_SCHEME) {
+  if (!options.scheme && FAUNA_SCHEME) {
     options.scheme = process.env.FAUNA_SCHEME
   }
 
-  if (FAUNA_PORT) {
+  if (!options.port && FAUNA_PORT) {
     options.port = process.env.FAUNA_PORT
   }
 
