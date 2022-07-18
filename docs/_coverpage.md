@@ -2,7 +2,8 @@
   <img id="logo" width="320px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" />
 <p>
 
-<h1 style="max-width: 700px; margin: auto;">Turn any schema into a next-gen backend (BaaS) with a single command! 😮</h1>
+<h1 style="max-width: 700px; margin: auto;">Turn any schema into a next-gen backend (BaaS) with a single command!</h1>
+<h2>The first micro "no-backend backend framework" 🤯</h2>
 
 <img src="https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png" alt="divider" width="100%" style="max-width: 920px">
 

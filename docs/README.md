@@ -8,8 +8,6 @@ Just run `npx brainyduck` on your schemas and the times in which you had to manu
 
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
-<h1>The first micro "no-backend backend framework" 🤯</h1>
-
 ## Features
 
 #### Code generation
