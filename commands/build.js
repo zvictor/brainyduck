@@ -195,7 +195,7 @@ export { brainyduck }`
     ],
     {
       stdio: ['ignore', 'pipe', process.stderr],
-      cwd: process.cwd(),
+      cwd: path.join(__dirname, '..'),
     }
   )
   debug(stdout)
