@@ -27,7 +27,6 @@ import { patterns, ignored } from '../utils.js'
 
 const debug = _debug('brainyduck:watcher')
 
-const [directory = '.'] = process.argv.slice(2)
 const queue = new PQueue({ autoStart: false, concurrency: 1 })
 const lock = {}
 
@@ -64,18 +63,22 @@ const processor = (type, operation, file, cumulative) => {
   }
 
   queue.add(async () => {
-    const name = lock[type] || [file]
+    const filesList = (lock[type] || [file])
+      .map((x) => path.relative(process.cwd(), x))
+      .sort()
+      .join(', ')
+
     unblock(type)
 
     if (!operation) {
       return debug(`Ignoring file(s) ${file} [${type}] (no operation defined)`)
     }
 
-    const spinner = ora(`Processing ${name.sort().join(', ')} [${type}]\n`).start()
+    const spinner = ora(`Processing ${filesList} [${type}]\n`).start()
 
     try {
       await operation(file)
-      spinner.succeed(`Processed ${name.sort().join(', ')} [${type}]`)
+      spinner.succeed(`Processed ${filesList} [${type}]`)
     } catch (e) {
       spinner.fail()
       console.error(e)
@@ -85,6 +88,8 @@ const processor = (type, operation, file, cumulative) => {
 
 const watch = (type, pattern, operation, cumulative) =>
   new Promise((resolve) => {
+    const directory = process.cwd()
+
     chokidar
       .watch(pattern, {
         ignoreInitial: Boolean(process.env.BRAINYDUCK_WATCH_CHANGES),
@@ -174,10 +179,17 @@ export default async function main() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const [directory] = process.argv.slice(2)
+
   ;(async () => {
     if (process.env.BRAINYDUCK_OVERWRITE) {
       const { default: reset } = await import('./reset.js')
       await reset()
+    }
+
+    if (directory) {
+      process.chdir(directory)
+      debug(`Changed directory to ${process.cwd()}`)
     }
 
     await main()

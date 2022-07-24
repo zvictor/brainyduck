@@ -43,17 +43,22 @@ test(`complete all 'dev' operations for the 'basic' example (default cmd)`, asyn
 }, 240000)
 
 test(`complete all 'dev' operations for the 'modularized' example`, async () => {
-  const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
+  // It intentionally runs this test from a different directory in order to test directory changing.
+  const cwd = resolve(fileURLToPath(new URL(`../../examples`, import.meta.url)))
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'dev', '--no-watch'], {
-    env: {
-      DEBUG: '',
-      FAUNA_SECRET: load('FAUNA_SECRET'),
-      FORCE_COLOR: 0,
-      NODE_OPTIONS: '--no-warnings',
-    },
-    cwd,
-  })
+  const { stdout, stderr, exitCode } = execaSync(
+    'node',
+    ['../cli.js', 'dev', './modularized', '--no-watch'],
+    {
+      env: {
+        DEBUG: '',
+        FAUNA_SECRET: load('FAUNA_SECRET'),
+        FORCE_COLOR: 0,
+        NODE_OPTIONS: '--no-warnings',
+      },
+      cwd,
+    }
+  )
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))

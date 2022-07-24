@@ -113,7 +113,9 @@ export const faunaClient = (options) => {
 }
 
 export const patternMatch = async (pattern, cwd = process.cwd()) =>
-  (await globby(pattern, { cwd, ignore: ignored })).map((x) => path.join(cwd, x))
+  (await globby(pattern, { cwd, ignore: ignored })).map((x) =>
+    x.startsWith('/') ? x : path.join(cwd, x)
+  )
 
 export const runFQL = (query, secret) => {
   debug('brainyduck:runFQL')(`Executing query:\n${query}`)
