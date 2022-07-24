@@ -85,10 +85,10 @@ program
   })
 
   .option(
-    '--watch-changes',
+    '--only-changes',
     `ignore initial files and watch changes ONLY (only used in the dev command).`
   )
-  .on('option:watch-changes', optionParser('watchChanges'))
+  .on('option:only-changes', optionParser('onlyChanges'))
 
   .option(
     '--callback <command>',

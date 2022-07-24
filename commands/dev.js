@@ -90,9 +90,13 @@ const watch = (type, pattern, operation, cumulative) =>
   new Promise((resolve) => {
     const directory = process.cwd()
 
+    if (process.env.BRAINYDUCK_ONLY_CHANGES) {
+      debug(`Watching ${type} changes but ignoring initial files`)
+    }
+
     chokidar
       .watch(pattern, {
-        ignoreInitial: Boolean(process.env.BRAINYDUCK_WATCH_CHANGES),
+        ignoreInitial: Boolean(process.env.BRAINYDUCK_ONLY_CHANGES),
         ignored: [/(^|[\/\\])\../, ...ignored],
         persistent: true,
         cwd: path.resolve(directory),

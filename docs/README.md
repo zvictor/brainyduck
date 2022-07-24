@@ -225,7 +225,7 @@ Options:
   -f, --force <value>                                   skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).
   -i, --ignore <value>                                  set glob patterns to exclude matches (defaults to <BRAINYDUCK_IGNORE or '**/node_modules/**,**/.git/**'>).
   --no-watch                                            disable the files watcher (only used in the dev command).
-  --watch-changes                                       ignore initial files and watch changes ONLY (only used in the dev command).
+  --only-changes                                        ignore initial files and watch changes ONLY (only used in the dev command).
   --callback <command>                                  run external command after every execution completion (only used in the dev command).
   --tsconfig                                            use a custom tsconfig file for the sdk transpilation.
   --verbose                                             run the command with verbose logging.
