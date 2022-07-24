@@ -70,10 +70,7 @@ program
     process.env.BRAINYDUCK_NO_OPERATIONS_GENERATION = !this.operationsGeneration
   })
 
-  .option(
-    '-f, --force <value>',
-    `skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).`
-  )
+  .option('-f, --force', `skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).`)
   .on('option:force', optionParser('force'))
 
   .option(
