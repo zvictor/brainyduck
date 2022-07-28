@@ -21,7 +21,10 @@
       "import": "./index.js",
       "require": "./index.cjs"
     },
-    "./cache": "./locateCache.cjs",
+    "./cache": {
+      "import": "./locateCache.js",
+      "require": "./locateCache.cjs"
+    },
     "./bundlers/*": "./bundlers/*.cjs",
     "./utils": "./utils.js",
     "./*": "./commands/*.js"
