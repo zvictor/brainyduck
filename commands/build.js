@@ -106,6 +106,20 @@ export default async function main(
   const sdk = `${await generateSdk(schema, await documentsPattern)}
 export type { Dom };
 
+/**
+ *
+ *  💸 This schema was generated in the cloud at the expense of the Brainyduck maintainers  📉
+ *
+ *  😇            Please kindly consider giving back to the Brainyduck community            😇
+ *
+ *  🐥🙏             The DUCK needs your help to spread his word to the world!             🙏🐥
+ *
+ *                                  https://duck.brainy.sh
+ *                            https://github.com/sponsors/zvictor
+ *
+ *  🌟💎🎆            [THIS SPACE IS AVAILABLE FOR ADVERTISING AND SPONSORSHIP]            🎆💎🌟
+ *
+ **/
 export default function brainyduck({
   secret = process?.env.FAUNA_SECRET,
   endpoint = process?.env.FAUNA_ENDPOINT,
