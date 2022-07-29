@@ -18,8 +18,8 @@
   "exports": {
     ".": {
       "types": "./.cache/sdk.d.ts",
-      "import": "./index.js",
-      "require": "./index.cjs"
+      "import": "./.cache/sdk.mjs",
+      "require": "./.cache/sdk.cjs"
     },
     "./cache": {
       "import": "./locateCache.js",
@@ -28,7 +28,7 @@
     "./utils": "./utils.js",
     "./*": "./commands/*.js"
   },
-  "main": "./index.cjs",
+  "main": "./.cache/sdk.cjs",
   "types": "./.cache/sdk.d.ts",
   "files": [
     "/commands",

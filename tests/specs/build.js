@@ -2,8 +2,8 @@ import fs from 'fs/promises'
 import _debug from 'debug'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
-import path, { resolve } from 'path'
-import { temporaryDirectory, temporaryFile } from 'tempy'
+import path from 'path'
+import { temporaryFile } from 'tempy'
 import { findBin } from 'brainyduck/utils'
 import {
   setupEnvironment,
@@ -12,18 +12,19 @@ import {
   removeRetryMessages,
   load,
   reset,
+  clone,
 } from '../testUtils.js'
 
 const debug = _debug('brainyduck:test:build')
-const cache = { DEFAULT: fileURLToPath(new URL(`../../.cache`, import.meta.url)) }
+const originalCache = fileURLToPath(new URL(`../../.cache`, import.meta.url))
 setupEnvironment(`build`)
 
-beforeEach(() => {
-  cache.TEST = temporaryDirectory()
-  debug(`Using cache directory ${cache.TEST}`)
-
-  return fs.rm(cache.DEFAULT, { recursive: true, force: true })
-})
+beforeAll(() =>
+  fs.rm(originalCache, {
+    recursive: true,
+    force: true,
+  })
+)
 
 const resetBuild = async (cwd) => {
   await fs.rm(path.join(cwd, 'build'), {
@@ -35,19 +36,25 @@ const resetBuild = async (cwd) => {
 }
 
 test('build an sdk for basic schema and non-standard cache', async () => {
-  const cwd = resolve(fileURLToPath(new URL(`../../examples/basic`, import.meta.url)))
-  const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+  const root = clone()
+  const cache = path.join(root, '.cache')
+  const cwd = path.join(root, 'examples/basic')
   const sdkCheck = fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/basic.output.js`)).default
+  const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+
+  debug(`Using temporary directory ${cwd}`)
 
   const { stdout, stderr, exitCode } = execaSync(
     'node',
     ['../../cli.js', 'build', 'Schema.graphql'],
     {
-      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined, BRAINYDUCK_CACHE: cache.TEST },
+      env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
       cwd,
     }
   )
+
+  debug(`Build of 'basic' has finished with exit code ${exitCode}`)
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(
@@ -55,22 +62,21 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   )
 
   expect(removeRetryMessages(stdout)).toEqual(
-    `The sdk has been saved at ${path.join(cache.TEST, 'sdk.ts')}`
+    `The sdk has been saved at ${path.join(cache, 'sdk.ts')}`
   )
 
   // Uncomment to update fixtures.
-  // await fs.writeFile(
-  //   sdkCheck,
-  //   await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })
-  // )
-  expect(await fs.readFile(path.join(cache.TEST, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
+  // await fs.writeFile(sdkCheck, await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' }))
+  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(sdkCheck, {
       encoding: 'utf8',
     })
   )
 
-  expect(listFiles(cache.DEFAULT)).toEqual([].sort())
-  expect(listFiles(cache.TEST)).toEqual(
+  debug(`The SDK is valid`)
+
+  expect(listFiles(originalCache)).toEqual([].sort())
+  expect(listFiles(cache)).toEqual(
     [
       'sdk.d.ts',
       'sdk.mjs',
@@ -102,7 +108,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   // ts-node tests
   outputCheck(
     execaSync(findBin('ts-node'), ['index.ts'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST, FAUNA_SECRET: load('FAUNA_SECRET') },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'ts-node'
@@ -114,7 +120,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
     execaSync(findBin('tsc'), ['index.ts', '--declaration', '--outDir', './build'], {
-      env: { BRAINYDUCK_CACHE: cache.TEST },
+      env: {},
       stdio: ['ignore', process.stdout, process.stderr],
       cwd,
     })
@@ -122,7 +128,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'tsc'
@@ -146,7 +152,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         tsconfig,
       ],
       {
-        env: { BRAINYDUCK_CACHE: cache.TEST },
+        env: {},
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -155,7 +161,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'tsup (ESM)'
@@ -179,7 +185,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         tsconfig,
       ],
       {
-        env: { BRAINYDUCK_CACHE: cache.TEST },
+        env: {},
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -188,7 +194,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'tsup (CJS)'
@@ -209,7 +215,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
         'index.ts',
       ],
       {
-        env: { BRAINYDUCK_CACHE: cache.TEST },
+        env: {},
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -218,7 +224,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.mjs'], {
-      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'esbuild (ESM)'
@@ -232,7 +238,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       findBin('esbuild'),
       ['--sourcemap', '--outdir=./build', '--format=cjs', `--tsconfig=${tsconfig}`, 'index.ts'],
       {
-        env: { BRAINYDUCK_CACHE: cache.TEST },
+        env: {},
         stdio: ['ignore', process.stdout, process.stderr],
         cwd,
       }
@@ -241,22 +247,28 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   outputCheck(
     execaSync('node', ['./build/index.js'], {
-      env: { FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache.TEST },
+      env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
     'esbuild (CJS)'
   )
 }, 240000)
 
-test(`build an sdk for the 'modularized' example, with standard cache`, async () => {
-  const cwd = resolve(fileURLToPath(new URL(`../../examples/modularized`, import.meta.url)))
+test(`build an sdk for the 'modularized' example`, async () => {
+  const root = clone()
+  const cache = path.join(root, '.cache')
+  const cwd = path.join(root, 'examples/modularized')
   const sdkCheck = fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
+
+  debug(`Using temporary directory ${cwd}`)
 
   const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'build'], {
     env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
     cwd,
   })
+
+  debug(`Build of 'modularized' has finished with exit code ${exitCode}`)
 
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(
@@ -264,22 +276,21 @@ test(`build an sdk for the 'modularized' example, with standard cache`, async ()
   )
 
   expect(removeRetryMessages(stdout)).toEqual(
-    `The sdk has been saved at ${path.join(cache.DEFAULT, 'sdk.ts')}`
+    `The sdk has been saved at ${path.join(cache, 'sdk.ts')}`
   )
 
   // Uncomment to update fixtures.
-  // await fs.writeFile(
-  //   sdkCheck,
-  //   await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })
-  // )
-  expect(await fs.readFile(path.join(cache.DEFAULT, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
+  // await fs.writeFile(sdkCheck, await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' }))
+  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
     await fs.readFile(sdkCheck, {
       encoding: 'utf8',
     })
   )
 
-  expect(listFiles(cache.TEST)).toEqual([].sort())
-  expect(listFiles(cache.DEFAULT)).toEqual(
+  debug(`The SDK is valid`)
+
+  expect(listFiles(originalCache)).toEqual([].sort())
+  expect(listFiles(cache)).toEqual(
     [
       'sdk.d.ts',
       'sdk.mjs',

@@ -247,14 +247,14 @@ export type { Dom };
  *
  *  💸 This schema was generated in the cloud at the expense of the Brainyduck maintainers  📉
  *
- *  😇   Please kindly consider donating to the Brainyduck project if you find it useful    😇
+ *  😇            Please kindly consider giving back to the Brainyduck community            😇
  *
  *  🐥🙏             The DUCK needs your help to spread his word to the world!             🙏🐥
  *
  *                                  https://duck.brainy.sh
  *                            https://github.com/sponsors/zvictor
  *
- *  🌟💎🎆            THIS SPACE IS AVAILABLE FOR ADVERTISING AND SPONSORSHIP!            🎆💎🌟
+ *  🌟💎🎆            [THIS SPACE IS AVAILABLE FOR ADVERTISING AND SPONSORSHIP]            🎆💎🌟
  *
  **/
 export default function brainyduck({

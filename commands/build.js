@@ -150,7 +150,7 @@ export { brainyduck }`
   }
 
   fs.writeFileSync(output, sdk)
-  debug(`The sdk has been copied to ${output}`)
+  debug(`The sdk has been stored at ${output}`)
 
   if (!cache) {
     return output
@@ -171,25 +171,17 @@ export { brainyduck }`
     fs.mkdirSync(locateCache(), { recursive: true })
   }
 
-  // TODO This block would not be necessary if tsconfig allowed for absolute paths.
-  // @see https://github.com/evanw/esbuild/issues/792
-  if (
-    process.env.BRAINYDUCK_CACHE &&
-    !fs.existsSync(path.join(process.env.BRAINYDUCK_CACHE, 'node_modules'))
-  ) {
-    fs.symlinkSync(
-      path.join(__dirname, '..', 'node_modules'),
-      path.join(process.env.BRAINYDUCK_CACHE, 'node_modules'),
-      'dir'
-    )
-  }
-
   fs.writeFileSync(
     tmpTsconfigFile,
     `{
       "extends": "${tsconfigFile}", "include": ["${output}"], "compilerOptions": {
         "outDir": "${locateCache()}",
-        ${/* https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1131425209 */ ''}
+        ${
+          /*
+          Fix for the error TS2742: `The inferred type of "X" cannot be named without a reference to "Y". This is likely not portable. A type annotation is necessary.`
+          https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1131425209
+        */ ''
+        }
         "baseUrl": "${path.join(__dirname, '..')}",
         "paths": { "*": ["node_modules/*/"]}
       }

@@ -15,6 +15,7 @@
     "brainyduck": "link:..",
     "esbuild": "0.14.48",
     "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
     "jest": "28.1.1",
     "param-case": "^3.0.4",
     "ts-node": "^10.8.1",

@@ -5,7 +5,7 @@ import { resolve } from 'path'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import { temporaryDirectory } from 'tempy'
-import { setupEnvironment, load } from '../testUtils.js'
+import { setupEnvironment, load, clone } from '../testUtils.js'
 
 const debug = _debug('brainyduck:test:examples')
 
@@ -26,18 +26,21 @@ console.log(`Testing the following examples:`, examples)
 
 for (const name of examples) {
   test(`build and run example '${name}'`, async () => {
-    const cwd = resolve(fileURLToPath(new URL(`../../examples/${name}`, import.meta.url)))
+    const root = clone()
+    const cwd = path.join(root, `examples`, name)
     const outputCheck = (await import(`../fixtures/${name}.output.js`)).default
-    const cache = temporaryDirectory()
-    debug(`Using cache directory ${cache}`)
+
+    debug(`Using temporary directory ${cwd}`)
 
     const { scripts } = JSON.parse(await fs.readFile(path.join(cwd, 'package.json')))
 
     if (scripts.build) {
       const build = execaSync('npm', ['run', '--silent', 'build'], {
-        env: { DEBUG: 'brainyduck:*', BRAINYDUCK_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*' },
         cwd,
       })
+
+      debug(`Build of '${name}' has finished with exit code ${build.exitCode}`)
 
       expect(build.stderr).toEqual(expect.not.stringMatching(/error/i))
       expect(build.stdout).toEqual(
@@ -49,7 +52,7 @@ for (const name of examples) {
 
     if (scripts.deploy) {
       const deploy = execaSync('npm', ['run', '--silent', 'deploy'], {
-        env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
         cwd,
       })
 
@@ -63,7 +66,7 @@ for (const name of examples) {
 
     if (scripts.dev) {
       const dev = execaSync('npm', ['run', '--silent', 'dev', '--', '--no-watch'], {
-        env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET'), BRAINYDUCK_CACHE: cache },
+        env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: load('FAUNA_SECRET') },
         cwd,
       })
 
@@ -79,7 +82,6 @@ for (const name of examples) {
       env: {
         DEBUG: 'brainyduck:*',
         FAUNA_SECRET: load('FAUNA_SECRET'),
-        BRAINYDUCK_CACHE: cache,
         TS_NODE_TRANSPILE_ONLY: 'true',
       },
       cwd,
@@ -92,5 +94,5 @@ for (const name of examples) {
     expect(run.exitCode).toBe(0)
 
     outputCheck(run.stdout, 'npm run start')
-  })
+  }, 240000)
 }

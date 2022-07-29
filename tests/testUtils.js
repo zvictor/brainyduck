@@ -1,14 +1,18 @@
-import fs from 'fs'
+import fs from 'fs-extra'
+import path from 'node:path'
 import _debug from 'debug'
 import faunadb from 'faunadb'
 import { execaSync } from 'execa'
 import { paramCase } from 'param-case'
+import { fileURLToPath } from 'node:url'
+import { temporaryDirectory } from 'tempy'
 import { faunaClient, runFQL } from '../utils.js'
 import { load, store } from './storage.js'
 export { load }
 
 const { query: q } = faunadb
 const debug = _debug('brainyduck:test')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const reset = (types) =>
   execaSync('node', ['../cli.js', 'reset', types], {
@@ -64,13 +68,19 @@ export const amountOfRolesCreated = () => query(q.Count(q.Roles()))
 
 export const amountOfCollectionsCreated = () => query(q.Count(q.Collections()))
 
-export const listFiles = (directory) =>
+export const listDirectory = (directory, filter) =>
   fs.existsSync(directory)
     ? fs
         .readdirSync(directory, { withFileTypes: true })
-        .filter((dirent) => dirent.isFile())
+        .filter(filter)
         .map((x) => x.name)
     : []
+
+export const listFiles = (directory) => listDirectory(directory, (dirent) => dirent.isFile())
+export const listSubfolders = (directory) =>
+  listDirectory(directory, (dirent) => dirent.isDirectory())
+export const listSymbolicLinks = (directory) =>
+  listDirectory(directory, (dirent) => dirent.isSymbolicLink())
 
 export const removeRetryMessages = (stdout) =>
   stdout
@@ -84,3 +94,19 @@ export const removeRetryMessages = (stdout) =>
         ].includes(x)
     )
     .join('\n')
+
+export const clone = () => {
+  const tempDir = temporaryDirectory({ prefix: 'brainyduck_' })
+  const brainyduck = path.join(__dirname, '..')
+  debug(`Cloning installation into ${tempDir}`)
+
+  fs.copySync(brainyduck, tempDir, {
+    filter: (src) =>
+      (!src.includes('/.') || src.includes('/.npmrc')) &&
+      !src.includes('node_modules') &&
+      !src.includes('/build/'),
+  })
+
+  execaSync('pnpm', ['install'], { cwd: tempDir })
+  return tempDir
+}

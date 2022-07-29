@@ -118,7 +118,7 @@ program
 
   .command(
     'build [schemas-pattern] [documents-pattern] [output]',
-    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <BRAINYDUCK_CACHE>]',
+    'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <node_modules/brainyduck/.cache>]',
     {
       executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
     }
