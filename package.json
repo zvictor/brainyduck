@@ -39,7 +39,7 @@
     "README.md"
   ],
   "scripts": {
-    "prepublishOnly": "rm -Rf .cache",
+    "prepublishOnly": "rm -Rf .cache ; cp -r ./protection ./.cache",
     "test": "./tests/run-tests.sh"
   },
   "dependencies": {
