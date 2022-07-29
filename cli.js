@@ -1,10 +1,21 @@
 #!/usr/bin/env node
 
 import fs from 'fs'
-import { fileURLToPath } from 'url'
+import resolve from 'resolve-cwd'
 import { program } from 'commander'
 import { constantCase } from 'constant-case'
+import { fileURLToPath } from 'node:url'
 import { patterns } from './utils.js'
+
+let locallyInstalled = false
+try {
+  locallyInstalled = Boolean(resolve('brainyduck'))
+} catch (e) {}
+
+const findCommandFile = (commandName) =>
+  locallyInstalled
+    ? resolve(`brainyduck/${commandName}`)
+    : fileURLToPath(new URL(`./commands/${commandName}.js`, import.meta.url))
 
 const prefix = {
   FAUNA: 'FAUNA',
@@ -28,6 +39,15 @@ const optionParser =
 
 program
   .version(pkg.version)
+
+  .hook('preSubcommand', (thisCommand, subcommand) => {
+    if (['build', 'dev'].includes(subcommand._name) && !locallyInstalled) {
+      console.error(
+        `Looks like brainyduck is not installed locally and the command '${commandName}' requires a local installation.\nHave you installed brainyduck globally instead?`
+      )
+      throw new Error('You must install brainyduck locally.')
+    }
+  })
 
   .option(
     '-s, --secret <value>',
@@ -120,12 +140,12 @@ program
     'build [schemas-pattern] [documents-pattern] [output]',
     'code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <node_modules/brainyduck/.cache>]',
     {
-      executableFile: fileURLToPath(new URL('./commands/build.js', import.meta.url)),
+      executableFile: findCommandFile(`build`),
     }
   )
 
   .command('dev [directory]', 'build, deploy and watch for changes. Defaults: [directory: <pwd>]', {
-    executableFile: fileURLToPath(new URL('./commands/dev.js', import.meta.url)),
+    executableFile: findCommandFile(`dev`),
     isDefault: true,
   })
 
@@ -133,7 +153,7 @@ program
     'deploy [types]',
     'deploy the local folder to your database. Defaults: [types: schemas,functions,indexes,roles]',
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy.js', import.meta.url)),
+      executableFile: findCommandFile(`deploy`),
     }
   )
 
@@ -141,7 +161,7 @@ program
     'deploy-schemas [pattern]',
     'push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]',
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy-schemas.js', import.meta.url)),
+      executableFile: findCommandFile(`deploy-schemas`),
     }
   )
 
@@ -149,7 +169,7 @@ program
     'deploy-functions [pattern]',
     `upload your User-Defined Functions (UDF) to faunadb. Defaults: [pattern: ${patterns.UDF}]`,
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy-functions.js', import.meta.url)),
+      executableFile: findCommandFile(`deploy-functions`),
     }
   )
 
@@ -157,7 +177,7 @@ program
     'deploy-indexes [pattern]',
     `upload your User-Defined Indexes to faunadb. Defaults: [pattern: ${patterns.INDEX}]`,
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy-indexes.js', import.meta.url)),
+      executableFile: findCommandFile(`deploy-indexes`),
     }
   )
 
@@ -165,7 +185,7 @@ program
     'deploy-roles [pattern]',
     `upload your User-Defined Roles (UDR) to faunadb. Defaults: [pattern: ${patterns.UDR}]`,
     {
-      executableFile: fileURLToPath(new URL('./commands/deploy-roles.js', import.meta.url)),
+      executableFile: findCommandFile(`deploy-roles`),
     }
   )
 
@@ -173,7 +193,7 @@ program
     'pull-schema [output]',
     'load the schema hosted in faunadb. Defaults: [output: <stdout>]',
     {
-      executableFile: fileURLToPath(new URL('./commands/pull-schema.js', import.meta.url)),
+      executableFile: findCommandFile(`pull-schema`),
     }
   )
 
@@ -181,7 +201,7 @@ program
     'reset [types]',
     'wipe out all data in the database {BE CAREFUL!}. Defaults: [types: functions,indexes,roles,documents,collections,databases,schemas]',
     {
-      executableFile: fileURLToPath(new URL('./commands/reset.js', import.meta.url)),
+      executableFile: findCommandFile(`reset`),
     }
   )
 

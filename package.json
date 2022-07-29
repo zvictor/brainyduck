@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [
@@ -31,6 +31,7 @@
   "main": "./.cache/sdk.cjs",
   "types": "./.cache/sdk.d.ts",
   "files": [
+    "/.cache",
     "/commands",
     "/scripts",
     "*.cjs",
@@ -70,6 +71,7 @@
     "ora": "6.1.2",
     "p-queue": "7.2.0",
     "resolve-as-bin": "2.1.0",
+    "resolve-cwd": "3.0.0",
     "tempy": "3.0.0",
     "tsup": "6.1.3",
     "typescript": "4.7.4"
