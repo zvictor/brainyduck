@@ -12,7 +12,6 @@ This example contains:
 
 - a Graphql schema [Schema.graphql]
 - a Graphql operations document [queries.gql]
-- **a bundle made by esbuild while making use of the [brainyduck plugin](https://github.com/zvictor/brainyduck/tree/master/bundlers/esbuild)**
 
 By running `npx brainyduck --secret <MY_FAUNA_SECRET>` you should expect to see:
 

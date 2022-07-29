@@ -13,7 +13,6 @@ This example contains:
 - an [ECMAScript module](https://nodejs.org/api/esm.html)
 - multiple graphql schemas and User-Defined Function (UDF) spread in 2 **different folders**
 - a root graphql schema containing the Query type
-- **a bundle made by esbuild while making use of the [brainyduck plugin](https://github.com/zvictor/brainyduck/tree/master/bundlers/esbuild)**
 
 By running `npx brainyduck --secret <MY_FAUNA_SECRET>` you should expect to see:
 

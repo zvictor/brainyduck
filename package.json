@@ -25,14 +25,12 @@
       "import": "./locateCache.js",
       "require": "./locateCache.cjs"
     },
-    "./bundlers/*": "./bundlers/*.cjs",
     "./utils": "./utils.js",
     "./*": "./commands/*.js"
   },
   "main": "./index.cjs",
   "types": "./.cache/sdk.d.ts",
   "files": [
-    "/bundlers",
     "/commands",
     "/scripts",
     "*.cjs",

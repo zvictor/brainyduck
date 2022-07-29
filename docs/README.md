@@ -453,27 +453,6 @@ ENV BRAINYDUCK_CACHE /home/brainyduck
 ADD ./node_modules/brainyduck/.cache $BRAINYDUCK_CACHE
 ```
 
-### bundle
-
-We have built a special plugin to optimize the use of Brainyduck in Esbuild bundles.
-This plugin reroutes any `import ... from 'brainyduck'` statement to import your SDK directly, without any wrapper from Brainyduck.
-
-If you have `bundle: true` set in esbuild, your SDK code will be inlined in your built code and you won't need to worry about moving the SDK around. This is the recommended approach for many environments that don't work well with external dependencies, such as Cloudflare Workers.
-
-Examples: [basic-esbuild-bundle](https://github.com/zvictor/brainyduck/tree/master/examples/basic-esbuild-bundle) / [modularized-esbuild-bundle](https://github.com/zvictor/brainyduck/tree/master/examples/modularized-esbuild-bundle)
-
-Setup:
-```ts
-import { build } from 'esbuild'
-import bundler from 'brainyduck/bundlers/esbuild'
-
-await build({
-  ...
-  bundle: true,
-  plugins: [bundler()],
-})
-```
-
 ![divider](https://raw.githubusercontent.com/zvictor/brainyduck/master/.media/divider.png ':size=100%')
 
 ## Contributing
