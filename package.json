@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [

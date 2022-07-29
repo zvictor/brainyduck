@@ -9,7 +9,7 @@ import { patterns } from './utils.js'
 
 let locallyInstalled = false
 try {
-  locallyInstalled = Boolean(resolve('brainyduck'))
+  locallyInstalled = Boolean(resolve('brainyduck/utils'))
 } catch (e) {}
 
 const findCommandFile = (commandName) =>
@@ -43,7 +43,7 @@ program
   .hook('preSubcommand', (thisCommand, subcommand) => {
     if (['build', 'dev'].includes(subcommand._name) && !locallyInstalled) {
       console.error(
-        `Looks like brainyduck is not installed locally and the command '${commandName}' requires a local installation.\nHave you installed brainyduck globally instead?`
+        `Looks like brainyduck is not installed locally and the command '${subcommand._name}' requires a local installation.\nHave you installed brainyduck globally instead?`
       )
       throw new Error('You must install brainyduck locally.')
     }
