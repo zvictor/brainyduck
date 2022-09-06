@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'fs'
+import path from 'path'
 import _debug from 'debug'
 import { print } from 'graphql'
 import { performance } from 'perf_hooks'
