@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.63",
+  "version": "0.0.64",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [
@@ -37,6 +37,7 @@
     "*.cjs",
     "*.js",
     "tsconfig.json",
+    "tsup.config.ts",
     "README.md"
   ],
   "scripts": {
