@@ -190,6 +190,8 @@ export const importSchema = async (schema, { secret, override, puke } = {}) => {
     return await importSchema(schema, { override, puke })
   }
 
+  debug('brainyduck:importSchema')(`The returned schema is:`, message)
+
   return message
 }
 

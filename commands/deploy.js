@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import ora from 'ora'
+import _debug from 'debug'
 import { fileURLToPath } from 'node:url'
 import deployFunctions from './deploy-functions.js'
 import deployIndexes from './deploy-indexes.js'
@@ -14,6 +15,8 @@ const ALL_TYPES = {
   roles: deployRoles,
   functions: deployFunctions,
 }
+
+const debug = _debug('brainyduck:deploy')
 
 const deploy = async (type) => {
   const spinner = ora(`Deploying ${type}...`).start()
