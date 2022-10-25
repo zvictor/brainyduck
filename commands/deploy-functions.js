@@ -43,8 +43,8 @@ export default async function main(pattern = patterns.UDF) {
       }
 
       // infer function name only if it has not been declared
-      // Playground: https://regex101.com/r/9ndMaH/1
-      if (!query.match(/^[\s]*name[\s]*:/m)) {
+      // Playground: https://regex101.com/r/iRjGBj/1
+      if (!query.match(/(?<![\w'"])name[\s]*:/)) {
         query = query.replace('{', `{ name: "${name}", `)
       }
 
