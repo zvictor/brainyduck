@@ -235,6 +235,7 @@ Options:
 
 Commands:
   build [schemas-pattern] [documents-pattern] [output]  code generator that creates an easily accessible API. Defaults: [schemas-pattern: **/[A-Z]*.(graphql|gql), documents-pattern: **/[a-z]*.(graphql|gql) output: <node_modules/brainyduck/.cache>]
+  pack [destination]                                    pack and export the built module as an indepent node package
   dev [directory]                                       build, deploy and watch for changes. Defaults: [directory: <pwd>]
   deploy [types]                                        deploy the local folder to your database. Defaults: [types: schemas,functions,indexes,roles]
   deploy-schemas [pattern]                              push your schema to faunadb. Defaults: [pattern: **/*.(graphql|gql)]
@@ -268,6 +269,17 @@ Defaults:
 * _schema-pattern_: `**/[A-Z]*.(graphql|gql)`
 * _documents-pattern_: `**/[a-z]*.(graphql|gql)`
 * _output_: `<stdout>`
+
+### pack
+
+Sometimes you want to have the sdk on it's own node package, usually to increase portability or reusability.
+
+After running `pack` you can `npm publish` it or send the files somewhere else.
+
+CLI:
+```shell
+npx brainyduck pack [destination]
+```
 
 ### dev
 <div class="operative"></div>

@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.66",
+  "version": "0.0.67",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [
@@ -64,6 +64,7 @@
     "fauna-shell": "0.15.0",
     "faunadb": "4.7.1",
     "figures": "5.0.0",
+    "fs-extra": "11.1.0",
     "globby": "13.1.3",
     "gql-generator": "1.0.19",
     "graphql": "16.6.0",

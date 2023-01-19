@@ -1,6 +1,6 @@
 {
   "name": "brainyduck-tests",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -15,7 +15,6 @@
     "brainyduck": "link:..",
     "esbuild": "0.17.3",
     "execa": "^6.1.0",
-    "fs-extra": "^11.1.0",
     "jest": "29.3.1",
     "param-case": "^3.0.4",
     "ts-node": "^10.9.1",

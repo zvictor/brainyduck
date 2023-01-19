@@ -3,7 +3,7 @@ import _debug from 'debug'
 import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import path from 'path'
-import { temporaryFile } from 'tempy'
+import { temporaryFile, temporaryDirectory } from 'tempy'
 import { findBin } from 'brainyduck/utils'
 import {
   setupEnvironment,
@@ -35,6 +35,47 @@ const resetBuild = async (cwd) => {
   reset('documents')
 }
 
+const packIt = async (cwd, callback) => {
+  const destination = temporaryDirectory()
+  debug(`Packing directory ${cwd} into ${destination}`)
+
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pack', destination], {
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
+    cwd,
+  })
+
+  debug(`Packing has finished with exit code ${exitCode}`)
+
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(
+    expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
+  )
+
+  expect(removeRetryMessages(stdout)).toEqual(`The package has been saved at ${destination}`)
+
+  debug(`The Package is valid`)
+  expect(listFiles(destination)).toEqual(
+    [
+      'package-lock.json',
+      'package.json',
+      'sdk.d.ts',
+      'sdk.mjs',
+      'sdk.mjs.map',
+      'sdk.cjs',
+      'sdk.cjs.map',
+      'sdk.ts',
+      'tsconfig.json',
+    ].sort()
+  )
+
+  const sdk = await import(destination)
+  debug('Loaded the sdk:', sdk)
+
+  await callback(sdk)
+
+  expect(exitCode).toBe(0)
+}
+
 test('build an sdk for basic schema and non-standard cache', async () => {
   const root = clone()
   const cache = path.join(root, '.cache')
@@ -42,6 +83,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   const sdkCheck = fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/basic.output.js`)).default
   const tsconfig = temporaryFile({ name: 'tsconfig.json' })
+  await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
 
   debug(`Using temporary directory ${cwd}`)
 
@@ -103,7 +145,19 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(await amountOfCollectionsCreated()).toBe(1)
 
-  await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
+  await packIt(cwd, (sdk) => {
+    expect(Object.keys(sdk)).toEqual([
+      'AllUsersDocument',
+      'CreateUserDocument',
+      'DeleteUserDocument',
+      'FindUserByIdDocument',
+      'PartialUpdateUserDocument',
+      'UpdateUserDocument',
+      'brainyduck',
+      'default',
+      'getSdk',
+    ])
+  })
 
   // ts-node tests
   outputCheck(
@@ -316,6 +370,26 @@ test(`build an sdk for the 'modularized' example`, async () => {
   })
 
   expect(await amountOfCollectionsCreated()).toBe(2)
+
+  await packIt(cwd, (sdk) =>
+    expect(Object.keys(sdk)).toEqual([
+      'AllPostsDocument',
+      'CreatePostDocument',
+      'CreateUserDocument',
+      'DeletePostDocument',
+      'DeleteUserDocument',
+      'FindPostByIdDocument',
+      'FindUserByIdDocument',
+      'PartialUpdatePostDocument',
+      'PartialUpdateUserDocument',
+      'SayHelloDocument',
+      'UpdatePostDocument',
+      'UpdateUserDocument',
+      'brainyduck',
+      'default',
+      'getSdk',
+    ])
+  )
 
   // ts-node tests
   outputCheck(

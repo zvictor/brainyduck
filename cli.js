@@ -41,7 +41,7 @@ program
   .version(pkg.version)
 
   .hook('preSubcommand', (thisCommand, subcommand) => {
-    if (['build', 'dev'].includes(subcommand._name) && !locallyInstalled) {
+    if (['build', 'pack', 'dev'].includes(subcommand._name) && !locallyInstalled) {
       console.error(
         `Looks like brainyduck is not installed locally and the command '${subcommand._name}' requires a local installation.\nHave you installed brainyduck globally instead?`
       )
@@ -90,7 +90,10 @@ program
     process.env.BRAINYDUCK_NO_OPERATIONS_GENERATION = !this.operationsGeneration
   })
 
-  .option('-f, --force', `skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).`)
+  .option(
+    '-f, --force <value>',
+    `skip prompt confirmations (defaults to <BRAINYDUCK_FORCE or true).`
+  )
   .on('option:force', optionParser('force'))
 
   .option(
@@ -143,6 +146,10 @@ program
       executableFile: findCommandFile(`build`),
     }
   )
+
+  .command('pack [destination]', 'pack and export the built module as an indepent node package', {
+    executableFile: findCommandFile(`pack`),
+  })
 
   .command('dev [directory]', 'build, deploy and watch for changes. Defaults: [directory: <pwd>]', {
     executableFile: findCommandFile(`dev`),
