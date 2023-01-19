@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.65",
+  "version": "0.0.66",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [
@@ -79,7 +79,7 @@
     "typescript": "4.9.4"
   },
   "optionalDependencies": {
-    "node-fetch": "^3.3.0"
+    "node-fetch": "cjs"
   },
   "funding": {
     "type": "individual",
