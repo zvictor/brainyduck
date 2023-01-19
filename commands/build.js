@@ -103,7 +103,11 @@ export default async function main(
   const schema = await push(await schemaPattern, { puke: true })
 
   debug(`Generating TypeScript SDK`)
-  const sdk = `${await generateSdk(schema, await documentsPattern)}
+  const sdk = `// Temporary workaround for issue microsoft/TypeScript#47663
+// Solution found at https://github.com/microsoft/TypeScript/issues/47663#issuecomment-1270716220
+import type {} from 'graphql';
+
+${await generateSdk(schema, await documentsPattern)}
 export type { Dom };
 
 /**

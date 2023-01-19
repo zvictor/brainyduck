@@ -1,3 +1,7 @@
+// Temporary workaround for issue microsoft/TypeScript#47663
+// Solution found at https://github.com/microsoft/TypeScript/issues/47663#issuecomment-1270716220
+import type {} from 'graphql';
+
 import { GraphQLClient } from 'graphql-request';
 import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
