@@ -85,17 +85,17 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  moduleNameMapper: {
-    chalk: require.resolve('chalk'),
-    '#ansi-styles': path.join(
-      require.resolve('chalk').split('chalk')[0],
-      'chalk/source/vendor/ansi-styles/index.js'
-    ),
-    '#supports-color': path.join(
-      require.resolve('chalk').split('chalk')[0],
-      'chalk/source/vendor/supports-color/index.js'
-    ),
-  },
+  // moduleNameMapper: {
+  //   chalk: require.resolve('chalk'),
+  //   '#ansi-styles': path.join(
+  //     require.resolve('chalk').split('chalk')[0],
+  //     'chalk/source/vendor/ansi-styles/index.js'
+  //   ),
+  //   '#supports-color': path.join(
+  //     require.resolve('chalk').split('chalk')[0],
+  //     'chalk/source/vendor/supports-color/index.js'
+  //   ),
+  // },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],

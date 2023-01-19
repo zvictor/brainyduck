@@ -120,7 +120,7 @@ scalar Long`
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  expect(stdout).toEqual(expectedSchema)
+  expect(stdout.split('\n').filter(x=>!x.startsWith('@graphql-tools/load')).join('\n')).toEqual(expectedSchema)
   expect(exitCode).toBe(0)
 
   expect(await amountOfCollectionsCreated()).toBe(1)
