@@ -7,7 +7,7 @@ import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import { locateCache } from '../utils.js'
 
-const debug = _debug('brainyduck:pack')
+const debug = _debug('brainyduck:export')
 
 export default async function main(destination) {
   debug(`called with:`, { destination })
@@ -17,7 +17,7 @@ export default async function main(destination) {
   }
 
   if (!fs.existsSync(locateCache(`sdk.mjs`))) {
-    throw new Error(`Please run the 'build' command before running 'pack'`)
+    throw new Error(`Please run the 'build' command before running 'export'`)
   }
 
   if (fs.existsSync(destination) && fs.readdirSync(destination).length > 0) {
@@ -32,6 +32,7 @@ export default async function main(destination) {
     path.join(destination, 'package.json'),
     `{
     "name": "brainyduck-sdk",
+    "version": "1.0.0",
     "type": "module",
     "exports": {
       ".": {
@@ -48,7 +49,7 @@ export default async function main(destination) {
     }
   }`
   )
-  debug(`The sdk has been packed at ${destination}`)
+  debug(`The sdk has been exported at ${destination}`)
 
   execaSync(`npm`, ['i'], {
     cwd: destination,

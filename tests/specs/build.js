@@ -35,11 +35,11 @@ const resetBuild = async (cwd) => {
   reset('documents')
 }
 
-const packIt = async (cwd, callback) => {
+const exportIt = async (cwd, callback) => {
   const destination = temporaryDirectory()
   debug(`Packing directory ${cwd} into ${destination}`)
 
-  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pack', destination], {
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'export', destination], {
     env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
     cwd,
   })
@@ -145,7 +145,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(await amountOfCollectionsCreated()).toBe(1)
 
-  await packIt(cwd, (sdk) => {
+  await exportIt(cwd, (sdk) => {
     expect(Object.keys(sdk)).toEqual([
       'AllUsersDocument',
       'CreateUserDocument',
@@ -371,7 +371,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
 
   expect(await amountOfCollectionsCreated()).toBe(2)
 
-  await packIt(cwd, (sdk) =>
+  await exportIt(cwd, (sdk) =>
     expect(Object.keys(sdk)).toEqual([
       'AllPostsDocument',
       'CreatePostDocument',
