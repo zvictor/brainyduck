@@ -56,7 +56,6 @@ const exportIt = async (cwd, callback) => {
   debug(`The Package is valid`)
   expect(listFiles(destination)).toEqual(
     [
-      'package-lock.json',
       'package.json',
       'sdk.d.ts',
       'sdk.mjs',
@@ -67,6 +66,10 @@ const exportIt = async (cwd, callback) => {
       'tsconfig.json',
     ].sort()
   )
+
+  execaSync(`npm`, ['i'], {
+    cwd: destination,
+  })
 
   const sdk = await import(destination)
   debug('Loaded the sdk:', sdk)

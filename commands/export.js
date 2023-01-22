@@ -3,7 +3,6 @@
 import fs from 'fs-extra'
 import path from 'path'
 import _debug from 'debug'
-import { execaSync } from 'execa'
 import { fileURLToPath } from 'url'
 import { locateCache } from '../utils.js'
 
@@ -50,10 +49,6 @@ export default async function main(destination) {
   }`
   )
   debug(`The sdk has been exported at ${destination}`)
-
-  execaSync(`npm`, ['i'], {
-    cwd: destination,
-  })
 
   return destination
 }
