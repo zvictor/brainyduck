@@ -41,7 +41,7 @@ program
   .version(pkg.version)
 
   .hook('preSubcommand', (thisCommand, subcommand) => {
-    if (['build', 'export', 'dev'].includes(subcommand._name) && !locallyInstalled) {
+    if (['build', 'pack', 'export', 'dev'].includes(subcommand._name) && !locallyInstalled) {
       console.error(
         `Looks like brainyduck is not installed locally and the command '${subcommand._name}' requires a local installation.\nHave you installed brainyduck globally instead?`
       )
@@ -149,6 +149,10 @@ program
 
   .command('export [destination]', 'export the built module as an independent node package', {
     executableFile: findCommandFile(`export`),
+  })
+
+  .command('pack', 'create a tarball from the built module', {
+    executableFile: findCommandFile(`pack`),
   })
 
   .command('dev [directory]', 'build, deploy and watch for changes. Defaults: [directory: <pwd>]', {

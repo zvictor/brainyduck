@@ -76,6 +76,32 @@ const exportIt = async (cwd, callback) => {
   expect(exitCode).toBe(0)
 }
 
+const packIt = async (cwd) => {
+  debug(`Packing directory ${cwd}`)
+  const packName = 'brainyduck-sdk-1.0.0.tgz'
+
+  const { stdout, stderr, exitCode } = execaSync('node', ['../../cli.js', 'pack'], {
+    env: { DEBUG: 'brainyduck:*', FAUNA_SECRET: undefined },
+    cwd,
+  })
+
+  debug(`Packing has finished with exit code ${exitCode}`)
+
+  expect(stderr).toEqual(expect.not.stringMatching(/error/i))
+  expect(stdout).toEqual(
+    expect.not.stringMatching(/error(?!\('SDK requires a secret to be defined.'\))/i)
+  )
+
+  expect(removeRetryMessages(stdout)).toEqual(
+    `The package has been compressed and saved at ${path.join(cwd, packName)}`
+  )
+
+  debug(`The Package is valid`)
+  expect(listFiles(cwd)).toEqual(expect.arrayContaining([packName]))
+
+  expect(exitCode).toBe(0)
+}
+
 test('build an sdk for basic schema and non-standard cache', async () => {
   const root = clone()
   const cache = path.join(root, '.cache')
@@ -158,6 +184,8 @@ test('build an sdk for basic schema and non-standard cache', async () => {
       'getSdk',
     ])
   })
+
+  await packIt(cwd)
 
   // ts-node tests
   outputCheck(
@@ -390,6 +418,8 @@ test(`build an sdk for the 'modularized' example`, async () => {
       'getSdk',
     ])
   )
+
+  await packIt(cwd)
 
   // ts-node tests
   outputCheck(
