@@ -43,7 +43,7 @@ export default async function main(destination) {
     "main": "./sdk.cjs",
     "types": "./sdk.d.ts",
     "bundleDependencies": true,
-    "dependencies": {
+    "peerDependencies": {
       "graphql-request": "latest",
       "graphql-tag": "latest"
     }
