@@ -1,6 +1,6 @@
 // Remove GraphQL metadata from Collections
 Foreach(
-  Paginate(Collections()),
+  Paginate(Collections(), { size: 100000 }),
   Lambda("ref",
     Update(Var("ref"),
       {
@@ -14,7 +14,7 @@ Foreach(
 
 // Remove GraphQL metadata from Functions
 Foreach(
-  Paginate(Functions()),
+  Paginate(Functions(), { size: 100000 }),
   Lambda("ref",
     Update(Var("ref"),
       {
@@ -28,7 +28,7 @@ Foreach(
 
 // Remove GraphQL metadata from Indexes
 Foreach(
-  Paginate(Indexes()),
+  Paginate(Indexes(), { size: 100000 }),
   Lambda("ref",
     Update(Var("ref"),
       {

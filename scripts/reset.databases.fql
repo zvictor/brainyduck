@@ -1,6 +1,6 @@
 // Delete all Databases
 Map(
-  Paginate(Databases()),
+  Paginate(Databases(), { size: 100000 }),
   Lambda(db =>
     Delete(db)
   )

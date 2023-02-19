@@ -1,6 +1,6 @@
 // Delete all Functions
 Foreach(
-  Paginate(Functions()),
+  Paginate(Functions(), { size: 100000 }),
   Lambda("ref",
     Delete(Var("ref"))
   )

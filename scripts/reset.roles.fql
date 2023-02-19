@@ -1,6 +1,6 @@
 // Delete all Roles
 Foreach(
-  Paginate(Roles()),
+  Paginate(Roles(), { size: 100000 }),
   Lambda("ref",
     Delete(Var("ref"))
   )

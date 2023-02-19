@@ -1,9 +1,9 @@
 // Delete all Documents
 Map(
-  Paginate(Collections()),
+  Paginate(Collections(), { size: 100000 }),
   Lambda(col =>
     Map(
-      Paginate(Documents(col)),
+      Paginate(Documents(col), { size: 100000 }),
       Lambda(doc =>
         Delete(doc)
       )
