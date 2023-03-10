@@ -2,7 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import debug from 'debug'
 import faunadb from 'faunadb'
-import resolve from 'resolve-as-bin'
 import readline from 'node:readline'
 import { globby } from 'globby'
 import { execaSync } from 'execa'
@@ -51,10 +50,20 @@ export const graphqlEndpoint = (() => {
   }
 })()
 
-export const findBin = (name) => {
-  const local = fileURLToPath(new URL(path.join(`./node_modules/.bin`, name), import.meta.url))
+export const findBin = (name, relative = '.') => {
+  const local = fileURLToPath(
+    new URL(path.join(relative, `./node_modules/.bin`, name), import.meta.url)
+  )
 
-  return fs.existsSync(local) ? local : resolve(name)
+  if (fs.existsSync(local)) {
+    return local
+  }
+
+  if (path.resolve(relative) !== path.resolve('/')) {
+    return findBin(name, path.join(relative, '..'))
+  }
+
+  throw new Error(`Binary for '${name}' could not be found.`)
 }
 
 export const question = (...args) => {

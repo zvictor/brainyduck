@@ -1,6 +1,6 @@
 {
   "name": "brainyduck",
-  "version": "0.0.71",
+  "version": "0.0.72",
   "description": "Quickly build powerful backends using only your graphql schemas",
   "repository": "github:zvictor/brainyduck",
   "keywords": [
@@ -73,7 +73,6 @@
     "log-symbols": "5.1.0",
     "ora": "6.1.2",
     "p-queue": "7.3.0",
-    "resolve-as-bin": "2.1.0",
     "resolve-cwd": "3.0.0",
     "tempy": "3.0.0",
     "tsup": "6.5.0",
