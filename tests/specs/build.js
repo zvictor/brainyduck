@@ -109,7 +109,6 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   const root = clone()
   const cache = path.join(root, '.cache')
   const cwd = path.join(root, 'examples/basic')
-  const sdkCheck = fileURLToPath(new URL(`../fixtures/basic.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/basic.output.js`)).default
   const tsconfig = temporaryFile({ name: 'tsconfig.json' })
   await fs.writeFile(tsconfig, JSON.stringify({ compilerOptions: { moduleResolution: 'Node' } }))
@@ -136,14 +135,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
     `The sdk has been saved at ${path.join(cache, 'sdk.ts')}`
   )
 
-  // Uncomment to update fixtures.
-  // await fs.writeFile(sdkCheck, await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' }))
-  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
-    await fs.readFile(sdkCheck, {
-      encoding: 'utf8',
-    })
-  )
-
+  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toMatchSnapshot()
   debug(`The SDK is valid`)
 
   expect(listFiles(originalCache)).toEqual([].sort())
@@ -192,7 +184,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   // ts-node tests
   outputCheck(
-    execaSync(findBin('ts-node'), ['index.ts'], {
+    execaSync(findBin('ts-node', './tests'), ['index.ts'], {
       env: { FAUNA_SECRET: load('FAUNA_SECRET') },
       cwd,
     }).stdout,
@@ -204,7 +196,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     // When we use a non-standard cache we can't build in strict mode
-    execaSync(findBin('tsc'), ['index.ts', '--declaration', '--outDir', './build'], {
+    execaSync(findBin('tsc', './tests'), ['index.ts', '--declaration', '--outDir', './build'], {
       env: {},
       stdio: ['ignore', process.stdout, process.stderr],
       cwd,
@@ -224,7 +216,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     execaSync(
-      findBin('tsup'),
+      findBin('tsup', './tests'),
       [
         'index.ts',
         '--dts',
@@ -257,7 +249,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     execaSync(
-      findBin('tsup'),
+      findBin('tsup', './tests'),
       [
         'index.ts',
         '--dts',
@@ -290,7 +282,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     execaSync(
-      findBin('esbuild'),
+      findBin('esbuild', './tests'),
       [
         '--sourcemap',
         '--outdir=./build',
@@ -320,7 +312,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
 
   expect(() =>
     execaSync(
-      findBin('esbuild'),
+      findBin('esbuild', './tests'),
       ['--sourcemap', '--outdir=./build', '--format=cjs', `--tsconfig=${tsconfig}`, 'index.ts'],
       {
         env: {},
@@ -343,7 +335,6 @@ test(`build an sdk for the 'modularized' example`, async () => {
   const root = clone()
   const cache = path.join(root, '.cache')
   const cwd = path.join(root, 'examples/modularized')
-  const sdkCheck = fileURLToPath(new URL(`../fixtures/modularized.sdk.ts`, import.meta.url))
   const outputCheck = (await import(`../fixtures/modularized.output.js`)).default
 
   debug(`Using temporary directory ${cwd}`)
@@ -364,14 +355,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
     `The sdk has been saved at ${path.join(cache, 'sdk.ts')}`
   )
 
-  // Uncomment to update fixtures.
-  // await fs.writeFile(sdkCheck, await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' }))
-  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toEqual(
-    await fs.readFile(sdkCheck, {
-      encoding: 'utf8',
-    })
-  )
-
+  expect(await fs.readFile(path.join(cache, 'sdk.ts'), { encoding: 'utf8' })).toMatchSnapshot()
   debug(`The SDK is valid`)
 
   expect(listFiles(originalCache)).toEqual([].sort())
@@ -439,7 +423,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
   await resetBuild(cwd)
 
   expect(() =>
-    execaSync(findBin('tsc'), ['--declaration', '--strict'], {
+    execaSync(findBin('tsc', './tests'), ['--declaration', '--strict'], {
       env: {},
       stdio: ['ignore', process.stdout, process.stderr],
       cwd,
@@ -461,7 +445,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
 
   expect(() =>
     execaSync(
-      findBin('tsup'),
+      findBin('tsup', './tests'),
       ['index.ts', '--dts', '--out-dir', './build', '--format', 'esm', '--no-config'],
       {
         env: {},
@@ -486,7 +470,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
 
   expect(() =>
     execaSync(
-      findBin('tsup'),
+      findBin('tsup', './tests'),
       ['index.ts', '--dts', '--out-dir', './build', '--format', 'cjs', '--no-config'],
       {
         env: {},
@@ -511,7 +495,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
 
   expect(() =>
     execaSync(
-      findBin('esbuild'),
+      findBin('esbuild', './tests'),
       ['--sourcemap', '--outdir=./build', '--format=esm', '--target=es6', 'index.ts'],
       {
         env: {},
@@ -536,7 +520,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
 
   expect(() =>
     execaSync(
-      findBin('esbuild'),
+      findBin('esbuild', './tests'),
       [
         '--sourcemap',
         '--outdir=./build',
