@@ -108,7 +108,6 @@ export default async function main(
 import type {} from 'graphql';
 
 ${await generateSdk(schema, await documentsPattern)}
-export type { Dom };
 
 /**
  *

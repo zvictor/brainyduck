@@ -36,12 +36,7 @@ test('fetch schema from fauna', async () => {
     cwd: path.dirname(fileURLToPath(import.meta.url)),
   })
 
-  const expectedSchema = `schema {
-  query: Query
-  mutation: Mutation
-}
-
-directive @embedded on OBJECT
+  const expectedSchema = `directive @embedded on OBJECT
 
 directive @collection(name: String!) on OBJECT
 
@@ -52,6 +47,11 @@ directive @resolver(name: String, paginated: Boolean! = false) on FIELD_DEFINITI
 directive @relation(name: String) on FIELD_DEFINITION
 
 directive @unique(index: String) on FIELD_DEFINITION
+
+schema {
+  query: Query
+  mutation: Mutation
+}
 
 scalar Date
 
@@ -120,7 +120,12 @@ scalar Long`
   expect(stderr).toEqual(expect.not.stringMatching(/error/i))
   expect(stdout).toEqual(expect.not.stringMatching(/error/i))
 
-  expect(stdout.split('\n').filter(x=>!x.startsWith('@graphql-tools/load')).join('\n')).toEqual(expectedSchema)
+  expect(
+    stdout
+      .split('\n')
+      .filter((x) => !x.startsWith('@graphql-tools/load'))
+      .join('\n')
+  ).toEqual(expectedSchema)
   expect(exitCode).toBe(0)
 
   expect(await amountOfCollectionsCreated()).toBe(1)

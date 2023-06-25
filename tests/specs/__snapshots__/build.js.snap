@@ -6,27 +6,29 @@ exports[`build an sdk for basic schema and non-standard cache 1`] = `
 import type {} from 'graphql';
 
 import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
+import { GraphQLClientRequestHeaders } from 'graphql-request/build/cjs/types';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   /**
    * The \`Long\` scalar type represents non-fractional signed whole numeric values.
    * Long can represent values between -(2^63) and 2^63 - 1.
    */
-  Long: any;
-  Time: any;
+  Long: { input: any; output: any; }
+  Time: { input: any; output: any; }
 };
 
 export type Mutation = {
@@ -52,24 +54,24 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationUpdateUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: UserInput;
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationPartialUpdateUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdateUserInput;
 };
 
 /** 'User' input values */
 export type PartialUpdateUserInput = {
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -81,27 +83,27 @@ export type Query = {
 
 
 export type QueryFindUserByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryAllUsersArgs = {
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']['input']>;
+  _cursor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
   /** The document's ID. */
-  _id: Scalars['ID'];
+  _id: Scalars['ID']['output'];
   /** The document's timestamp. */
-  _ts: Scalars['Long'];
-  username: Scalars['String'];
+  _ts: Scalars['Long']['output'];
+  username: Scalars['String']['output'];
 };
 
 /** 'User' input values */
 export type UserInput = {
-  username: Scalars['String'];
+  username: Scalars['String']['input'];
 };
 
 /** The pagination object for elements of type 'User'. */
@@ -110,9 +112,9 @@ export type UserPage = {
   /** The elements of type 'User' in this page. */
   data: Array<Maybe<User>>;
   /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']['output']>;
   /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']['output']>;
 };
 
 export type CreateUserMutationVariables = Exact<{
@@ -123,14 +125,14 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, _ts: any, username: string } };
 
 export type DeleteUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
 
 export type PartialUpdateUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdateUserInput;
 }>;
 
@@ -138,7 +140,7 @@ export type PartialUpdateUserMutationVariables = Exact<{
 export type PartialUpdateUserMutation = { __typename?: 'Mutation', partialUpdateUser?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
 
 export type UpdateUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: UserInput;
 }>;
 
@@ -146,15 +148,15 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', _id: string, _ts: any, username: string } | null };
 
 export type AllUsersQueryVariables = Exact<{
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']['input']>;
+  _cursor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type AllUsersQuery = { __typename?: 'Query', allUsers: { __typename?: 'UserPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'User', _id: string, _ts: any, username: string } | null> } };
 
 export type FindUserByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -227,28 +229,27 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
-    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
+    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUser', 'mutation');
     },
-    partialUpdateUser(variables: PartialUpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PartialUpdateUserMutation> {
+    partialUpdateUser(variables: PartialUpdateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PartialUpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PartialUpdateUserMutation>(PartialUpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'partialUpdateUser', 'mutation');
     },
-    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
     },
-    allUsers(variables?: AllUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllUsersQuery> {
+    allUsers(variables?: AllUsersQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AllUsersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<AllUsersQuery>(AllUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allUsers', 'query');
     },
-    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
+    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FindUserByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
     }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
-export type { Dom };
 
 /**
  *
@@ -290,27 +291,29 @@ exports[`build an sdk for the 'modularized' example 1`] = `
 import type {} from 'graphql';
 
 import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
+import { GraphQLClientRequestHeaders } from 'graphql-request/build/cjs/types';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   /**
    * The \`Long\` scalar type represents non-fractional signed whole numeric values.
    * Long can represent values between -(2^63) and 2^63 - 1.
    */
-  Long: any;
-  Time: any;
+  Long: { input: any; output: any; }
+  Time: { input: any; output: any; }
 };
 
 export type Mutation = {
@@ -343,7 +346,7 @@ export type Mutation = {
 
 
 export type MutationUpdateUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: UserInput;
 };
 
@@ -354,29 +357,29 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationPartialUpdatePostArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdatePostInput;
 };
 
 
 export type MutationUpdatePostArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PostInput;
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeletePostArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationPartialUpdateUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdateUserInput;
 };
 
@@ -387,25 +390,25 @@ export type MutationCreatePostArgs = {
 
 /** 'Post' input values */
 export type PartialUpdatePostInput = {
-  title?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
   author?: InputMaybe<PostAuthorRelation>;
 };
 
 /** 'User' input values */
 export type PartialUpdateUserInput = {
-  name?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Post = {
   __typename?: 'Post';
   author: User;
   /** The document's ID. */
-  _id: Scalars['ID'];
-  content: Scalars['String'];
-  title: Scalars['String'];
+  _id: Scalars['ID']['output'];
+  content: Scalars['String']['output'];
+  title: Scalars['String']['output'];
   /** The document's timestamp. */
-  _ts: Scalars['Long'];
+  _ts: Scalars['Long']['output'];
 };
 
 /** Allow manipulating the relationship between the types 'Post' and 'User' using the field 'Post.author'. */
@@ -413,13 +416,13 @@ export type PostAuthorRelation = {
   /** Create a document of type 'User' and associate it with the current document. */
   create?: InputMaybe<UserInput>;
   /** Connect a document of type 'User' with the current document using its ID. */
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** 'Post' input values */
 export type PostInput = {
-  title: Scalars['String'];
-  content: Scalars['String'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
   author?: InputMaybe<PostAuthorRelation>;
 };
 
@@ -429,9 +432,9 @@ export type PostPage = {
   /** The elements of type 'Post' in this page. */
   data: Array<Maybe<Post>>;
   /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']['output']>;
   /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
@@ -441,42 +444,42 @@ export type Query = {
   /** Find a document from the collection of 'Post' by its id. */
   findPostByID?: Maybe<Post>;
   allPosts: PostPage;
-  sayHello: Scalars['String'];
+  sayHello: Scalars['String']['output'];
 };
 
 
 export type QueryFindUserByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryFindPostByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryAllPostsArgs = {
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']['input']>;
+  _cursor?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QuerySayHelloArgs = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 export type User = {
   __typename?: 'User';
   /** The document's ID. */
-  _id: Scalars['ID'];
+  _id: Scalars['ID']['output'];
   /** The document's timestamp. */
-  _ts: Scalars['Long'];
-  name: Scalars['String'];
+  _ts: Scalars['Long']['output'];
+  name: Scalars['String']['output'];
 };
 
 /** 'User' input values */
 export type UserInput = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -494,21 +497,21 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, _ts: any, name: string } };
 
 export type DeletePostMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
 
 export type DeleteUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
 
 export type PartialUpdatePostMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdatePostInput;
 }>;
 
@@ -516,7 +519,7 @@ export type PartialUpdatePostMutationVariables = Exact<{
 export type PartialUpdatePostMutation = { __typename?: 'Mutation', partialUpdatePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
 
 export type PartialUpdateUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PartialUpdateUserInput;
 }>;
 
@@ -524,7 +527,7 @@ export type PartialUpdateUserMutationVariables = Exact<{
 export type PartialUpdateUserMutation = { __typename?: 'Mutation', partialUpdateUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
 
 export type UpdatePostMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: PostInput;
 }>;
 
@@ -532,7 +535,7 @@ export type UpdatePostMutationVariables = Exact<{
 export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
 
 export type UpdateUserMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   data: UserInput;
 }>;
 
@@ -540,29 +543,29 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
 
 export type AllPostsQueryVariables = Exact<{
-  _size?: InputMaybe<Scalars['Int']>;
-  _cursor?: InputMaybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']['input']>;
+  _cursor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type AllPostsQuery = { __typename?: 'Query', allPosts: { __typename?: 'PostPage', after?: string | null, before?: string | null, data: Array<{ __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null> } };
 
 export type FindPostByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type FindPostByIdQuery = { __typename?: 'Query', findPostByID?: { __typename?: 'Post', _id: string, content: string, title: string, _ts: any, author: { __typename?: 'User', _id: string, _ts: any, name: string } } | null };
 
 export type FindUserByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type FindUserByIdQuery = { __typename?: 'Query', findUserByID?: { __typename?: 'User', _id: string, _ts: any, name: string } | null };
 
 export type SayHelloQueryVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
@@ -721,46 +724,45 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
+    createPost(variables: CreatePostMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost', 'mutation');
     },
-    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
-    deletePost(variables: DeletePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePostMutation> {
+    deletePost(variables: DeletePostMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeletePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeletePostMutation>(DeletePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePost', 'mutation');
     },
-    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
+    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUser', 'mutation');
     },
-    partialUpdatePost(variables: PartialUpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PartialUpdatePostMutation> {
+    partialUpdatePost(variables: PartialUpdatePostMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PartialUpdatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PartialUpdatePostMutation>(PartialUpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'partialUpdatePost', 'mutation');
     },
-    partialUpdateUser(variables: PartialUpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PartialUpdateUserMutation> {
+    partialUpdateUser(variables: PartialUpdateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PartialUpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PartialUpdateUserMutation>(PartialUpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'partialUpdateUser', 'mutation');
     },
-    updatePost(variables: UpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePostMutation> {
+    updatePost(variables: UpdatePostMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdatePostMutation>(UpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePost', 'mutation');
     },
-    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser', 'mutation');
     },
-    allPosts(variables?: AllPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllPostsQuery> {
+    allPosts(variables?: AllPostsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AllPostsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<AllPostsQuery>(AllPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allPosts', 'query');
     },
-    findPostByID(variables: FindPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindPostByIdQuery> {
+    findPostByID(variables: FindPostByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FindPostByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindPostByIdQuery>(FindPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findPostByID', 'query');
     },
-    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindUserByIdQuery> {
+    findUserByID(variables: FindUserByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FindUserByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindUserByIdQuery>(FindUserByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findUserByID', 'query');
     },
-    sayHello(variables: SayHelloQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SayHelloQuery> {
+    sayHello(variables: SayHelloQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SayHelloQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SayHelloQuery>(SayHelloDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sayHello', 'query');
     }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
-export type { Dom };
 
 /**
  *

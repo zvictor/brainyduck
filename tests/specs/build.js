@@ -58,6 +58,7 @@ const exportIt = async (cwd, callback) => {
     [
       'package.json',
       'sdk.d.ts',
+      'sdk.d.cts',
       'sdk.mjs',
       'sdk.mjs.map',
       'sdk.cjs',
@@ -142,6 +143,7 @@ test('build an sdk for basic schema and non-standard cache', async () => {
   expect(listFiles(cache)).toEqual(
     [
       'sdk.d.ts',
+      'sdk.d.cts',
       'sdk.mjs',
       'sdk.mjs.map',
       'sdk.cjs',
@@ -362,6 +364,7 @@ test(`build an sdk for the 'modularized' example`, async () => {
   expect(listFiles(cache)).toEqual(
     [
       'sdk.d.ts',
+      'sdk.d.cts',
       'sdk.mjs',
       'sdk.mjs.map',
       'sdk.cjs',
