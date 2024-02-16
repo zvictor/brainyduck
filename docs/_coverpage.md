@@ -2,6 +2,9 @@
   <img id="logo" width="320px" src="https://cdn.jsdelivr.net/gh/zvictor/brainyduck@master/.media/logo-dark.png" alt="brainyduck's logo" />
 <p>
 
+<pre style="background: var(--theme-color); width: auto;color: white;padding: 20px; font-weight: bold;"><h2>It's time to say goodbye! 🍗🦴🦴😢</h2><a href="https://github.com/zvictor/brainyduck/issues/37" style="background: transparent;border: solid;">Read the announcement #37</a>
+</pre>
+
 <h1 style="max-width: 700px; margin: auto;">Turn any schema into a next-gen backend (BaaS) with a single command!</h1>
 <h2>The first micro "no-backend backend framework" 🤯</h2>
 
